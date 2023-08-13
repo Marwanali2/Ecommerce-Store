@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:my_bookly_app/features/auth/presentation/views/register_view.dart';
-import 'package:my_bookly_app/features/home/presentation/views/home_view.dart';
+
+import '../../../auth/presentation/views/register_view.dart';
+
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({Key? key}) : super(key: key);

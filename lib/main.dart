@@ -1,10 +1,12 @@
-import 'package:dio/dio.dart';
+import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
+import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_bookly_app/features/auth/presentation/managers/auth_cubit.dart';
-import 'package:my_bookly_app/features/splach/presentation/splach_view.dart';
+
+import 'features/splach/presentation/splach_view.dart';
 
 void main() async {
+  Bloc.observer = SimpleBlocObserver();
   runApp(const EcommerceApp());
 }
 
@@ -14,7 +16,7 @@ class EcommerceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(Dio()),
+      create: (context) => AuthCubit(),
       child: MaterialApp(
         routes: {
           '/': (context) => const SplashView(),
