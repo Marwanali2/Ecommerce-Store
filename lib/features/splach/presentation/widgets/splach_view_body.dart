@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_bookly_app/features/auth/presentation/views/register_view.dart';
 import 'package:my_bookly_app/features/home/presentation/views/home_view.dart';
 
 class SplashViewBody extends StatefulWidget {
@@ -15,7 +16,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   void initState(){
     super.initState();
     Future.delayed(const Duration(seconds: 10,),() {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterView(),));
     },);
   }
 
