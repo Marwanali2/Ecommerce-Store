@@ -15,16 +15,13 @@ class EcommerceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: MaterialApp(
-        routes: {
-          '/': (context) => const SplashView(),
-        },
-        theme: ThemeData(
-          useMaterial3: true,
-          fontFamily: 'Ubuntu',
-        ),
+    return MaterialApp(
+      routes: {
+        '/': (context) => const SplashView(),
+      },
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: 'Ubuntu',
       ),
     );
   }

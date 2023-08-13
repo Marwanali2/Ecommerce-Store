@@ -17,13 +17,14 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
     required String phone,
   }) async {
+
     emit(RegisterLoadingState());
 
     try{
       Response response = await _dio.post(
         'https://student.valuxapps.com/api/register',
         options: Options(headers: {'lang':'en',},),
-        data: {
+        data: { // like body in http package
           'name':name,
           'email':email,
           'password':password,
@@ -32,7 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
         },
       );
       if(response.statusCode==200){
-        var responseBody=response.data; // jsonDecode convert json to dart
+        var responseBody=response.data;
         if(responseBody['status'] == true){
           debugPrint('success response is $responseBody}:');
           emit(RegisterSuccessState());
@@ -44,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
       }
     }
     catch(e){
-      debugPrint('Failed to register , Response : $e');
+      debugPrint('Failed to register , The Reason : $e');
       emit(RegisterFailureState(errorMessage: e.toString(),),);
     }
   }
