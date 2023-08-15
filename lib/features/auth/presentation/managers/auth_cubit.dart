@@ -1,10 +1,8 @@
-import 'dart:convert';
-
+import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -18,7 +16,6 @@ class AuthCubit extends Cubit<AuthState> {
     required String phone,
   }) async {
     emit(RegisterLoadingState());
-
     try {
       Response response = await _dio.post(
         'https://student.valuxapps.com/api/register',
@@ -66,32 +63,38 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(LoginLoadingState());
     try {
-      Response response = await _dio.post(
-        'https://student.valuxapps.com/api/login',
-        options: Options(
-          headers: {
-            'lang': 'en',
-          },
-        ),
-        data: {
-          'email':email,
-          'password':password,
-        }
-      );
-      if(response.statusCode==200){
-        var responseBody=response.data;
-        if(responseBody['status']==true){
+      Response response =
+          await _dio.post('https://student.valuxapps.com/api/login',
+              options: Options(
+                headers: {
+                  'lang': 'en',
+                },
+              ),
+              data: {
+            'email': email,
+            'password': password,
+          });
+      if (response.statusCode == 200) {
+        var responseBody = response.data;
+        if (responseBody['status'] == true) {
           debugPrint('success login with response: $responseBody');
+          CachedNetwork.insertToCache(
+            key: 'token',
+            value: responseBody['data']['token'],
+          );
           emit(LoginSuccessState());
-        }
-        else{
+        } else {
           debugPrint('Failure response: $responseBody');
           emit(LoginFailureState(errorMessage: responseBody));
         }
       }
     } on Exception catch (e) {
       debugPrint('Failed to login , Reason is : $e');
-      emit(LoginFailureState(errorMessage: e.toString(),),);
+      emit(
+        LoginFailureState(
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }

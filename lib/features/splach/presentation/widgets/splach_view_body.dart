@@ -1,7 +1,12 @@
+import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
+import 'package:ecommerce/features/home/presentation/views/home_view.dart';
+import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../core/utils/constants.dart';
 import '../../../auth/presentation/views/register_view.dart';
+import '../../../profile/presentation/views/profile_view.dart';
 
 
 class SplashViewBody extends StatefulWidget {
@@ -12,12 +17,16 @@ class SplashViewBody extends StatefulWidget {
 }
 
 class _SplashViewBodyState extends State<SplashViewBody> {
-  @override
-
+  debugPrint() {
+    'token is $userToken';
+  }
   void initState(){
     super.initState();
     Future.delayed(const Duration(seconds: 10,),() {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => RegisterView(),));
+      (userToken.isEmpty||userToken=="")?
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView(),)):
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileView(),));
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
     },);
   }
 
