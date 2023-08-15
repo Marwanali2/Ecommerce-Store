@@ -3,6 +3,7 @@ import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
 
@@ -21,6 +22,7 @@ class EcommerceApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit(),),
+        BlocProvider(create: (context) => LayoutCubit(),),
       ],
       child: MaterialApp(
         routes: {

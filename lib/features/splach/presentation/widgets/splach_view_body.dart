@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../core/utils/constants.dart';
 import '../../../auth/presentation/views/register_view.dart';
+import '../../../layout/presentation/views/layout_view.dart';
 import '../../../profile/presentation/views/profile_view.dart';
 
 
@@ -25,7 +26,8 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     Future.delayed(const Duration(seconds: 10,),() {
       (userToken.isEmpty||userToken=="")?
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView(),)):
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileView(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutView(),));
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileView(),));
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
     },);
   }
