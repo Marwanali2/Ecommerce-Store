@@ -1,4 +1,5 @@
 
+import 'package:ecommerce/core/widgets/enjoy_bar.dart';
 import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,8 +18,10 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit=BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-
-        body: cubit.screens[cubit.bottomNavCurrentIndex],
+        body: Column(children: [
+          EnjoyBar(context),
+          cubit.screens[cubit.bottomNavCurrentIndex],
+        ],),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex:cubit.bottomNavCurrentIndex,
           onTap: (value) {

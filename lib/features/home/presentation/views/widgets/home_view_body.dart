@@ -16,34 +16,7 @@ class HomeViewBody extends StatelessWidget {
         if (state is BannerSuccess) {
           return Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(
-                      100,
-                    ),
-                    bottomRight: Radius.circular(
-                      100,
-                    ),
-                  ),
-                ),
-                height: 70,
-                child: SizedBox(
-                  height: 70,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: const Center(
-                    child: Text(
-                      'Enjoy our products',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'DancingScript',
-                        fontSize: 35,
-                      ),
-                    ),
-                  ),
-                ),
-              ), // app bar
+              //EnjoyBar(context), // app bar
               const SizedBox(
                 height: 15,
               ),
@@ -83,34 +56,7 @@ class HomeViewBody extends StatelessWidget {
         } else if (state is BannerFailure) {
           return Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(
-                      100,
-                    ),
-                    bottomRight: Radius.circular(
-                      100,
-                    ),
-                  ),
-                ),
-                height: 70,
-                child: SizedBox(
-                  height: 70,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: const Center(
-                    child: Text(
-                      'Enjoy our products',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'DancingScript',
-                        fontSize: 35,
-                      ),
-                    ),
-                  ),
-                ),
-              ), // app bar
+              //EnjoyBar(context), // app bar
               const SizedBox(
                 height: 15,
               ),
@@ -147,34 +93,7 @@ class HomeViewBody extends StatelessWidget {
         } else {
           return Column(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(
-                      100,
-                    ),
-                    bottomRight: Radius.circular(
-                      100,
-                    ),
-                  ),
-                ),
-                height: 70,
-                child: SizedBox(
-                  height: 70,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: const Center(
-                    child: Text(
-                      'Enjoy our products',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'DancingScript',
-                        fontSize: 35,
-                      ),
-                    ),
-                  ),
-                ),
-              ), // app bar
+              //EnjoyBar(context), // app bar
               const SizedBox(
                 height: 15,
               ),
@@ -213,4 +132,6 @@ class HomeViewBody extends StatelessWidget {
       },
     );
   }
+
+
 }
