@@ -28,7 +28,7 @@ class _LayoutViewState extends State<LayoutView> {
           },
           selectedItemColor: Colors.indigo,
           unselectedItemColor: Colors.grey,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_outlined,

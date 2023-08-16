@@ -1,8 +1,10 @@
+import 'package:ecommerce/core/utils/colors.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
@@ -23,6 +25,7 @@ class EcommerceApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit(),),
         BlocProvider(create: (context) => LayoutCubit(),),
+        BlocProvider(create: (context) => BannerCubit()..getBanners(),),
       ],
       child: MaterialApp(
         routes: {

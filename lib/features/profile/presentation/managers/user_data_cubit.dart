@@ -29,6 +29,7 @@ class UserDataCubit extends Cubit<UserDataState> {
         if (responseBody['status'] == true) {
           debugPrint('user data response is :$responseBody');
           userModel=UserModel.fromJson(responseBody['data']);
+          debugPrint('get user data response Success with status code ${response.statusCode} ,the response is :$responseBody');
           emit(
             UserDataSuccess(),
           );
