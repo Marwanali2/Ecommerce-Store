@@ -9,7 +9,7 @@ part 'banner_state.dart';
 class BannerCubit extends Cubit<BannerState> {
   BannerCubit() : super(BannerInitial());
   final Dio _dio = Dio();
-  List<BannerModel> ?bannersList;
+  List<BannerModel> bannersList=[];
   Future getBanners() async {
     emit(BannerLoading());
    try{

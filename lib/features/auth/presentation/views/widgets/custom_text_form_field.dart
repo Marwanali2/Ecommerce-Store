@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
-   CustomTextField({this.label, this.hintText,this.onChanged});
+   CustomTextField({this.label, this.hintText,this.onChanged,this.color});
    String?label;
    String?hintText;
    Function(String)?onChanged;
+   Color?color;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -16,8 +17,8 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         enabled: true,
         contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 25),
-         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white),),//
-         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white),),
+         enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: color!),),//
+         focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: color!),),
         border: OutlineInputBorder(borderSide: BorderSide(color: Colors.yellow),),
 
         label: Text(

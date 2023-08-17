@@ -1,4 +1,3 @@
-
 import 'package:ecommerce/core/widgets/enjoy_bar.dart';
 import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
 import 'package:flutter/material.dart';
@@ -12,18 +11,19 @@ class LayoutView extends StatefulWidget {
 }
 
 class _LayoutViewState extends State<LayoutView> {
-
   @override
   Widget build(BuildContext context) {
-    var cubit=BlocProvider.of<LayoutCubit>(context);
+    var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-        body: Column(children: [
-          EnjoyBar(context),
-          cubit.screens[cubit.bottomNavCurrentIndex],
-        ],),
+        body: Column(
+          children: [
+            EnjoyBar(context),
+            cubit.screens[cubit.bottomNavCurrentIndex],
+          ],
+        ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex:cubit.bottomNavCurrentIndex,
+          currentIndex: cubit.bottomNavCurrentIndex,
           onTap: (value) {
             setState(() {
               cubit.onBottomNavIndexChange(index: value);
