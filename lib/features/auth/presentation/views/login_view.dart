@@ -28,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            Navigator.pushReplacement(
+            Navigator.pop(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomeView(),
@@ -74,7 +74,7 @@ class _LoginViewState extends State<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Sign Up',
+                          'Sign In',
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,

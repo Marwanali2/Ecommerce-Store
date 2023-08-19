@@ -16,11 +16,14 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            EnjoyBar(context),
-            cubit.screens[cubit.bottomNavCurrentIndex],
-          ],
+        body: ListView(
+          shrinkWrap: true,
+          children: [Column(
+            children: [
+              EnjoyBar(context),
+              cubit.screens[cubit.bottomNavCurrentIndex],
+            ],
+          ),],
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: cubit.bottomNavCurrentIndex,

@@ -26,7 +26,7 @@ class BannerCubit extends Cubit<BannerState> {
            ),
          );
        }
-       debugPrint('get banners response Successfully with status code ${response.statusCode} ,the response is :$responseBody');
+       debugPrint('get banners response Successfully with status code ${response.statusCode} ');
        emit(BannerSuccess());
      }else{
        debugPrint('get banners response Failed with status code ${response.statusCode} ,the response is :$responseBody');

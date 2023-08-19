@@ -23,12 +23,13 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       var responseBody = response.data;
 
       if (response.statusCode == 200) {
+        categoriesList=[];
         for (var item in responseBody['data']['data']) {
-          categoriesList.add(
+          categoriesList?.add(
             CategoryModel.fromJson(item),
           );
         }
-        debugPrint('get categories response Successfully with status code ${response.statusCode} ,the response is :$responseBody');
+        debugPrint('get categories response Successfully with status code ${response.statusCode}');
         emit(CategoriesSuccess());
       } else {
         debugPrint(

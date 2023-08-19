@@ -154,7 +154,7 @@ class _RegisterViewState extends State<RegisterView> {
                           const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const LoginView(),
