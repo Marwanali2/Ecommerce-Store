@@ -11,3 +11,5 @@ class ProductsFailure extends ProductsState {
 
   ProductsFailure({required this.errorMessage});
 }
+
+class FilteredProductsSuccess extends ProductsState {}

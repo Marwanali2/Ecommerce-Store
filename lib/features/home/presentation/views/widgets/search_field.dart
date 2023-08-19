@@ -1,9 +1,14 @@
+import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
-
-Padding searchField() {
+import 'package:flutter_bloc/flutter_bloc.dart';
+Padding searchField({required ProductsCubit cubit}) {
+  String inputTextFromUser;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 30.0),
     child: TextFormField(
+      onChanged: (value) {
+       inputTextFromUser=value;
+      },
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.grey[350],
@@ -26,7 +31,7 @@ Padding searchField() {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(
-            18,
+            10,
           ),
           borderSide: const BorderSide(
             color: Colors.black,

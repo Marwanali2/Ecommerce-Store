@@ -15,13 +15,13 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   Future getProducts() async {
     emit(ProductsLoading());
-    try{
+    try {
       Response response = await _dio.get(
         'https://student.valuxapps.com/api/home',
         options: Options(
           headers: {
             'lang': 'en',
-            'Authorization': userToken!,
+            'Authorization': userToken,
           },
         ),
       );
@@ -29,20 +29,21 @@ class ProductsCubit extends Cubit<ProductsState> {
       if (response.statusCode == 200) {
         productsModelList = [];
         for (var item in responseBody['data']['products']) {
-          productsModelList?.add(
+          productsModelList.add(
             ProductModel.fromJson(
               item,
             ),
           );
         }
-        debugPrint('get products response Successfully with status code ${response.statusCode} ');
+        debugPrint(
+            'get products response Successfully with status code ${response.statusCode} ');
         emit(ProductsSuccess());
-      }
-      else{
-        debugPrint('get products response Failed with status code ${response.statusCode} ,the response is :$responseBody');
+      } else {
+        debugPrint(
+            'get products response Failed with status code ${response.statusCode} ,the response is :$responseBody');
         emit(ProductsFailure(errorMessage: responseBody));
       }
-    } on Exception catch(e){
+    } on Exception catch (e) {
       debugPrint('Failed to get products , The Reason : $e');
       emit(
         ProductsFailure(
@@ -51,4 +52,15 @@ class ProductsCubit extends Cubit<ProductsState> {
       );
     }
   }
+
+  List<ProductModel> filteredProductsModelList = [];
+
+  void filterProducts({required String input}) {
+    filteredProductsModelList = productsModelList
+        .where((element) =>
+            element.name!.toLowerCase().startsWith(input.toLowerCase()))
+        .toList();
+    emit(FilteredProductsSuccess());
+  }
+
 }
