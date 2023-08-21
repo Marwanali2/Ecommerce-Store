@@ -1,122 +1,103 @@
+import 'package:ecommerce/core/widgets/enjoy_bar.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../../core/utils/colors.dart';
 
 class CategoriesViewBody extends StatelessWidget {
   const CategoriesViewBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Center(
-        child: SizedBox(
-          height: MediaQuery.sizeOf(context).height,
-          child: GridView.builder(
-            itemCount: 10,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 15,
-              childAspectRatio: 0.7,
-            ),
-            itemBuilder: (context, index) {
-              return _productItem();
-            },
-          ),
-        ),
-      ),
+    return Column(
+      children: [
+        enjoyBar(context, text: 'Categories'),
+        Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ListView.builder(
+              itemCount: 50,
+              scrollDirection: Axis.vertical,
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: categoryItem(context),
+                );
+              },
+            )),
+      ],
     );
   }
-}
-Widget _productItem() {
-  return Container(
-    width: 50,
-    height: 50,
-    decoration: BoxDecoration(
-      color: Colors.blueGrey,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(40),
-        topRight: Radius.circular(40),
+
+  Container categoryItem(BuildContext context) {
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      height: 180,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.indigo,
+          width: 3,
+        ),
+        color: Colors.blueGrey,
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(60),
+          bottomLeft: Radius.circular(60),
+        ),
       ),
-      border: Border.all(
-        color: Colors.indigo,
-        width: 2,
-      ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              const Row(
-                children: [
-                  Text(
-                    '18',
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 160,
+                  child: Text(
+                    'Category Name Category Name Category Name ',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(width: 3,),
-                  Text(
-                    '\$',
-                    style: TextStyle(
-                      color: mainColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
                     ),
                   ),
-                ],
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: mainColor,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Container(
-            width: 150,
-            height: 130,
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage(
-                  'assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg',
+                SizedBox(
+                  height: 10,
                 ),
-                fit: BoxFit.fill,
-              ),
-              color: Colors.white10,
-              border: Border.all(color: Colors.indigo, width: 2),
-              borderRadius: const BorderRadius.only(
-                bottomRight: Radius.circular(
-                  20,
+                Text(
+                  '12 Products',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
                 ),
-                topLeft: Radius.circular(20),
-              ),
+              ],
             ),
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Text(
-            'موبايل شاومي ريدمي 10 بشريحتي اتصال - 6.53 بوصة فل اتش دي ، 64 جيجا ، 4 جيجا رام ، شبكة الجيل الرابع ال تي اي - رمادي كربوني',
-            style: TextStyle(
-                color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-            maxLines: 2,
-            textDirection: TextDirection.rtl,
-            overflow: TextOverflow.ellipsis,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Container(
+                width: 210,
+                height: 155,
+                decoration: BoxDecoration(
+                    image: const DecorationImage(
+                      image: NetworkImage(
+                        'https://cdn.dribbble.com/userupload/7770883/file/original-58b365cc6be2e91033a12521d548ebd1.png?resize=1024x768',
+                      ),
+                      fit: BoxFit.fill,
+                    ),
+                    color: Colors.white10,
+                    border: Border.all(color: Colors.indigo, width: 2),
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+            ),
           ),
         ],
       ),
-    ),
-  );
+    );
+  }
 }

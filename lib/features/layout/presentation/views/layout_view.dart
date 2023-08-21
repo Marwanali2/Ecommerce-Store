@@ -18,12 +18,7 @@ class _LayoutViewState extends State<LayoutView> {
       child: Scaffold(
         body: ListView(
           shrinkWrap: true,
-          children: [Column(
-            children: [
-              EnjoyBar(context),
-              cubit.screens[cubit.bottomNavCurrentIndex],
-            ],
-          ),],
+          children: [cubit.screens[cubit.bottomNavCurrentIndex],],
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: cubit.bottomNavCurrentIndex,

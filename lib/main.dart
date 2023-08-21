@@ -2,7 +2,6 @@ import 'package:ecommerce/core/utils/colors.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
-import 'package:ecommerce/features/home/presentation/managers/search_cubit/search_cubit.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

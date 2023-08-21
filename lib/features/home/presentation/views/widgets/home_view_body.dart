@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../data/models/products_model.dart';
 import 'banners_list_view.dart';
 import 'categories_list_view.dart';
@@ -29,6 +30,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          enjoyBar(context,text: 'Enjoy our products',),
           const SizedBox(
             height: 15,
           ),

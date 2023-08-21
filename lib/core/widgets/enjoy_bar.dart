@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 
-Container EnjoyBar(BuildContext context) {
+Container enjoyBar(BuildContext context, {required String text}) {
   return Container(
     decoration: const BoxDecoration(
       color: mainColor,
@@ -19,10 +19,10 @@ Container EnjoyBar(BuildContext context) {
     child: SizedBox(
       height: 70,
       width: MediaQuery.sizeOf(context).width,
-      child: const Center(
+      child:  Center(
         child: Text(
-          'Enjoy our products',
-          style: TextStyle(
+          text,
+          style: const TextStyle(
             color: Colors.white,
             fontFamily: 'DancingScript',
             fontSize: 35,
