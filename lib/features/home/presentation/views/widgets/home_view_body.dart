@@ -4,6 +4,7 @@ import 'package:ecommerce/features/home/presentation/managers/products_cubit/pro
 import 'package:ecommerce/features/home/presentation/views/widgets/products_grid_view.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/search_field.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/two_texts_row.dart';
+import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -27,131 +28,139 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var categoriesCubit = BlocProvider.of<CategoriesCubit>(context);
     var productsCubit = BlocProvider.of<ProductsCubit>(context);
     final pageController = PageController();
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          enjoyBar(context,text: 'Enjoy our products',),
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: TextFormField(
+    return BlocConsumer<LayoutCubit,LayoutState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              enjoyBar(context, text: 'Enjoy our products',),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: TextFormField(
 
-              onChanged: (value) {
-                setState(() {
-                  productsCubit.filterProducts(input: value);
-                });
-              },
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[350],
-                contentPadding: EdgeInsets.zero,
-                hintText: 'Search',
-                hintStyle: const TextStyle(color: Colors.black45),
-                suffixIcon: IconButton(
-                  onPressed: () {
+                  onChanged: (value) {
                     setState(() {
-                    // TODO:clear text
+                      productsCubit.filterProducts(input: value);
                     });
                   },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.black45,
-                  ),
-                ),
-                prefixIcon: const Icon(Icons.search,color: Colors.black45,),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                  borderSide: const BorderSide(
-                    color: Colors.black,
-                    width: 1,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    50,
-                  ),
-                ),
-              ),
-            ),
-          ), // SEARCH BAR
-          const SizedBox(
-            height: 15,
-          ),
-          bannersCubit.bannersList.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : bannersListView(pageController, bannersCubit),
-          const SizedBox(
-            height: 15,
-          ),
-          Center(
-            child: SmoothPageIndicator(
-              controller: pageController,
-              count: bannersCubit.bannersList.length,
-              axisDirection: Axis.horizontal,
-              effect: const ScrollingDotsEffect(
-                radius: 5,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: twoTextsRow(fText: 'Categories', sText: 'View All'),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          categoriesCubit.categoriesList.isEmpty
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : categoriesListView(context, categoriesCubit),
-          const SizedBox(
-            height: 15,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: twoTextsRow(fText: 'Products', sText: 'View All'),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: SizedBox(
-              height: 500,
-              child: productsCubit.productsModelList.isEmpty
-                  ? const Center(child: CircularProgressIndicator())
-                  : GridView.builder(
-                      itemCount: productsCubit.filteredProductsModelList.isEmpty
-                          ? productsCubit.productsModelList.length
-                          : productsCubit.filteredProductsModelList.length,
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 15,
-                        childAspectRatio: 0.7,
-                      ),
-                      itemBuilder: (context, index) {
-                        return productItem(
-                            productModel:
-                                productsCubit.filteredProductsModelList.isEmpty
-                                    ? productsCubit.productsModelList[index]
-                                    : productsCubit
-                                        .filteredProductsModelList[index]);
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[350],
+                    contentPadding: EdgeInsets.zero,
+                    hintText: 'Search',
+                    hintStyle: const TextStyle(color: Colors.black45),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          // TODO:clear text
+                        });
                       },
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.black45,
+                      ),
                     ),
-            ),
+                    prefixIcon: const Icon(
+                      Icons.search, color: Colors.black45,),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        50,
+                      ),
+                    ),
+                  ),
+                ),
+              ), // SEARCH BAR
+              const SizedBox(
+                height: 15,
+              ),
+              bannersCubit.bannersList.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : bannersListView(pageController, bannersCubit),
+              const SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: SmoothPageIndicator(
+                  controller: pageController,
+                  count: bannersCubit.bannersList.length,
+                  axisDirection: Axis.horizontal,
+                  effect: const ScrollingDotsEffect(
+                    radius: 5,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: twoTextsRow(fText: 'Categories', sText: 'View All'),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              categoriesCubit.categoriesList.isEmpty
+                  ? const Center(
+                child: CircularProgressIndicator(),
+              )
+                  : categoriesListView(context, categoriesCubit),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: twoTextsRow(fText: 'Products', sText: 'View All'),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: SizedBox(
+                  height: 500,
+                  child: productsCubit.productsModelList.isEmpty
+                      ? const Center(child: CircularProgressIndicator())
+                      : GridView.builder(
+                    itemCount: productsCubit.filteredProductsModelList.isEmpty
+                        ? productsCubit.productsModelList.length
+                        : productsCubit.filteredProductsModelList.length,
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemBuilder: (context, index) {
+                      return productItem(
+                          productModel:
+                          productsCubit.filteredProductsModelList.isEmpty
+                              ? productsCubit.productsModelList[index]
+                              : productsCubit
+                              .filteredProductsModelList[index]);
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -182,38 +191,38 @@ Widget productItem({required ProductModel productModel}) {
                 children: [
                   productModel.oldPrice == productModel.price
                       ? Text(
-                          '${productModel.price}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        )
+                    '${productModel.price}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  )
                       : Row(
-                          children: [
-                            Text(
-                              '${productModel.oldPrice}\$',
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: Colors.red,
-                                decorationThickness: 1.5,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${productModel.price}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
+                    children: [
+                      Text(
+                        '${productModel.oldPrice}\$',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          decoration: TextDecoration.lineThrough,
+                          decorationColor: Colors.red,
+                          decorationThickness: 1.5,
+                          fontSize: 14,
                         ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '${productModel.price}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     width: 1,
                   ),
@@ -272,26 +281,26 @@ Widget productItem({required ProductModel productModel}) {
           const Spacer(),
           productModel.discount != 0
               ? Center(
-                  child: Container(
-                    width: 110,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ),
-                      color: Colors.green,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Discount ${productModel.discount}%',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontFamily: 'DancingScript',
-                        ),
-                      ),
-                    ),
+            child: Container(
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  20,
+                ),
+                color: Colors.green,
+              ),
+              child: Center(
+                child: Text(
+                  'Discount ${productModel.discount}%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontFamily: 'DancingScript',
                   ),
-                )
+                ),
+              ),
+            ),
+          )
               : const SizedBox(),
           const Spacer(),
         ],

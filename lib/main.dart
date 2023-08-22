@@ -1,4 +1,9 @@
-import 'package:ecommerce/core/utils/colors.dart';
+/*
+* handle clear button in search bar
+* show category products length in for each category categories view body
+*
+* */
+import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
@@ -8,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
+import 'features/layout/presentation/views/layout_view.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
 
@@ -15,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();//ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
   await CachedNetwork.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
+  debugPrint('user token is :$userToken');
   runApp(const EcommerceApp());
 }
 
@@ -34,7 +41,7 @@ class EcommerceApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/': (context) => const SplashView(),
+          '/': (context) => const LayoutView(),
         },
         theme: ThemeData(
           useMaterial3: true,
