@@ -11,6 +11,7 @@ import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/layout/presentation/views/layout_view.dart';
@@ -37,6 +38,7 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(create: (context) => BannerCubit()..getBanners(),),
         BlocProvider(create: (context) => CategoriesCubit()..getCategories(),),
         BlocProvider(create: (context) => ProductsCubit()..getProducts(),),
+        BlocProvider(create: (context) => FavoritesCubit()..getFavorites(),),
         //BlocProvider(create: (context) => SearchCubit()..searchProducts(),),
       ],
       child: MaterialApp(
