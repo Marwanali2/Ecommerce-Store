@@ -10,12 +10,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
+import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../../data/models/products_model.dart';
 import 'banners_list_view.dart';
 import 'categories_list_view.dart';
 
+
+
 class HomeViewBody extends StatefulWidget {
-  const HomeViewBody({Key? key}) : super(key: key);
+  const HomeViewBody({super.key});
 
   @override
   State<HomeViewBody> createState() => _HomeViewBodyState();
@@ -27,7 +30,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var bannersCubit = BlocProvider.of<BannerCubit>(context);
     var categoriesCubit = BlocProvider.of<CategoriesCubit>(context);
     var productsCubit = BlocProvider.of<ProductsCubit>(context);
+    var favoritesCubit=BlocProvider.of<FavoritesCubit>(context);
     final pageController = PageController();
+
     return BlocConsumer<LayoutCubit,LayoutState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -43,11 +48,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: TextFormField(
-
                   onChanged: (value) {
-                    setState(() {
-                      productsCubit.filterProducts(input: value);
-                    });
+                    productsCubit.filterProducts(input: value);
                   },
                   decoration: InputDecoration(
                     filled: true,
@@ -57,9 +59,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     hintStyle: const TextStyle(color: Colors.black45),
                     suffixIcon: IconButton(
                       onPressed: () {
-                        setState(() {
-                          // TODO:clear text
-                        });
+                        // TODO:clear text
                       },
                       icon: const Icon(
                         Icons.close,
@@ -152,7 +152,10 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                           productsCubit.filteredProductsModelList.isEmpty
                               ? productsCubit.productsModelList[index]
                               : productsCubit
-                              .filteredProductsModelList[index]);
+                              .filteredProductsModelList[index],
+                      cubit: favoritesCubit
+                      );
+
                     },
                   ),
                 ),
@@ -165,7 +168,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   }
 }
 
-Widget productItem({required ProductModel productModel}) {
+Widget productItem({required ProductModel productModel,required FavoritesCubit cubit}) {
   return Container(
     width: 50,
     height: 50,
@@ -202,8 +205,8 @@ Widget productItem({required ProductModel productModel}) {
                     children: [
                       Text(
                         '${productModel.oldPrice}\$',
-                        style: const TextStyle(
-                          color: Colors.grey,
+                        style:  TextStyle(
+                          color: mainColor,
                           decoration: TextDecoration.lineThrough,
                           decorationColor: Colors.red,
                           decorationThickness: 1.5,
@@ -238,12 +241,15 @@ Widget productItem({required ProductModel productModel}) {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  color: mainColor,
+                icon: Icon(
+                  Icons.favorite,
+                  color:cubit.favoritesProductsId.contains(productModel.id.toString())?Colors.red:Colors.grey,
                 ),
+                onPressed: () async {
+                 await cubit.addOrRemoveFavorites(productId: productModel.id.toString());
+                },
               )
+
             ],
           ),
           const SizedBox(

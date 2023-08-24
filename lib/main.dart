@@ -1,7 +1,7 @@
 /*
 * handle clear button in search bar
 * show category products length in for each category categories view body
-*
+* handle custom error widget in favorites view body
 * */
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
@@ -43,7 +43,7 @@ class EcommerceApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/': (context) => const LayoutView(),
+          '/': (context) => const SplashView(),
         },
         theme: ThemeData(
           useMaterial3: true,

@@ -25,8 +25,8 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     super.initState();
     Future.delayed(const Duration(seconds: 10,),() {
       (userToken.isEmpty||userToken=="")?
-      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView(),)):
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutView(),)):
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView(),)):
+     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutView(),)):
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutView(),));
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileView(),));
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));

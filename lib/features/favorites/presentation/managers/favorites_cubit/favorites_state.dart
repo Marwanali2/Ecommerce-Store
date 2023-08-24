@@ -11,3 +11,11 @@ class FavoritesFailure extends FavoritesState {
 
   FavoritesFailure({required this.errorMessage});
 }
+
+class AddOrDeleteFavoriteWithProductIdInitial extends FavoritesState{}
+class AddOrDeleteFavoriteWithProductLoading extends FavoritesState{}
+class AddOrDeleteFavoriteWithProductSuccess extends FavoritesState{}
+class AddOrDeleteFavoriteWithProductIdFailure extends FavoritesState{
+  final String errorMessage;
+  AddOrDeleteFavoriteWithProductIdFailure({required this.errorMessage});
+}

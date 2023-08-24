@@ -16,7 +16,7 @@ part 'layout_state.dart';
 class LayoutCubit extends Cubit<LayoutState> {
   LayoutCubit() : super(LayoutInitial());
   //int bottomNavCurrentIndex=0;
-  int bottomNavCurrentIndex=2;
+  int bottomNavCurrentIndex=0;
   void onBottomNavIndexChange({required int index}){
     bottomNavCurrentIndex=index;
     emit(ChangeBottomNavIndexState());

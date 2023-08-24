@@ -6,7 +6,7 @@ class ProductModel {
   String? image;
   String? name;
   String? description;
-  List<String>? images;
+  List<dynamic>? images;
   bool? inFavorites;
   bool? inCart;
 
@@ -30,7 +30,7 @@ class ProductModel {
     image = json['image'].toString();
     name = json['name'].toString();
     description = json['description'].toString();
-    images = json['images'].cast<String>();
+    images = json['images'];
     inFavorites = json['in_favorites'];
     inCart = json['in_cart'];
   }
