@@ -31,9 +31,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         for (var item in responseBody['data']['data']) {
           favoritesModelList.add(ProductModel.fromJson(item['product']));
           favoritesProductsId.add(item['product']['id'].toString());
-          debugPrint(
-              'get favorites products response Successfully with status code ${response.statusCode} ');
         }
+        debugPrint('get favorites products response Successfully with status code ${response.statusCode} ');
         debugPrint('favorites products number = ${favoritesModelList.length}');
         emit(FavoritesSuccess());
       } else {

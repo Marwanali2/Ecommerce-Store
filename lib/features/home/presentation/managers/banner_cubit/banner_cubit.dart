@@ -11,7 +11,7 @@ class BannerCubit extends Cubit<BannerState> {
   final Dio _dio = Dio();
   List<BannerModel> bannersList=[];
   Future getBanners() async {
-    emit(BannerLoading());
+
    try{
      Response response = await _dio.get(
        'https://student.valuxapps.com/api/banners',
