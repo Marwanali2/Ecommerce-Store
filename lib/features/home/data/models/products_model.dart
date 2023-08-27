@@ -25,8 +25,8 @@ class ProductModel {
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toInt();
     price = json['price']?.toInt();
-    oldPrice = json['old_price'].toInt();
-    discount = json['discount'].toInt();
+    oldPrice = json['old_price']?.toInt();
+    discount = json['discount']?.toInt();
     image = json['image'].toString();
     name = json['name'].toString();
     description = json['description'].toString();

@@ -1,3 +1,4 @@
+import 'package:ecommerce/core/widgets/custom_error_widget.dart';
 import 'package:ecommerce/features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
@@ -134,7 +135,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               ],
             );
             } else if (state is BannerFailure){
-              return const Text('Banner Failure');
+              return SizedBox(height:150,child: CustomErrorWidget());
             }
             else{
               return const Center(child: CircularProgressIndicator());
@@ -159,7 +160,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                return categoriesListView(context, categoriesCubit);
              }
              else if (state is CategoriesFailure){
-               return const Text('Categories Failure');
+               return SizedBox(height: 150,child: CustomErrorWidget(),);
              }
              else{
                return const Center(child: CircularProgressIndicator(),);
@@ -277,6 +278,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                    ],
                                  ),
                                  const Spacer(),
+
                                  IconButton(
                                    icon: Icon(
                                      Icons.favorite,
@@ -361,7 +363,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
              );
            }
            else if (state is ProductsFailure){
-             return const Text('Products Failure');
+             return SizedBox(height: 150,child: CustomErrorWidget());
            }
            else{
              return const Center(child: CircularProgressIndicator(),);

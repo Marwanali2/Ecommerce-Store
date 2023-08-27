@@ -41,7 +41,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
         children: [
           const SizedBox(height: 100,),
           Lottie.asset(
-            'assets/lottie_json_animations/animation_ll7yt0ll.json',
+            'assets/lottie_json_animations/splash.json',
           ),
           const SizedBox(height: 10,),
           const Text('All what you need in one place',style: TextStyle(fontSize: 30,fontFamily: 'DancingScript'),),

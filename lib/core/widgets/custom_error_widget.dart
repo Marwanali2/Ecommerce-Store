@@ -6,7 +6,7 @@ class CustomErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Lottie.asset(
-        "assets/lottie_json_animations/12434-no-connection.json",
+        "assets/lottie_json_animations/no_internet.json",
       ),
     );
   }

@@ -209,7 +209,7 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                  child: Column(
                    children: [
                      Lottie.asset(
-                       'assets/lottie_json_animations/animation_llnsj0db.json',
+                       'assets/lottie_json_animations/no_favorite_products.json',
                        reverse: true,
                      ),
                      const Text(
