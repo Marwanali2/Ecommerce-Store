@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
+import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../../data/models/products_model.dart';
 import 'banners_list_view.dart';
@@ -30,6 +31,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var categoriesCubit = BlocProvider.of<CategoriesCubit>(context);
     var productsCubit = BlocProvider.of<ProductsCubit>(context);
     var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
+    var cartsCubit = BlocProvider.of<CartsCubit>(context);
     final pageController = PageController();
 
     return SingleChildScrollView(
@@ -136,7 +138,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   ],
                 );
               } else if (state is BannerFailure) {
-                return SizedBox(height: 150, child: CustomErrorWidget());
+                return const SizedBox(height: 150, child: CustomErrorWidget());
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -158,7 +160,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               if (state is CategoriesSuccess) {
                 return categoriesListView(context, categoriesCubit);
               } else if (state is CategoriesFailure) {
-                return SizedBox(
+                return const SizedBox(
                   height: 150,
                   child: CustomErrorWidget(),
                 );
@@ -198,65 +200,137 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               mainAxisSpacing: 12,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: 0.7,
+                              crossAxisSpacing: 20,
+                              childAspectRatio: 0.6,
                             ),
                             itemBuilder: (context, index) {
-                              // return productItem(
-                              //     productModel:
-                              //     productsCubit.filteredProductsModelList.isEmpty
-                              //         ? productsCubit.productsModelList[index]
-                              //         : productsCubit
-                              //         .filteredProductsModelList[index],
-                              //     cubit: favoritesCubit
-                              // );
+
                               var productModel = productsCubit
                                       .filteredProductsModelList.isEmpty
                                   ? productsCubit.productsModelList[index]
                                   : productsCubit
                                       .filteredProductsModelList[index];
                               var cubit = favoritesCubit;
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.blueGrey,
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(40),
-                                    topRight: Radius.circular(40),
+                              return Stack(children: [
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: color2,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
                                   ),
-                                  border: Border.all(
-                                    color: Colors.indigo,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Row(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(
+                                                favoritesCubit
+                                                        .favoritesProductsId
+                                                        .contains(productModel
+                                                            .id
+                                                            .toString())
+                                                    ? Icons.favorite_rounded
+                                                    : Icons
+                                                        .favorite_border_rounded,
+                                                color: favoritesCubit
+                                                        .favoritesProductsId
+                                                        .contains(productModel
+                                                            .id
+                                                            .toString())
+                                                    ? Colors.red
+                                                    : color8,
+                                              ),
+                                              onPressed: () async {
+                                                await cubit
+                                                    .addOrRemoveFavorites(
+                                                        productId: productModel
+                                                            .id
+                                                            .toString());
+                                                setState(() {});
+                                              },
+                                            ),
+                                            const Spacer(),
+                                            productModel.discount != 0
+                                                ? Center(
+                                                    child: Container(
+                                                      width: 80,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                          5,
+                                                        ),
+                                                        color:
+                                                            Colors.greenAccent,
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Sale -${productModel.discount}%',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: color4,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontFamily:
+                                                                'DancingScript',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                        Container(
+                                          height: 165,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                '${productModel.image}',
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '${productModel.name}',
+                                          style: const TextStyle(
+                                            color: color6,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 5),
+                                          child: Row(
                                             children: [
                                               productModel.oldPrice ==
                                                       productModel.price
                                                   ? Text(
                                                       '${productModel.price}',
                                                       style: const TextStyle(
-                                                        color: Colors.white,
+                                                        color: color8,
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 18,
+                                                        fontSize: 25,
                                                       ),
                                                     )
                                                   : Row(
                                                       children: [
                                                         Text(
                                                           '${productModel.oldPrice}\$',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: mainColor,
+                                                          style: const TextStyle(
+                                                            color: color6,
                                                             decoration:
                                                                 TextDecoration
                                                                     .lineThrough,
@@ -272,12 +346,11 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                                         ),
                                                         Text(
                                                           '${productModel.price}',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.white,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            fontSize: 16,
+                                                            fontSize: 17,
                                                           ),
                                                         ),
                                                       ],
@@ -295,98 +368,51 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                               ),
                                             ],
                                           ),
-                                          const Spacer(),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.favorite,
-                                              color: favoritesCubit
-                                                      .favoritesProductsId
-                                                      .contains(productModel.id
-                                                          .toString())
-                                                  ? Colors.red
-                                                  : Colors.grey,
-                                            ),
-                                            onPressed: () async {
-                                              await cubit.addOrRemoveFavorites(
-                                                  productId: productModel.id
-                                                      .toString());
-                                              setState(() {});
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Container(
-                                        height: 130,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                              '${productModel.image}',
-                                            ),
-                                            fit: BoxFit.fill,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await cartsCubit.addOrRemoveCarts(
+                                          productId:
+                                              productModel.id.toString());
+                                      setState(() {
+
+                                      },);
+                                    },
+                                    child: Container(
+                                      height: 45,
+                                      width: 45,
+                                      decoration: const BoxDecoration(
+                                        color: color9,
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(
+                                            20,
                                           ),
-                                          color: Colors.white10,
-                                          border: Border.all(
-                                              color: Colors.indigo, width: 2),
-                                          borderRadius: const BorderRadius.only(
-                                            bottomRight: Radius.circular(
-                                              20,
-                                            ),
-                                            topLeft: Radius.circular(20),
+                                          topLeft: Radius.circular(
+                                            20,
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 5,
+                                      child: Icon(
+                                        cartsCubit.cartsProductsId.contains(productModel.id.toString())?Icons.check:Icons.add,
+                                        color: Colors.white,
+                                        size: 35,
                                       ),
-                                      Text(
-                                        '${productModel.name}',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const Spacer(),
-                                      productModel.discount != 0
-                                          ? Center(
-                                              child: Container(
-                                                width: 110,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    20,
-                                                  ),
-                                                  color: Colors.green,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    'Discount ${productModel.discount}%',
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontFamily:
-                                                          'DancingScript',
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          : const SizedBox(),
-                                      const Spacer(),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              );
+                              ]);
                             },
                           ),
                   ),
                 );
               } else if (state is ProductsFailure) {
-                return SizedBox(height: 150, child: CustomErrorWidget());
+                return const SizedBox(height: 150, child: CustomErrorWidget());
               } else {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -398,38 +424,99 @@ class _HomeViewBodyState extends State<HomeViewBody> {
       ),
     );
   }
-}
 
-Widget productItem(
-    {required ProductModel productModel, required FavoritesCubit cubit}) {
-  return Container(
-    width: 50,
-    height: 50,
-    decoration: BoxDecoration(
-      color: Colors.blueGrey,
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(40),
-        topRight: Radius.circular(40),
-      ),
-      border: Border.all(
-        color: Colors.indigo,
-        width: 2,
-      ),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+  Stack buildProductContainer(ProductModel productModel,
+      FavoritesCubit favoritesCubit, FavoritesCubit cubit) {
+    return Stack(children: [
+      Container(
+        decoration: const BoxDecoration(
+          color: color2,
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      favoritesCubit.favoritesProductsId
+                              .contains(productModel.id.toString())
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      color: favoritesCubit.favoritesProductsId
+                              .contains(productModel.id.toString())
+                          ? Colors.red
+                          : color8,
+                    ),
+                    onPressed: () async {
+                      await cubit.addOrRemoveFavorites(
+                          productId: productModel.id.toString());
+                      setState(() {});
+                    },
+                  ),
+                  const Spacer(),
+                  productModel.discount != 0
+                      ? Center(
+                          child: Container(
+                            width: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                5,
+                              ),
+                              color: Colors.greenAccent,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Sale -${productModel.discount}%',
+                                style: const TextStyle(
+                                  color: color4,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'DancingScript',
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+              Container(
+                height: 165,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      '${productModel.image}',
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              Text(
+                '${productModel.name}',
+                style: const TextStyle(
+                  color: color6,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
               Row(
                 children: [
                   productModel.oldPrice == productModel.price
                       ? Text(
                           '${productModel.price}',
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: color8,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -439,7 +526,7 @@ Widget productItem(
                             Text(
                               '${productModel.oldPrice}\$',
                               style: const TextStyle(
-                                color: mainColor,
+                                color: color6,
                                 decoration: TextDecoration.lineThrough,
                                 decorationColor: Colors.red,
                                 decorationThickness: 1.5,
@@ -452,9 +539,9 @@ Widget productItem(
                             Text(
                               '${productModel.price}',
                               style: const TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16,
+                                fontSize: 15,
                               ),
                             ),
                           ],
@@ -472,81 +559,32 @@ Widget productItem(
                   ),
                 ],
               ),
-              const Spacer(),
-              IconButton(
-                icon: Icon(
-                  Icons.favorite,
-                  color: cubit.favoritesProductsId
-                          .contains(productModel.id.toString())
-                      ? Colors.red
-                      : Colors.grey,
-                ),
-                onPressed: () async {
-                  await cubit.addOrRemoveFavorites(
-                      productId: productModel.id.toString());
-                },
-              )
             ],
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          Container(
-            height: 130,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${productModel.image}',
-                ),
-                fit: BoxFit.fill,
-              ),
-              color: Colors.white10,
-              border: Border.all(color: Colors.indigo, width: 2),
-              borderRadius: const BorderRadius.only(
+        ),
+      ),
+      Align(
+        alignment: Alignment.bottomRight,
+        child: GestureDetector(
+          onTap: () {},
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: const BoxDecoration(
+              color: color9,
+              borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(
                   20,
                 ),
-                topLeft: Radius.circular(20),
+                topLeft: Radius.circular(
+                  20,
+                ),
               ),
             ),
+            child: const Icon(Icons.add, color: Colors.white, size: 35),
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            '${productModel.name}',
-            style: const TextStyle(
-                color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          productModel.discount != 0
-              ? Center(
-                  child: Container(
-                    width: 110,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ),
-                      color: Colors.green,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Discount ${productModel.discount}%',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontFamily: 'DancingScript',
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox(),
-          const Spacer(),
-        ],
+        ),
       ),
-    ),
-  );
+    ]);
+  }
 }

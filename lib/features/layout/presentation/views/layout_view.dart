@@ -3,6 +3,8 @@ import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/colors.dart';
+
 class LayoutView extends StatefulWidget {
   const LayoutView({Key? key}) : super(key: key);
 
@@ -16,6 +18,7 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: color3,
         body: ListView(
           shrinkWrap: true,
           children: [cubit.screens[cubit.bottomNavCurrentIndex],],
