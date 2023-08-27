@@ -16,7 +16,6 @@ import '../../../data/models/products_model.dart';
 import 'banners_list_view.dart';
 import 'categories_list_view.dart';
 
-
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
@@ -33,11 +32,13 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
     final pageController = PageController();
 
-
     return SingleChildScrollView(
       child: Column(
         children: [
-          enjoyBar(context, text: 'Enjoy our products',),
+          enjoyBar(
+            context,
+            text: 'Enjoy our products',
+          ),
           const SizedBox(
             height: 15,
           ),
@@ -63,7 +64,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   ),
                 ),
                 prefixIcon: const Icon(
-                  Icons.search, color: Colors.black45,),
+                  Icons.search,
+                  color: Colors.black45,
+                ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(
                     10,
@@ -85,64 +88,60 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             height: 15,
           ),
           //bannersListView(pageController, bannersCubit),
-          BlocBuilder<BannerCubit, BannerState>(builder: (context, state) {
-            if (state is BannerSuccess) {
-            return  Column(
-              children: [
-                SizedBox(
-                    height: 200,
-                    child: PageView.builder(
-                      controller: pageController,
-                      itemCount: bannersCubit.bannersList.length,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          child: SizedBox(
-                            height: 200,
-                            width: 350,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18.0),
-                              child: Image.network(
-                                '${bannersCubit.bannersList[index].imageUrl}',
-                                fit: BoxFit.fill,
+          BlocBuilder<BannerCubit, BannerState>(
+            builder: (context, state) {
+              if (state is BannerSuccess) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      child: PageView.builder(
+                        controller: pageController,
+                        itemCount: bannersCubit.bannersList.length,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            child: SizedBox(
+                              height: 200,
+                              width: 350,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(18.0),
+                                child: Image.network(
+                                  '${bannersCubit.bannersList[index].imageUrl}',
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Center(
-                  child: SmoothPageIndicator(
-                    controller: pageController,
-                    count: bannersCubit.bannersList.length,
-                    axisDirection: Axis.horizontal,
-                    effect: const ScrollingDotsEffect(
-                      radius: 5
-                      ,
-                    )
-                    ,
-                  )
-                  ,
-                ),
-              ],
-            );
-            } else if (state is BannerFailure){
-              return SizedBox(height:150,child: CustomErrorWidget());
-            }
-            else{
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Center(
+                      child: SmoothPageIndicator(
+                        controller: pageController,
+                        count: bannersCubit.bannersList.length,
+                        axisDirection: Axis.horizontal,
+                        effect: const ScrollingDotsEffect(
+                          radius: 5,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              } else if (state is BannerFailure) {
+                return SizedBox(height: 150, child: CustomErrorWidget());
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
-
 
           const SizedBox(
             height: 15,
@@ -154,19 +153,22 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           const SizedBox(
             height: 15,
           ),
-         BlocBuilder<CategoriesCubit,CategoriesState>(
-           builder: (context, state) {
-             if(state is CategoriesSuccess){
-               return categoriesListView(context, categoriesCubit);
-             }
-             else if (state is CategoriesFailure){
-               return SizedBox(height: 150,child: CustomErrorWidget(),);
-             }
-             else{
-               return const Center(child: CircularProgressIndicator(),);
-             }
-           },
-         ),
+          BlocBuilder<CategoriesCubit, CategoriesState>(
+            builder: (context, state) {
+              if (state is CategoriesSuccess) {
+                return categoriesListView(context, categoriesCubit);
+              } else if (state is CategoriesFailure) {
+                return SizedBox(
+                  height: 150,
+                  child: CustomErrorWidget(),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
           const SizedBox(
             height: 15,
           ),
@@ -174,201 +176,224 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: twoTextsRow(fText: 'Products', sText: 'View All'),
           ),
-         BlocBuilder<ProductsCubit,ProductsState>(builder:(context, state) {
-           if(state is ProductsSuccess){
-             return  Padding(
-               padding: const EdgeInsets.symmetric(
-                 horizontal: 10,
-               ),
-               child: SizedBox(
-                 height: 500,
-                 child: productsCubit.productsModelList.isEmpty
-                     ? const Center(child: CircularProgressIndicator())
-                     : GridView.builder(
-                   itemCount: productsCubit.filteredProductsModelList.isEmpty
-                       ? productsCubit.productsModelList.length
-                       : productsCubit.filteredProductsModelList.length,
-                   physics: const BouncingScrollPhysics(),
-                   gridDelegate:
-                   const SliverGridDelegateWithFixedCrossAxisCount(
-                     crossAxisCount: 2,
-                     mainAxisSpacing: 12,
-                     crossAxisSpacing: 15,
-                     childAspectRatio: 0.7,
-                   ),
-                   itemBuilder: (context, index) {
-                     // return productItem(
-                     //     productModel:
-                     //     productsCubit.filteredProductsModelList.isEmpty
-                     //         ? productsCubit.productsModelList[index]
-                     //         : productsCubit
-                     //         .filteredProductsModelList[index],
-                     //     cubit: favoritesCubit
-                     // );
-                     var productModel= productsCubit.filteredProductsModelList.isEmpty ? productsCubit.productsModelList[index] : productsCubit.filteredProductsModelList[index];
-                     var cubit=favoritesCubit;
-                     return Container(
-                       width: 50,
-                       height: 50,
-                       decoration: BoxDecoration(
-                         color: Colors.blueGrey,
-                         borderRadius: const BorderRadius.only(
-                           bottomLeft: Radius.circular(40),
-                           topRight: Radius.circular(40),
-                         ),
-                         border: Border.all(
-                           color: Colors.indigo,
-                           width: 2,
-                         ),
-                       ),
-                       child: Padding(
-                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                         child: Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           children: [
-                             Row(
-                               children: [
-                                 Row(
-                                   children: [
-                                     productModel.oldPrice == productModel.price
-                                         ? Text(
-                                       '${productModel.price}',
-                                       style: const TextStyle(
-                                         color: Colors.white,
-                                         fontWeight: FontWeight.bold,
-                                         fontSize: 18,
-                                       ),
-                                     )
-                                         : Row(
-                                       children: [
-                                         Text(
-                                           '${productModel.oldPrice}\$',
-                                           style: const TextStyle(
-                                             color: mainColor,
-                                             decoration: TextDecoration.lineThrough,
-                                             decorationColor: Colors.red,
-                                             decorationThickness: 1.5,
-                                             fontSize: 14,
-                                           ),
-                                         ),
-                                         const SizedBox(
-                                           width: 5,
-                                         ),
-                                         Text(
-                                           '${productModel.price}',
-                                           style: const TextStyle(
-                                             color: Colors.white,
-                                             fontWeight: FontWeight.bold,
-                                             fontSize: 16,
-                                           ),
-                                         ),
-                                       ],
-                                     ),
-                                     const SizedBox(
-                                       width: 1,
-                                     ),
-                                     const Text(
-                                       '\$',
-                                       style: TextStyle(
-                                         color: mainColor,
-                                         fontWeight: FontWeight.bold,
-                                         fontSize: 17,
-                                       ),
-                                     ),
-                                   ],
-                                 ),
-                                 const Spacer(),
-
-                                 IconButton(
-                                   icon: Icon(
-                                     Icons.favorite,
-                                     color: favoritesCubit.favoritesProductsId.contains(
-                                         productModel.id.toString()) ? Colors.red : Colors.grey,
-                                   ),
-                                   onPressed: () async {
-                                     await cubit.addOrRemoveFavorites(
-                                         productId: productModel.id.toString());
-                                     setState(() {
-
-                                     });
-                                   },
-                                 )
-
-                               ],
-                             ),
-                             const SizedBox(
-                               height: 5,
-                             ),
-                             Container(
-                               height: 130,
-                               decoration: BoxDecoration(
-                                 image: DecorationImage(
-                                   image: NetworkImage(
-                                     '${productModel.image}',
-                                   ),
-                                   fit: BoxFit.fill,
-                                 ),
-                                 color: Colors.white10,
-                                 border: Border.all(color: Colors.indigo, width: 2),
-                                 borderRadius: const BorderRadius.only(
-                                   bottomRight: Radius.circular(
-                                     20,
-                                   ),
-                                   topLeft: Radius.circular(20),
-                                 ),
-                               ),
-                             ),
-                             const SizedBox(
-                               height: 5,
-                             ),
-                             Text(
-                               '${productModel.name}',
-                               style: const TextStyle(
-                                   color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
-                               maxLines: 2,
-                               overflow: TextOverflow.ellipsis,
-                             ),
-                             const Spacer(),
-                             productModel.discount != 0
-                                 ? Center(
-                               child: Container(
-                                 width: 110,
-                                 decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(
-                                     20,
-                                   ),
-                                   color: Colors.green,
-                                 ),
-                                 child: Center(
-                                   child: Text(
-                                     'Discount ${productModel.discount}%',
-                                     style: const TextStyle(
-                                       color: Colors.white,
-                                       fontSize: 15,
-                                       fontFamily: 'DancingScript',
-                                     ),
-                                   ),
-                                 ),
-                               ),
-                             )
-                                 : const SizedBox(),
-                             const Spacer(),
-                           ],
-                         ),
-                       ),
-                     );
-                   },
-                 ),
-               ),
-             );
-           }
-           else if (state is ProductsFailure){
-             return SizedBox(height: 150,child: CustomErrorWidget());
-           }
-           else{
-             return const Center(child: CircularProgressIndicator(),);
-           }
-         }, )
+          BlocBuilder<ProductsCubit, ProductsState>(
+            builder: (context, state) {
+              if (state is ProductsSuccess) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: SizedBox(
+                    height: 500,
+                    child: productsCubit.productsModelList.isEmpty
+                        ? const Center(child: CircularProgressIndicator())
+                        : GridView.builder(
+                            itemCount:
+                                productsCubit.filteredProductsModelList.isEmpty
+                                    ? productsCubit.productsModelList.length
+                                    : productsCubit
+                                        .filteredProductsModelList.length,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 10,
+                              childAspectRatio: 0.7,
+                            ),
+                            itemBuilder: (context, index) {
+                              // return productItem(
+                              //     productModel:
+                              //     productsCubit.filteredProductsModelList.isEmpty
+                              //         ? productsCubit.productsModelList[index]
+                              //         : productsCubit
+                              //         .filteredProductsModelList[index],
+                              //     cubit: favoritesCubit
+                              // );
+                              var productModel = productsCubit
+                                      .filteredProductsModelList.isEmpty
+                                  ? productsCubit.productsModelList[index]
+                                  : productsCubit
+                                      .filteredProductsModelList[index];
+                              var cubit = favoritesCubit;
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(40),
+                                    topRight: Radius.circular(40),
+                                  ),
+                                  border: Border.all(
+                                    color: Colors.indigo,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              productModel.oldPrice ==
+                                                      productModel.price
+                                                  ? Text(
+                                                      '${productModel.price}',
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18,
+                                                      ),
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        Text(
+                                                          '${productModel.oldPrice}\$',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: mainColor,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                            decorationColor:
+                                                                Colors.red,
+                                                            decorationThickness:
+                                                                1.5,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          '${productModel.price}',
+                                                          style:
+                                                              const TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                              const SizedBox(
+                                                width: 1,
+                                              ),
+                                              const Text(
+                                                '\$',
+                                                style: TextStyle(
+                                                  color: mainColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.favorite,
+                                              color: favoritesCubit
+                                                      .favoritesProductsId
+                                                      .contains(productModel.id
+                                                          .toString())
+                                                  ? Colors.red
+                                                  : Colors.grey,
+                                            ),
+                                            onPressed: () async {
+                                              await cubit.addOrRemoveFavorites(
+                                                  productId: productModel.id
+                                                      .toString());
+                                              setState(() {});
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        height: 130,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              '${productModel.image}',
+                                            ),
+                                            fit: BoxFit.fill,
+                                          ),
+                                          color: Colors.white10,
+                                          border: Border.all(
+                                              color: Colors.indigo, width: 2),
+                                          borderRadius: const BorderRadius.only(
+                                            bottomRight: Radius.circular(
+                                              20,
+                                            ),
+                                            topLeft: Radius.circular(20),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        '${productModel.name}',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const Spacer(),
+                                      productModel.discount != 0
+                                          ? Center(
+                                              child: Container(
+                                                width: 110,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    20,
+                                                  ),
+                                                  color: Colors.green,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Discount ${productModel.discount}%',
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontFamily:
+                                                          'DancingScript',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      const Spacer(),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                );
+              } else if (state is ProductsFailure) {
+                return SizedBox(height: 150, child: CustomErrorWidget());
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )
         ],
       ),
     );
@@ -402,38 +427,38 @@ Widget productItem(
                 children: [
                   productModel.oldPrice == productModel.price
                       ? Text(
-                    '${productModel.price}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  )
+                          '${productModel.price}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        )
                       : Row(
-                    children: [
-                      Text(
-                        '${productModel.oldPrice}\$',
-                        style: const TextStyle(
-                          color: mainColor,
-                          decoration: TextDecoration.lineThrough,
-                          decorationColor: Colors.red,
-                          decorationThickness: 1.5,
-                          fontSize: 14,
+                          children: [
+                            Text(
+                              '${productModel.oldPrice}\$',
+                              style: const TextStyle(
+                                color: mainColor,
+                                decoration: TextDecoration.lineThrough,
+                                decorationColor: Colors.red,
+                                decorationThickness: 1.5,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '${productModel.price}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '${productModel.price}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     width: 1,
                   ),
@@ -451,15 +476,16 @@ Widget productItem(
               IconButton(
                 icon: Icon(
                   Icons.favorite,
-                  color: cubit.favoritesProductsId.contains(
-                      productModel.id.toString()) ? Colors.red : Colors.grey,
+                  color: cubit.favoritesProductsId
+                          .contains(productModel.id.toString())
+                      ? Colors.red
+                      : Colors.grey,
                 ),
                 onPressed: () async {
                   await cubit.addOrRemoveFavorites(
                       productId: productModel.id.toString());
                 },
               )
-
             ],
           ),
           const SizedBox(
@@ -497,26 +523,26 @@ Widget productItem(
           const Spacer(),
           productModel.discount != 0
               ? Center(
-            child: Container(
-              width: 110,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
-                color: Colors.green,
-              ),
-              child: Center(
-                child: Text(
-                  'Discount ${productModel.discount}%',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontFamily: 'DancingScript',
+                  child: Container(
+                    width: 110,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        20,
+                      ),
+                      color: Colors.green,
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Discount ${productModel.discount}%',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontFamily: 'DancingScript',
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          )
+                )
               : const SizedBox(),
           const Spacer(),
         ],
