@@ -190,225 +190,227 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     child: productsCubit.productsModelList.isEmpty
                         ? const Center(child: CircularProgressIndicator())
                         : GridView.builder(
-                            itemCount:
-                                productsCubit.filteredProductsModelList.isEmpty
-                                    ? productsCubit.productsModelList.length
-                                    : productsCubit
-                                        .filteredProductsModelList.length,
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 12,
-                              crossAxisSpacing: 20,
-                              childAspectRatio: 0.6,
+                      itemCount:
+                      productsCubit.filteredProductsModelList.isEmpty
+                          ? productsCubit.productsModelList.length
+                          : productsCubit
+                          .filteredProductsModelList.length,
+                      physics: const BouncingScrollPhysics(),
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 0.6,
+                      ),
+                      itemBuilder: (context, index) {
+                        var productModel = productsCubit
+                            .filteredProductsModelList.isEmpty
+                            ? productsCubit.productsModelList[index]
+                            : productsCubit
+                            .filteredProductsModelList[index];
+                        var cubit = favoritesCubit;
+                        return Stack(children: [
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: color2,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
+                              ),
                             ),
-                            itemBuilder: (context, index) {
-
-                              var productModel = productsCubit
-                                      .filteredProductsModelList.isEmpty
-                                  ? productsCubit.productsModelList[index]
-                                  : productsCubit
-                                      .filteredProductsModelList[index];
-                              var cubit = favoritesCubit;
-                              return Stack(children: [
-                                Container(
-                                  decoration: const BoxDecoration(
-                                    color: color2,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(20),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(
+                                          favoritesCubit
+                                              .favoritesProductsId
+                                              .contains(productModel
+                                              .id
+                                              .toString())
+                                              ? Icons.favorite_rounded
+                                              : Icons
+                                              .favorite_border_rounded,
+                                          color: favoritesCubit
+                                              .favoritesProductsId
+                                              .contains(productModel
+                                              .id
+                                              .toString())
+                                              ? Colors.red
+                                              : color8,
+                                        ),
+                                        onPressed: () async {
+                                          await cubit
+                                              .addOrRemoveFavorites(
+                                              productId: productModel
+                                                  .id
+                                                  .toString());
+                                          setState(() {});
+                                        },
+                                      ),
+                                      const Spacer(),
+                                      productModel.discount != 0
+                                          ? Center(
+                                        child: Container(
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius
+                                                .circular(
+                                              5,
+                                            ),
+                                            color:
+                                            Colors.greenAccent,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'Sale -${productModel.discount}%',
+                                              style:
+                                              const TextStyle(
+                                                color: color4,
+                                                fontSize: 15,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontFamily:
+                                                'DancingScript',
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                          : const SizedBox(),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 165,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          '${productModel.image}',
+                                        ),
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                  Text(
+                                    '${productModel.name}',
+                                    style: const TextStyle(
+                                      color: color6,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5),
+                                    child: Row(
                                       children: [
-                                        Row(
+                                        productModel.oldPrice ==
+                                            productModel.price
+                                            ? Text(
+                                          '${productModel.price}',
+                                          style: const TextStyle(
+                                            color: color8,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            fontSize: 25,
+                                          ),
+                                        )
+                                            : Row(
                                           children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                favoritesCubit
-                                                        .favoritesProductsId
-                                                        .contains(productModel
-                                                            .id
-                                                            .toString())
-                                                    ? Icons.favorite_rounded
-                                                    : Icons
-                                                        .favorite_border_rounded,
-                                                color: favoritesCubit
-                                                        .favoritesProductsId
-                                                        .contains(productModel
-                                                            .id
-                                                            .toString())
-                                                    ? Colors.red
-                                                    : color8,
+                                            Text(
+                                              '${productModel.oldPrice}\$',
+                                              style: const TextStyle(
+                                                color: color6,
+                                                decoration:
+                                                TextDecoration
+                                                    .lineThrough,
+                                                decorationColor:
+                                                Colors.red,
+                                                decorationThickness:
+                                                1.5,
+                                                fontSize: 14,
                                               ),
-                                              onPressed: () async {
-                                                await cubit
-                                                    .addOrRemoveFavorites(
-                                                        productId: productModel
-                                                            .id
-                                                            .toString());
-                                                setState(() {});
-                                              },
                                             ),
-                                            const Spacer(),
-                                            productModel.discount != 0
-                                                ? Center(
-                                                    child: Container(
-                                                      width: 80,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                          5,
-                                                        ),
-                                                        color:
-                                                            Colors.greenAccent,
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Sale -${productModel.discount}%',
-                                                          style:
-                                                              const TextStyle(
-                                                            color: color4,
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'DancingScript',
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : const SizedBox(),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '${productModel.price}',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontSize: 17,
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                        Container(
-                                          height: 165,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                '${productModel.image}',
-                                              ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
+                                        const SizedBox(
+                                          width: 1,
                                         ),
-                                        Text(
-                                          '${productModel.name}',
-                                          style: const TextStyle(
-                                            color: color6,
-                                            fontSize: 15,
+                                        const Text(
+                                          '\$',
+                                          style: TextStyle(
+                                            color: mainColor,
                                             fontWeight: FontWeight.bold,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 5),
-                                          child: Row(
-                                            children: [
-                                              productModel.oldPrice ==
-                                                      productModel.price
-                                                  ? Text(
-                                                      '${productModel.price}',
-                                                      style: const TextStyle(
-                                                        color: color8,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 25,
-                                                      ),
-                                                    )
-                                                  : Row(
-                                                      children: [
-                                                        Text(
-                                                          '${productModel.oldPrice}\$',
-                                                          style: const TextStyle(
-                                                            color: color6,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            decorationColor:
-                                                                Colors.red,
-                                                            decorationThickness:
-                                                                1.5,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          '${productModel.price}',
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 17,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                              const SizedBox(
-                                                width: 1,
-                                              ),
-                                              const Text(
-                                                '\$',
-                                                style: TextStyle(
-                                                  color: mainColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 17,
-                                                ),
-                                              ),
-                                            ],
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      await cartsCubit.addOrRemoveCarts(
-                                          productId:
-                                              productModel.id.toString());
-                                      setState(() {
+                                ],
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                              onTap: () async {
+                                await cartsCubit.addOrRemoveCarts(
+                                    productId:
+                                    productModel.id.toString());
+                                setState(() {
 
-                                      },);
-                                    },
-                                    child: Container(
-                                      height: 45,
-                                      width: 45,
-                                      decoration: const BoxDecoration(
-                                        color: color9,
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(
-                                            20,
-                                          ),
-                                          topLeft: Radius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        cartsCubit.cartsProductsId.contains(productModel.id.toString())?Icons.check:Icons.add,
-                                        color: Colors.white,
-                                        size: 35,
-                                      ),
+                                },);
+                              },
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                                decoration: const BoxDecoration(
+                                  color: color9,
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(
+                                      20,
+                                    ),
+                                    topLeft: Radius.circular(
+                                      20,
                                     ),
                                   ),
                                 ),
-                              ]);
-                            },
+                                child: Icon(
+                                  cartsCubit.cartsProductsId.contains(
+                                      productModel.id.toString())
+                                      ? Icons.check
+                                      : Icons.add,
+                                  color: Colors.white,
+                                  size: 35,
+                                ),
+                              ),
+                            ),
                           ),
+                        ]);
+                      },
+                    ),
                   ),
                 );
               } else if (state is ProductsFailure) {
@@ -423,168 +425,5 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         ],
       ),
     );
-  }
-
-  Stack buildProductContainer(ProductModel productModel,
-      FavoritesCubit favoritesCubit, FavoritesCubit cubit) {
-    return Stack(children: [
-      Container(
-        decoration: const BoxDecoration(
-          color: color2,
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      favoritesCubit.favoritesProductsId
-                              .contains(productModel.id.toString())
-                          ? Icons.favorite_rounded
-                          : Icons.favorite_border_rounded,
-                      color: favoritesCubit.favoritesProductsId
-                              .contains(productModel.id.toString())
-                          ? Colors.red
-                          : color8,
-                    ),
-                    onPressed: () async {
-                      await cubit.addOrRemoveFavorites(
-                          productId: productModel.id.toString());
-                      setState(() {});
-                    },
-                  ),
-                  const Spacer(),
-                  productModel.discount != 0
-                      ? Center(
-                          child: Container(
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                5,
-                              ),
-                              color: Colors.greenAccent,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Sale -${productModel.discount}%',
-                                style: const TextStyle(
-                                  color: color4,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'DancingScript',
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
-              Container(
-                height: 165,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      '${productModel.image}',
-                    ),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              Text(
-                '${productModel.name}',
-                style: const TextStyle(
-                  color: color6,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Row(
-                children: [
-                  productModel.oldPrice == productModel.price
-                      ? Text(
-                          '${productModel.price}',
-                          style: const TextStyle(
-                            color: color8,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        )
-                      : Row(
-                          children: [
-                            Text(
-                              '${productModel.oldPrice}\$',
-                              style: const TextStyle(
-                                color: color6,
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: Colors.red,
-                                decorationThickness: 1.5,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${productModel.price}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                  const SizedBox(
-                    width: 1,
-                  ),
-                  const Text(
-                    '\$',
-                    style: TextStyle(
-                      color: mainColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      Align(
-        alignment: Alignment.bottomRight,
-        child: GestureDetector(
-          onTap: () {},
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: const BoxDecoration(
-              color: color9,
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(
-                  20,
-                ),
-                topLeft: Radius.circular(
-                  20,
-                ),
-              ),
-            ),
-            child: const Icon(Icons.add, color: Colors.white, size: 35),
-          ),
-        ),
-      ),
-    ]);
   }
 }
