@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/home/data/models/categories_model.dart';
 import 'package:ecommerce/features/home/data/models/products_model.dart';
 import 'package:flutter/material.dart';
@@ -48,19 +49,20 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     }
   }
 
-  Future getCategoryProducts() async {
+  Future getCategoryProducts({required int categoryId}) async {
     emit(CategoryProductsInitial());
     try {
       Response response = await _dio.get(
-        'https://student.valuxapps.com/api/categories/44',
+        'https://student.valuxapps.com/api/categories/$categoryId',
         options: Options(
           headers: {
             'lang': 'en',
+            'Authorization':userToken,
           },
         ),
       );
       var responseBody = response.data;
-      if (response.statusCode == 200) {
+      if (responseBody['status']==true) {
         categoryProductsList=[];
         for (var item in responseBody['data']['data']) {
           categoryProductsList.add(
@@ -72,7 +74,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       } else {
         debugPrint(
             'get category products response Failed with status code ${response.statusCode} ,the response is :$responseBody');
-        emit(CategoriesFailure(errorMessage: responseBody));
+        emit(CategoryProductsFailure(errorMessage: responseBody));
       }
     } on Exception catch (e) {
       debugPrint('Failed to get category products , The Reason : $e');
