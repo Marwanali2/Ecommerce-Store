@@ -30,7 +30,6 @@ class _LayoutViewState extends State<LayoutView> {
           child:  cubit.screens[cubit.bottomNavCurrentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          
           currentIndex: cubit.bottomNavCurrentIndex,
           onTap: (value) {
             setState(() {

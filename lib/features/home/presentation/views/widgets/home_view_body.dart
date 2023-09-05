@@ -1,12 +1,9 @@
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:ecommerce/core/widgets/custom_error_widget.dart';
 import 'package:ecommerce/features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
@@ -97,9 +94,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 child: CategoryTapProductsListView(categoriesCubit: categoriesCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)
               );
             } else if (state is CategoryProductsFailure) {
-              return Center(child: CustomErrorWidget());
+              return const Center(child: CustomErrorWidget());
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
