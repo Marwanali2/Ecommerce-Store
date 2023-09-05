@@ -1,5 +1,5 @@
 /*
-* handle clear button in search bar
+* ✔ handle clear button in search bar
 * show category products length in for each category categories view body
 * handle custom error widget in favorites view body
 * */

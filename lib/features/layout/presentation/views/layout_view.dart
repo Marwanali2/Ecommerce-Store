@@ -24,13 +24,13 @@ class _LayoutViewState extends State<LayoutView> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: color3,
-        body: ListView(
-          shrinkWrap: true,
-          children: [
-            cubit.screens[cubit.bottomNavCurrentIndex],
-          ],
+        body: SingleChildScrollView(
+          // shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          child:  cubit.screens[cubit.bottomNavCurrentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          
           currentIndex: cubit.bottomNavCurrentIndex,
           onTap: (value) {
             setState(() {
@@ -46,12 +46,12 @@ class _LayoutViewState extends State<LayoutView> {
               ),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.category_outlined,
-              ),
-              label: 'Categories',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.category_outlined,
+            //   ),
+            //   label: 'Categories',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.favorite_outline,

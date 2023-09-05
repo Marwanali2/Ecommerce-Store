@@ -18,7 +18,7 @@ class LayoutCubit extends Cubit<LayoutState> {
   }
   List<Widget> screens=[
     HomeViewBody(),
-    CategoriesViewBody(),
+    //CategoriesViewBody(),
     FavouriteViewBody(),
     CardViewBody(),
     ProfileViewBody(),
