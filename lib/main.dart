@@ -2,6 +2,7 @@
 * ✔ handle clear button in search bar
 * show category products length in for each category categories view body
 * handle custom error widget in favorites view body
+* handle favorite button wow effect
 * */
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';

@@ -1,9 +1,12 @@
 import 'package:ecommerce/core/utils/colors.dart';
+import 'package:ecommerce/features/auth/presentation/views/widgets/showSnackBar.dart';
+import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import '../../managers/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+
 class FavouriteViewBody extends StatefulWidget {
   const FavouriteViewBody({Key? key}) : super(key: key);
 
@@ -15,13 +18,14 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
   @override
   Widget build(BuildContext context) {
     var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
+    var cartsCubit = BlocProvider.of<CartsCubit>(context);
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
         return Column(
           children: [
             const Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -35,13 +39,12 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                     ),
                     CircleAvatar(
                       backgroundColor: color2,
-                      child: Icon(Icons.favorite,color: Colors.red),
+                      child: Icon(Icons.favorite, color: Colors.red),
                     ),
                   ],
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: state is FavoritesLoading
@@ -55,30 +58,91 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                             // physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
+                              Icon slidIcon;
+                              String slidText;
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Slidable(
-                                  endActionPane: ActionPane(motion: ScrollMotion(), children: [
-                                    SlidableAction(
-                                      onPressed: (context) {
-                                        setState(() {
-                                          favoritesCubit.addOrRemoveFavorites(
-                                              productId: favoritesCubit
-                                                  .favoritesModelList[index]
-                                                  .id
-                                                  .toString());
-                                        });
-                                      },
-                                      spacing: 10,
-                                      borderRadius: BorderRadius.circular(18),
-                                      backgroundColor: Color(0xFFFE4A49),
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.heart_broken,
-                                      label: 'Un Favourite',
-                                      autoClose: false,
-                                    ),
-                                  ],
+                                  endActionPane: ActionPane(
+                                    extentRatio: 0.7,
+                                    motion: const DrawerMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {
+                                          setState(() {
+                                            favoritesCubit.addOrRemoveFavorites(
+                                                productId: favoritesCubit
+                                                    .favoritesModelList[index]
+                                                    .id
+                                                    .toString());
+                                          });
+                                          showSnackBar(
+                                              context,
+                                              'Removed Successfully',
+                                              Colors.red);
+                                        },
+                                        spacing: 10,
+                                        borderRadius: BorderRadius.circular(18),
+                                        backgroundColor: color11,
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.heart_broken,
+                                        label: 'Un Favourite',
+                                        autoClose: false,
+                                      ),
+                                      BlocBuilder<CartsCubit, CartsState>(
+                                        builder: (context, state) {
+                                          return SlidableAction(
+                                            onPressed: (context) {
+                                              setState(() {
+                                                cartsCubit.addOrRemoveCarts(
+                                                    productId: favoritesCubit
+                                                        .favoritesModelList[
+                                                            index]
+                                                        .id
+                                                        .toString());
+                                                cartsCubit.cartsProductsId
+                                                        .contains(favoritesCubit
+                                                            .favoritesModelList[
+                                                                index]
+                                                            .id
+                                                            .toString())
+                                                    ? showSnackBar(
+                                                        context,
+                                                        "Removed From Carts successfully",
+                                                        Colors.red)
+                                                    : showSnackBar(
+                                                        context,
+                                                        "Added to carts successfully",
+                                                        color9);
+                                              });
+                                            },
+                                            spacing: 10,
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                            backgroundColor: color9,
+                                            foregroundColor: Colors.white,
+                                            icon: cartsCubit.cartsProductsId
+                                                    .contains(favoritesCubit
+                                                        .favoritesModelList[
+                                                            index]
+                                                        .id
+                                                        .toString())
+                                                ? Icons.remove_shopping_cart
+                                                : Icons.shopping_cart,
+                                            label: cartsCubit.cartsProductsId
+                                                    .contains(favoritesCubit
+                                                        .favoritesModelList[
+                                                            index]
+                                                        .id
+                                                        .toString())
+                                                ? 'Un cart'
+                                                : 'Add to cart',
+                                            autoClose: false,
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                   child: Container(
                                     width: MediaQuery.sizeOf(context).width,
@@ -90,7 +154,8 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                       ),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(
@@ -107,7 +172,8 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                                 ),
                                                 fit: BoxFit.fill,
                                               ),
-                                              borderRadius: BorderRadius.circular(
+                                              borderRadius:
+                                                  BorderRadius.circular(
                                                 20,
                                               ),
                                             ),
@@ -120,7 +186,8 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                               CrossAxisAlignment.end,
                                           children: [
                                             favoritesCubit
-                                                        .favoritesModelList[index]
+                                                        .favoritesModelList[
+                                                            index]
                                                         .discount !=
                                                     0
                                                 ? Center(
@@ -128,15 +195,18 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                                       width: 80,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius.circular(
+                                                            BorderRadius
+                                                                .circular(
                                                           5,
                                                         ),
-                                                        color: Colors.greenAccent,
+                                                        color:
+                                                            Colors.greenAccent,
                                                       ),
                                                       child: Center(
                                                         child: Text(
                                                           'Sale -${favoritesCubit.favoritesModelList[index].discount}%',
-                                                          style: const TextStyle(
+                                                          style:
+                                                              const TextStyle(
                                                             color: color4,
                                                             fontSize: 15,
                                                             fontWeight:

@@ -17,3 +17,4 @@ const color7=Color(0xffF87265);
 const color8=Color(0xff292D32);
 const color9=Color(0xff48B2E7);
 const color10=Color(0xff1A2530);
+const color11=Color(0xFFFE4A49);
