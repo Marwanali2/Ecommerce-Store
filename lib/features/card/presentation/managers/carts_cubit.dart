@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/constants.dart';
+import '../../data/models/cart_model.dart';
 
 part 'carts_state.dart';
 
@@ -11,13 +12,16 @@ class CartsCubit extends Cubit<CartsState> {
   CartsCubit() : super(CartsInitial());
   final Dio _dio = Dio();
   List<ProductModel> cartsList = [];
-  int? total = 0;
+  List <CartModel>cartItems=[];
+  static int total = 0;
   int? subTotal = 0;
+  // int  quantity=1;
   Set<String> cartsProductsId={};
 
 
   Future getCarts() async {
     cartsList.clear();
+   // cartItems.clear();
     emit(CartsLoading());
     try {
       Response response = await _dio.get(
@@ -32,10 +36,13 @@ class CartsCubit extends Cubit<CartsState> {
       var responseBody = response.data;
       total = responseBody['data']['total'].toInt();
       subTotal = responseBody['data']['sub_total'].toInt();
+      // quantity=responseBody['data']['cart_items']['quantity'];
       if (responseBody['status'] == true) {
         for (var item in responseBody['data']['cart_items']) {
+         // quantity=responseBody['data']['cart_items']['quantity'];
           cartsList.add(ProductModel.fromJson(item['product']));
           cartsProductsId.add(item['product']['id'].toString());
+          cartItems.add(CartModel.fromJson(item));
         }
         debugPrint(
             'get carts products response Successfully with status code ${response.statusCode} ');

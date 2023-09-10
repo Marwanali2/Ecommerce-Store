@@ -23,13 +23,13 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
       builder: (context, state) {
         return Column(
           children: [
-            const Center(
+             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Favourites',
                       style: TextStyle(
                         color: color4,
@@ -37,8 +37,36 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                         fontSize: 20,
                       ),
                     ),
-                    CircleAvatar(
-                      backgroundColor: color2,
+                    const Spacer(),
+                    Center(
+                      child: Container(
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          BorderRadius
+                              .circular(
+                            5,
+                          ),
+                          color:
+                          color9,
+                        ),
+                        child: Center(
+                          child: Text(
+                            state is FavoritesLoading?'... Items':'${favoritesCubit.favoritesModelList.length} Items',
+                            style:
+                            const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'DancingScript',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 5,),
+                    const CircleAvatar(
+                      backgroundColor: color9,
                       child: Icon(Icons.favorite, color: Colors.red),
                     ),
                   ],
@@ -365,184 +393,7 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                   ),
                                 ),
                               );
-                              // return Stack(children: [
-                              //   Container(
-                              //     decoration: const BoxDecoration(
-                              //       color: color2,
-                              //       borderRadius: BorderRadius.all(
-                              //         Radius.circular(20),
-                              //       ),
-                              //     ),
-                              //     child: Padding(
-                              //       padding: const EdgeInsets.symmetric(horizontal: 5),
-                              //       child: Column(
-                              //         crossAxisAlignment: CrossAxisAlignment.start,
-                              //         children: [
-                              //           Row(
-                              //             children: [
-                              //               IconButton(
-                              //                 icon: Icon(
-                              //                    Icons.favorite_rounded,
-                              //                   color:Colors.red
-                              //                 ),
-                              //                 onPressed: () async {
-                              //                   await favoritesCubit.addOrRemoveFavorites(
-                              //                       productId: categoriesCubit
-                              //                           .categoryProductsList[index].id
-                              //                           .toString());
-                              //                   setState(() {});
-                              //                 },
-                              //               ),
-                              //               const Spacer(),
-                              //               favoritesCubit.favoritesModelList[index]
-                              //                   .discount !=
-                              //                   0
-                              //                   ? Center(
-                              //                 child: Container(
-                              //                   width: 80,
-                              //                   decoration: BoxDecoration(
-                              //                     borderRadius:
-                              //                     BorderRadius.circular(
-                              //                       5,
-                              //                     ),
-                              //                     color: Colors.greenAccent,
-                              //                   ),
-                              //                   child: Center(
-                              //                     child: Text(
-                              //                       'Sale -${favoritesCubit.favoritesModelList[index].discount}%',
-                              //                       style: const TextStyle(
-                              //                         color: color4,
-                              //                         fontSize: 15,
-                              //                         fontWeight: FontWeight.bold,
-                              //                         fontFamily: 'DancingScript',
-                              //                       ),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               )
-                              //                   : const SizedBox(),
-                              //             ],
-                              //           ),
-                              //           Container(
-                              //             height: 165,
-                              //             decoration: BoxDecoration(
-                              //               image: DecorationImage(
-                              //                 image: NetworkImage(
-                              //                   '${favoritesCubit.favoritesModelList[index].image}',
-                              //                 ),
-                              //                 fit: BoxFit.fill,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //           Text(
-                              //             '${favoritesCubit.favoritesModelList[index].name}',
-                              //             style: const TextStyle(
-                              //               color: color6,
-                              //               fontSize: 15,
-                              //               fontWeight: FontWeight.bold,
-                              //             ),
-                              //             maxLines: 2,
-                              //             overflow: TextOverflow.ellipsis,
-                              //           ),
-                              //           const Spacer(),
-                              //           Padding(
-                              //             padding: const EdgeInsets.only(left: 5),
-                              //             child: Row(
-                              //               children: [
-                              //                 favoritesCubit.favoritesModelList[index]
-                              //                     .oldPrice ==
-                              //                     favoritesCubit.favoritesModelList[index]
-                              //                         .price
-                              //                     ? Text(
-                              //                   '${favoritesCubit.favoritesModelList[index].price}',
-                              //                   style: const TextStyle(
-                              //                     color: color8,
-                              //                     fontWeight: FontWeight.bold,
-                              //                     fontSize: 25,
-                              //                   ),
-                              //                 )
-                              //                     : Row(
-                              //                   children: [
-                              //                     Text(
-                              //                       '${favoritesCubit.favoritesModelList[index].oldPrice}\$',
-                              //                       style: const TextStyle(
-                              //                         color: color6,
-                              //                         decoration: TextDecoration
-                              //                             .lineThrough,
-                              //                         decorationColor: Colors.red,
-                              //                         decorationThickness: 1.5,
-                              //                         fontSize: 14,
-                              //                       ),
-                              //                     ),
-                              //                     const SizedBox(
-                              //                       width: 5,
-                              //                     ),
-                              //                     Text(
-                              //                       '${favoritesCubit.favoritesModelList[index].price}',
-                              //                       style: const TextStyle(
-                              //                         color: Colors.black,
-                              //                         fontWeight: FontWeight.bold,
-                              //                         fontSize: 17,
-                              //                       ),
-                              //                     ),
-                              //                   ],
-                              //                 ),
-                              //                 const SizedBox(
-                              //                   width: 1,
-                              //                 ),
-                              //                 const Text(
-                              //                   '\$',
-                              //                   style: TextStyle(
-                              //                     color: mainColor,
-                              //                     fontWeight: FontWeight.bold,
-                              //                     fontSize: 17,
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ),
-                              //   Align(
-                              //     alignment: Alignment.bottomRight,
-                              //     child: GestureDetector(
-                              //       onTap: () async {
-                              //         await cartsCubit.addOrRemoveCarts(
-                              //             productId: favoritesCubit.favoritesModelList[index].id
-                              //                 .toString());
-                              //         setState(
-                              //               () {},
-                              //         );
-                              //       },
-                              //       child: Container(
-                              //         height: 45,
-                              //         width: 45,
-                              //         decoration: const BoxDecoration(
-                              //           color: color9,
-                              //           borderRadius: BorderRadius.only(
-                              //             bottomRight: Radius.circular(
-                              //               20,
-                              //             ),
-                              //             topLeft: Radius.circular(
-                              //               20,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         child: Icon(
-                              //           cartsCubit.cartsProductsId.contains(
-                              //              favoritesCubit.favoritesModelList[index].id
-                              //                   .toString())
-                              //               ? Icons.check
-                              //               : Icons.add,
-                              //           color: Colors.white,
-                              //           size: 35,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ]);
+
                             },
                           ),
                         )

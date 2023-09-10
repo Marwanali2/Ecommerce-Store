@@ -1,4 +1,5 @@
 import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
+import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
 import 'package:ecommerce/features/home/presentation/views/home_view.dart';
 import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';

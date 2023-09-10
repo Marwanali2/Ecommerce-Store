@@ -7,6 +7,7 @@
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
+import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
@@ -46,7 +47,7 @@ class EcommerceApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/': (context) => const SplashView(),
+          '/': (context) =>  const SplashView(),
         },
         theme: ThemeData(
           useMaterial3: true,

@@ -56,125 +56,125 @@ class _RegisterViewState extends State<RegisterView> {
         },
         builder: (context, state) {
           return Scaffold(
-              body: SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg'),
-                  opacity: 0.5,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 150,
-                ),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      const SizedBox(
-                        height: 40,
-                      ),
-
-                      buildTextFormField(
-                          label: 'User Name',
-                          prefixIcon: Icons.person,
-                          controller: userNameController,
-                          keyboardType: TextInputType.name),
-                      //user name
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      buildTextFormField(
-                        label: 'Email',
-                        prefixIcon: Icons.email,
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      buildPasswordTextFormField(),
-                      //password
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      buildTextFormField(
-                        label: 'Phone',
-                        prefixIcon: Icons.phone,
-                        controller: phoneController,
-                        keyboardType: TextInputType.phone,
-                      ),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      buildFormButton(
-                        text: state is RegisterLoadingState
-                            ? 'Loading...'
-                            : 'Register',
-                        onPressed: () {
-                          if (formKey.currentState!.validate() == true) {
-                            BlocProvider.of<AuthCubit>(context).registerUser(
-                              name: userNameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              phone: phoneController.text,
-                            );
-                          }
-                        },
-                      ),
-                      // register button
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginView(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // login row
-                    ],
+              body: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg'),
+                    opacity: 0.5,
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-            ),
-          ));
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 150,
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 40,
+                          ),
+
+                          buildTextFormField(
+                              label: 'User Name',
+                              prefixIcon: Icons.person,
+                              controller: userNameController,
+                              keyboardType: TextInputType.name),
+                          //user name
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          buildTextFormField(
+                            label: 'Email',
+                            prefixIcon: Icons.email,
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          buildPasswordTextFormField(),
+                          //password
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          buildTextFormField(
+                            label: 'Phone',
+                            prefixIcon: Icons.phone,
+                            controller: phoneController,
+                            keyboardType: TextInputType.phone,
+                          ),
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          buildFormButton(
+                            text: state is RegisterLoadingState
+                                ? 'Loading...'
+                                : 'Register',
+                            onPressed: () {
+                              if (formKey.currentState!.validate() == true) {
+                                BlocProvider.of<AuthCubit>(context).registerUser(
+                                  name: userNameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  phone: phoneController.text,
+                                );
+                              }
+                            },
+                          ),
+                          // register button
+
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginView(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // login row
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ));
         },
       ),
     );

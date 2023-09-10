@@ -1,17 +1,21 @@
 import 'package:ecommerce/core/widgets/custom_error_widget.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
+import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
 import 'package:ecommerce/features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../../core/widgets/show_snack_bar.dart';
+import 'package:dotted_line/dotted_line.dart';
 
 class CardViewBody extends StatefulWidget {
   const CardViewBody({Key? key}) : super(key: key);
 
+  // static  int productCounter=0;
   @override
   State<CardViewBody> createState() => _CardViewBodyState();
 }
@@ -19,235 +23,405 @@ class CardViewBody extends StatefulWidget {
 class _CardViewBodyState extends State<CardViewBody> {
   @override
   Widget build(BuildContext context) {
-    var cubit = BlocProvider.of<CartsCubit>(context);
+    var cartsCubit = BlocProvider.of<CartsCubit>(context);
     var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
+
     return BlocConsumer<CartsCubit, CartsState>(
       listener: (context, state) {
-        if(state is CartsFailure|| state is AddOrRemoveCartFailure){
-          showSnackBar(context: context,label: 'No Internet Connection',backgroundColor: Colors.red);
+        if (state is CartsFailure || state is AddOrRemoveCartFailure) {
+          showSnackBar(
+              context: context,
+              label: 'No Internet Connection',
+              backgroundColor: Colors.red);
         }
       },
       builder: (context, state) {
-        if(state is CartsSuccess||state is AddOrRemoveCartSuccess){
+        if (state is CartsSuccess || state is AddOrRemoveCartSuccess) {
           return Column(
             children: [
-              enjoyBar(context, text: 'Cards'),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.75,
-                  child:cubit.cartsList.isNotEmpty? ListView.builder(
-                    itemCount: cubit.cartsList.length,
-                    scrollDirection: Axis.vertical,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+              Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Carts',
+                        style: TextStyle(
+                          color: color4,
+                          //fontFamily: 'DancingScript',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      Center(
                         child: Container(
-                          width: MediaQuery.sizeOf(context).width,
-                          height: 180,
+                          width: 80,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.indigo,
-                              width: 3,
+                            borderRadius: BorderRadius.circular(
+                              5,
                             ),
-                            color: Colors.blueGrey,
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(60),
-                              bottomLeft: Radius.circular(60),
+                            color: color9,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${cartsCubit.cartsList.length} Items',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'DancingScript',
+                              ),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.only(left: 17, right: 5),
-                                child: Container(
-                                  height: 155,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          '${cubit.cartsList[index].image}',
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const CircleAvatar(
+                        backgroundColor: color9,
+                        child: Icon(
+                          Icons.shopping_cart,
+                          color: color2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.7,
+                  child: cartsCubit.cartsList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: cartsCubit.cartsList.length,
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Slidable(
+                                startActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    Container(
+                                      height: 180,
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.45,
+                                      decoration: BoxDecoration(
+                                        color: color9,
+                                        borderRadius: BorderRadius.circular(
+                                          10,
                                         ),
-                                        fit: BoxFit.fill,
                                       ),
-                                      color: Colors.white10,
-                                      border: Border.all(
-                                          color: Colors.indigo, width: 2),
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-//                            mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 170,
-                                    child: Text(
-                                      '${cubit.cartsList[index].name}',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  SizedBox(
-                                      width: 170,
-                                      child: cubit.cartsList[index].oldPrice ==
-                                          cubit.cartsList[index].price
-                                          ? Text(
-                                        '${cubit.cartsList[index].price}\$',
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                          : Row(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${cubit.cartsList[index].oldPrice}\$',
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  decorationColor:
-                                                  Colors.red,
-                                                  decorationThickness: 1.5,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                '${cubit.cartsList[index].price}\$',
-                                                maxLines: 3,
-                                                overflow:
-                                                TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      )),
-                                  const Spacer(),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () async{
-                                          await favoritesCubit.addOrRemoveFavorites(
-                                              productId: cubit.cartsList[index].id.toString());
-                                          setState(() {
-
-                                          });
-                                          showSnackBar(label: 'product removed ', context: context,backgroundColor: Colors.green);
-                                        },
-                                        icon: Icon(
-                                          Icons.favorite,
-                                          color: favoritesCubit
-                                              .favoritesProductsId
-                                              .contains(cubit
-                                              .cartsList[index].id
-                                              .toString())
-                                              ? Colors.red
-                                              : Colors.grey,
-                                          size: 45,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 25,
-                                      ),
-                                      Padding(
-                                        padding:
-                                        const EdgeInsets.only(bottom: 8.0),
-                                        child: ElevatedButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                            MaterialStateProperty.all(
-                                              Colors.red,
-                                            ),
-                                            shape: MaterialStateProperty.all(
-                                              RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(
-                                                  18,
-                                                ),
-                                              ),
-                                            ),
-                                            padding:
-                                            const MaterialStatePropertyAll(
-                                                EdgeInsets.fromLTRB(
-                                                    30, 10, 30, 10)),
-                                            side: MaterialStateProperty.all(
-                                              const BorderSide(
-                                                color: mainColor,
-                                                width: 2,
-                                              ),
+                                          IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                cartsCubit.cartItems[index].quantity++;
+                                                CartsCubit.total+=cartsCubit.cartsList[index].price!;
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.add,
+                                              color: color2,
+                                              size: 45,
                                             ),
                                           ),
-                                          onPressed: () {
-                                            cubit.addOrRemoveCarts(productId: cubit.cartsList[index].id.toString());
-                                            setState(() {
-
-                                            });
-                                          },
-                                          child: const Text(
-                                            'Remove',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
+                                           Text(
+                                             cartsCubit.cartItems[index].quantity>1? '${cartsCubit.cartItems[index].quantity}':'1',
+                                            //'test',
+                                            style: const TextStyle(
+                                              color: color2,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
+                                          IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                               if(cartsCubit.cartItems[index].quantity>1){
+                                                 cartsCubit.cartItems[index].quantity--;
+                                                 CartsCubit.total-=cartsCubit.cartsList[index].price!;
+                                               }
+                                                 if(cartsCubit.cartItems[index].quantity==1){
+                                                   showSnackBar(context: context, label: 'Choose at least one item', backgroundColor: Colors.red,);
+                                                 }
+
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.remove,
+                                              color: color2,
+                                              size: 45,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                endActionPane: ActionPane(
+                                  extentRatio: 0.7,
+                                  motion: const DrawerMotion(),
+                                  children: [
+                                    BlocBuilder<FavoritesCubit, FavoritesState>(
+                                      builder: (context, state) {
+                                        return SlidableAction(
+                                          onPressed: (context) {
+                                            setState(() {
+                                              favoritesCubit
+                                                  .addOrRemoveFavorites(
+                                                      productId: cartsCubit
+                                                          .cartsList[index].id
+                                                          .toString());
+                                            });
+                                            favoritesCubit.favoritesProductsId
+                                                    .contains(cartsCubit
+                                                        .cartsList[index].id
+                                                        .toString())
+                                                ? showSnackBar(
+                                                    context: context,
+                                                    label:
+                                                        "Removed From Favourites successfully",
+                                                    backgroundColor: Colors.red)
+                                                : showSnackBar(
+                                                    context: context,
+                                                    label:
+                                                        "Added to Favourites successfully",
+                                                    backgroundColor: color9);
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                          backgroundColor: color11,
+                                          foregroundColor: Colors.white,
+                                          icon: favoritesCubit
+                                                  .favoritesProductsId
+                                                  .contains(cartsCubit
+                                                      .cartsList[index].id
+                                                      .toString())
+                                              ? Icons.heart_broken
+                                              : Icons.favorite,
+                                          label: favoritesCubit
+                                                  .favoritesProductsId
+                                                  .contains(cartsCubit
+                                                      .cartsList[index].id
+                                                      .toString())
+                                              ? 'Un Favourite'
+                                              : 'Favourite',
+                                          autoClose: false,
+                                        );
+                                      },
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        setState(() {
+                                          cartsCubit.addOrRemoveCarts(
+                                              productId: cartsCubit
+                                                  .cartsList[index].id
+                                                  .toString());
+                                        });
+                                        showSnackBar(
+                                            context: context,
+                                            label:
+                                                "Removed From Carts successfully",
+                                            backgroundColor: Colors.red);
+                                      },
+                                      borderRadius: BorderRadius.circular(18),
+                                      backgroundColor: color9,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.remove_shopping_cart,
+                                      label: 'Un Cart',
+                                      autoClose: false,
+                                    ),
+                                  ],
+                                ),
+                                child: Container(
+                                  width: MediaQuery.sizeOf(context).width,
+                                  height: 180,
+                                  decoration: BoxDecoration(
+                                    color: color2,
+                                    borderRadius: BorderRadius.circular(
+                                      10,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 17,
+                                          right: 10,
                                         ),
+                                        child: Container(
+                                          height: 155,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                '${cartsCubit.cartsList[index].image}',
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          cartsCubit.cartsList[index]
+                                                      .discount !=
+                                                  0
+                                              ? Center(
+                                                  child: Container(
+                                                    width: 80,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        5,
+                                                      ),
+                                                      color: Colors.greenAccent,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Sale -${cartsCubit.cartsList[index].discount}%',
+                                                        style: const TextStyle(
+                                                          color: color4,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontFamily:
+                                                              'DancingScript',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.5,
+                                            child: Text(
+                                              '${cartsCubit.cartsList[index].name}',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: color10,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          //  const Spacer(),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.5,
+                                            child: cartsCubit.cartsList[index]
+                                                        .oldPrice ==
+                                                    cartsCubit
+                                                        .cartsList[index].price
+                                                ? Text(
+                                                    '${cartsCubit.cartsList[index].price}\$',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(color: color10,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Row(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            '${cartsCubit.cartsList[index].oldPrice}\$',
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              decorationColor:
+                                                                  Colors.red,
+                                                              decorationThickness:
+                                                                  1.5,
+                                                              fontSize: 15,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            '${cartsCubit.cartsList[index].price}\$',
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                const TextStyle(
+                                                              color: color10,
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.5,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                child: Lottie.asset(
+                                  'assets/lottie_json_animations/no_carts_products.json',
+                                  reverse: true,
+                                ),
+                              ),
+                              const Text(
+                                'No Carts Products',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      );
-                    },
-                  ):
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height*0.5,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          child: Lottie.asset(
-                            'assets/lottie_json_animations/no_carts_products.json',
-                            reverse: true,
-                          ),
-                        ),
-                        const Text(
-                          'No Carts Products',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
                 ),
                 //     :
                 // SizedBox(
@@ -268,40 +442,134 @@ class _CardViewBodyState extends State<CardViewBody> {
                 // ),
                 // )
               ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Total Price: ',
-                      style: TextStyle(
-                        color: Colors.indigo,
-                        fontSize: 25,
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height * 0.2,
+                decoration: const BoxDecoration(
+                  color: color2,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10,),
+                  child: Column(
+                    children: [
+                      const DottedLine(
+                        dashColor: Colors.black45,
+                        dashLength: 10,
                       ),
-                    ),
-                    TextSpan(
-                      text: '${cubit.total}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
+                      const SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    const TextSpan(
-                      text: '\$',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 25,
+                      Row(
+                        children: [
+                          const Text(
+                            'Total Cost',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: color4,
+                            ),
+                          ),
+                          const Spacer(),
+                          BlocBuilder<CartsCubit, CartsState>(
+                            builder: (context, state) {
+                              return Text(
+                                '\$ ${CartsCubit.total}',
+                                style: const TextStyle(
+                                    color: color1,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutView(),));
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              color9,
+                            ),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.sizeOf(context).width * 0.35,
+                                    vertical: 10))),
+                        child: const Text(
+                          'Checkout',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           );
-        }
-        else if (state is CartsFailure|| state is AddOrRemoveCartFailure){
+        } else if (state is CartsFailure || state is AddOrRemoveCartFailure) {
           return Column(
             children: [
-              enjoyBar(context, text: 'Cards'),
+              // enjoyBar(context, text: 'Cards'),
+              Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Cards',
+                        style: TextStyle(
+                          color: color4,
+                          //fontFamily: 'DancingScript',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      Center(
+                        child: Container(
+                          width: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ),
+                            color: color9,
+                          ),
+                          child: Center(
+                            child: Text(
+                              state is CartsLoading
+                                  ? 'No Connection'
+                                  : '${cartsCubit.cartsList.length} Items',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'DancingScript',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const CircleAvatar(
+                        backgroundColor: color9,
+                        child: Icon(
+                          Icons.shopping_cart,
+                          color: color2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               const Center(child: CustomErrorWidget()),
             ],
           );
@@ -309,8 +577,61 @@ class _CardViewBodyState extends State<CardViewBody> {
         else {
           return Column(
             children: [
-              enjoyBar(context, text: 'Cards'),
-              const Center(child: CircularProgressIndicator(),),
+              //   enjoyBar(context, text: 'Cards'),
+              Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Cards',
+                        style: TextStyle(
+                          color: color4,
+                          //fontFamily: 'DancingScript',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      Center(
+                        child: Container(
+                          width: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ),
+                            color: color9,
+                          ),
+                          child: const Center(child: Text(
+                              '... Items',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'DancingScript',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const CircleAvatar(
+                        backgroundColor: color9,
+                        child: Icon(
+                          Icons.shopping_cart,
+                          color: color2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
             ],
           );
         }
