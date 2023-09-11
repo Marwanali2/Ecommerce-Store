@@ -1,4 +1,5 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../auth/presentation/views/register_view.dart';
 import '../../managers/carts_cubit.dart';
 import 'contact_edit_row.dart';
 
@@ -85,12 +87,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
-                        UserDataCubit userDataCubit =
-                        BlocProvider.of<UserDataCubit>(context);
+                        UserDataCubit userDataCubit = BlocProvider.of<UserDataCubit>(context);
                         return ContactEditRow(
                           icon: Icons.person_outline,
-                          mainText: userDataCubit.userModel?.name??'',
+                          mainText: userDataCubit.userModel!.name ??'',
                           textType: 'Name',
+                          onEditIconPressed: () {
+                            userDataCubit.editUser(name: userDataCubit.userModel?.name, email: userDataCubit.userModel?.email, password: RegisterView.thePassword, phone: userDataCubit.userModel?.phone,);
+                          },
                         );
                       },
                     ),

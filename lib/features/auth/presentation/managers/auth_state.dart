@@ -32,12 +32,3 @@ class LoginFailureState extends AuthState {
 }
 
 
-class EditLoadingState extends AuthState{}
-
-class EditSuccessState extends AuthState{}
-
-class EditFailureState extends AuthState{
-  String? errorMessage;
-
-  EditFailureState({required this.errorMessage});
-}

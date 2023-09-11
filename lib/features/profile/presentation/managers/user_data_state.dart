@@ -12,3 +12,13 @@ class UserDataFailure extends UserDataState {
 
   UserDataFailure({required this.errorMessage});
 }
+
+class EditLoadingState extends UserDataState{}
+
+class EditSuccessState extends UserDataState{}
+
+class EditFailureState extends UserDataState{
+  String? errorMessage;
+
+  EditFailureState({required this.errorMessage});
+}

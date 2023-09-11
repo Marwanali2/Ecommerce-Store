@@ -10,7 +10,8 @@ import '../managers/auth_cubit.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
-
+  static final passwordController = TextEditingController();
+  static final String thePassword=passwordController.text;
   @override
   State<RegisterView> createState() => _RegisterViewState();
 }
@@ -18,7 +19,7 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
   final phoneController = TextEditingController();
 
   bool obscureText = true;
@@ -136,7 +137,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 BlocProvider.of<AuthCubit>(context).registerUser(
                                   name: userNameController.text,
                                   email: emailController.text,
-                                  password: passwordController.text,
+                                  password: RegisterView.passwordController.text,
                                   phone: phoneController.text,
                                 );
                               }
@@ -182,11 +183,11 @@ class _RegisterViewState extends State<RegisterView> {
 
   TextFormField buildPasswordTextFormField() {
     return TextFormField(
-                        controller: passwordController,
+                        controller: RegisterView.passwordController,
                         obscureText: obscureText,
                         obscuringCharacter: '*',
                         validator: (value) {
-                          if (passwordController.text.isEmpty) {
+                          if (RegisterView.passwordController.text.isEmpty) {
                             return 'Please Enter password';
                           }
                           return null;
