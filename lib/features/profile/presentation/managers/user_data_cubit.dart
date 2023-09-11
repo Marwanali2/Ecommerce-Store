@@ -51,4 +51,5 @@ class UserDataCubit extends Cubit<UserDataState> {
       );
     }
   }
+
 }

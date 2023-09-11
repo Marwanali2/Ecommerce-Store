@@ -18,6 +18,7 @@ import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/layout/presentation/views/layout_view.dart';
+import 'features/profile/presentation/managers/user_data_cubit.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
 
@@ -43,6 +44,7 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(create: (context) => ProductsCubit()..getProducts(),),
         BlocProvider(create: (context) => FavoritesCubit()..getFavorites(),),
         BlocProvider(create: (context) => CartsCubit()..getCarts(),),
+        BlocProvider( create: (context) => UserDataCubit()..getUserData(),),
         //BlocProvider(create: (context) => SearchCubit()..searchProducts(),),
       ],
       child: MaterialApp(

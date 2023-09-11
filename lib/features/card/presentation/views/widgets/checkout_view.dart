@@ -1,14 +1,18 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../managers/carts_cubit.dart';
+import 'contact_edit_row.dart';
 
 class CheckoutView extends StatefulWidget {
-   CheckoutView({Key? key}) : super(key: key);
+  CheckoutView({Key? key}) : super(key: key);
 
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -67,8 +71,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
                   children: [
                     const SizedBox(
                       height: 15,
@@ -80,53 +83,79 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 15,
                     ),
-                    ContactEditRow(
-                        icon: Icons.email_outlined,
-                        mainText: 'emailemailemailtest@gmail.com',
-                        textType: 'Email',
-                        onEditIconPressed: () {}),
+                    BlocBuilder<UserDataCubit, UserDataState>(
+                      builder: (context, state) {
+                        UserDataCubit userDataCubit =
+                        BlocProvider.of<UserDataCubit>(context);
+                        return ContactEditRow(
+                          icon: Icons.person_outline,
+                          mainText: userDataCubit.userModel?.name??'',
+                          textType: 'Name',
+                        );
+                      },
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
-                    ContactEditRow(
-                        icon: Icons.phone_outlined,
-                        mainText: '01125727329',
-                        textType: 'Phone',
-                        onEditIconPressed: () {}),
+                    BlocConsumer<UserDataCubit, UserDataState>(
+                      listener: (context, state) {
+                        // TODO: implement listener
+                      },
+                      builder: (context, state) {
+                        UserDataCubit userDataCubit =
+                            BlocProvider.of<UserDataCubit>(context);
+                        return ContactEditRow(
+                            icon: Icons.email_outlined,
+                            mainText: userDataCubit.userModel?.email ?? '',
+                            textType: 'Email',
+                            onEditIconPressed: () {});
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    BlocBuilder<UserDataCubit, UserDataState>(
+                      builder: (context, state) {
+                        UserDataCubit userDataCubit =
+                            BlocProvider.of<UserDataCubit>(context);
+                        return ContactEditRow(
+                            icon: Icons.phone_outlined,
+                            mainText: userDataCubit.userModel?.phone ?? '',
+                            textType: 'Phone',
+                            onEditIconPressed: () {});
+                      },
+                    ),
                     const SizedBox(
                       height: 12,
                     ),
-                     Text(
-                      '$locationMessage -Address',
-                      style: const TextStyle(fontSize: 17),
+                    const Text(
+                      'Address',
+                      style: TextStyle(fontSize: 17),
                     ),
                     const SizedBox(
                       height: 12,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: () async {
                         _getCurrentLocation().then((value) {
-                          lat=value.latitude;
-                          long=value.longitude;
+                          lat = '${value.latitude}';
+                          long = '${value.longitude}';
                           setState(() {
-                            locationMessage='latitude: $lat , longitude: $long';
+                            locationMessage =
+                                'latitude: $lat , longitude: $long';
                           });
                           _liveLocation();
                         });
+                        String mapUrl = "geo:$lat,$long";
+                        if (await canLaunch(mapUrl)) {
+                          await launch(mapUrl);
+                        } else {
+                          throw "Couldn't launch Map";
+                        }
                       },
-                      child: const Text(
-                        'Get your location',
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _openMap(lat,long);
-                      },
-                      child: const Text(
-                        'Open your location',
+                      child: SvgPicture.asset(
+                        'assets/svg/Map.svg',
+                        width: MediaQuery.sizeOf(context).width * 0.7,
                       ),
                     ),
                     const SizedBox(
@@ -158,22 +187,28 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        Text(
+                        const Text(
                           'Subtotal',
                           style: TextStyle(
                             fontSize: 18,
                             color: color5,
                           ),
                         ),
-                        Spacer(),
-                        Text(
-                          '\$ 200',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                        const Spacer(),
+                        BlocBuilder<CartsCubit, CartsState>(
+                          builder: (context, state) {
+                            CartsCubit cartsCubit =
+                                BlocProvider.of<CartsCubit>(context);
+                            return Text(
+                              '\$  ${cartsCubit.subTotal ?? 0}',
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -203,22 +238,29 @@ class _CheckoutViewState extends State<CheckoutView> {
                       height: 10,
                     ),
                     const Divider(),
-                    const Row(
+                    Row(
                       children: [
-                        Text(
+                        const Text(
                           'Total Cost',
                           style: TextStyle(
                             fontSize: 18,
                             color: color4,
                           ),
                         ),
-                        Spacer(),
-                        Text(
-                          '\$ 200',
-                          style: TextStyle(
-                              color: color1,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                        const Spacer(),
+                        BlocBuilder<CartsCubit, CartsState>(
+                          builder: (context, state) {
+                            CartsCubit cartsCubit =
+                                BlocProvider.of<CartsCubit>(context);
+                            return Text(
+                              '\$  ${CartsCubit.total + 30 ?? 30}',
+                              style: const TextStyle(
+                                color: color1,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -226,9 +268,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: ElevatedButton(
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               color9,
@@ -257,11 +297,12 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
-  late double lat;
+  late String lat ;
 
-  late double long;
+  late String long ;
 
-  late String locationMessage='';
+  late String locationMessage = '';
+
   // get current location
   Future<Position> _getCurrentLocation() async {
     bool serviceEnabled;
@@ -290,86 +331,13 @@ class _CheckoutViewState extends State<CheckoutView> {
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
-    Geolocator.getPositionStream(locationSettings: locationSettings).listen((Position position){
-      lat=position.latitude;
-      long=position.longitude;
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position position) {
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
     });
     setState(() {
-      locationMessage='latitude: $lat , longitude: $long';
+      locationMessage = 'latitude: $lat , longitude: $long';
     });
-  }
-
-  // open current location in google map
-
-
-  Future<void> _openMap(double latitude, double longitude) async {
-    String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-
-    if (await canLaunchUrlString(googleMapsUrl)) {
-      await launchUrlString(googleMapsUrl);
-    } else {
-      throw 'Could not open the location in Google Maps.';
-    }
-  }
-}
-
-class ContactEditRow extends StatelessWidget {
-  const ContactEditRow({
-    super.key,
-    required this.icon,
-    required this.mainText,
-    required this.textType,
-    this.onEditIconPressed,
-  });
-
-  final IconData icon;
-  final String mainText;
-  final String textType;
-  final void Function()? onEditIconPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-            backgroundColor: color12, maxRadius: 25, child: Icon(icon) //icon,
-            ),
-        const SizedBox(
-          width: 12,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              mainText,
-              style: const TextStyle(
-                fontSize: 15,
-                color: color10,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              textType,
-              style: const TextStyle(
-                color: color5,
-              ),
-            ),
-          ],
-        ),
-        const Spacer(),
-        GestureDetector(
-          onTap: onEditIconPressed,
-          child: SizedBox(
-            child: SvgPicture.asset(
-              'assets/svg/edit_Icon.svg',
-              width: 28,
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
