@@ -7,7 +7,7 @@ import '../../../../auth/presentation/views/register_view.dart';
 import '../../../../profile/presentation/managers/user_data_cubit.dart';
 
 class ContactEditRow extends StatefulWidget {
-static String test='';
+static String theInputUserText='';
   ContactEditRow({
     super.key,
     required this.icon,
@@ -15,6 +15,7 @@ static String test='';
     required this.textType,
     this.onEditIconPressed,
     this.activeEdit = false,
+    this.keyboardType,
   });
 
   final IconData icon;
@@ -22,6 +23,7 @@ static String test='';
   final String textType;
   final void Function()? onEditIconPressed;
   bool activeEdit;
+TextInputType?keyboardType;
 
   @override
   State<ContactEditRow> createState() => _ContactEditRowState();
@@ -36,19 +38,30 @@ class _ContactEditRowState extends State<ContactEditRow> {
         CircleAvatar(
             backgroundColor: color12, maxRadius: 25, child: Icon(widget.icon) //icon,
             ),
+
         const SizedBox(
           width: 12,
         ),
+
         widget.activeEdit
             ? SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.65,
                 child: CustomTextField(
-                  label: 'Edit Your Name',
-                  hintText: 'New name',
+                  keyboardType: widget.keyboardType,
+                  label: 'Edit Your ${widget.textType}',
+                  hintText: 'New ${widget.textType}',
                  onFieldSubmitted: (inputText) {
                     setState(() {
-                      ContactEditRow.test=inputText;
-                    inputText.isEmpty? userDataCubit.userModel?.name : userDataCubit.userModel?.name=inputText;
+                      ContactEditRow.theInputUserText=inputText;
+                   //  inputText.isEmpty? userDataCubit.userModel?.name : userDataCubit.userModel?.name=inputText;
+                     if(widget.textType=='Name'){
+                       inputText.isEmpty? userDataCubit.userModel?.name : userDataCubit.userModel?.name=inputText;
+                     }else if (widget.textType=='Email'){
+                       inputText.isEmpty? userDataCubit.userModel?.email : userDataCubit.userModel?.email=inputText;
+                     }
+                     else if(widget.textType=='Phone'){
+                       inputText.isEmpty? userDataCubit.userModel?.phone : userDataCubit.userModel?.phone=inputText;
+                     }
                       userDataCubit.editUser(
                         name: userDataCubit.userModel?.name,
                         email: userDataCubit.userModel?.email,
@@ -66,6 +79,7 @@ class _ContactEditRowState extends State<ContactEditRow> {
                   hintTextColor: color5,
                 ),
               )
+
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,22 +102,21 @@ class _ContactEditRowState extends State<ContactEditRow> {
                   ),
                 ],
               ),
+
         const Spacer(),
-      widget.activeEdit?
-          GestureDetector(
+
+        widget.activeEdit?
+        GestureDetector(
            onTap: widget.onEditIconPressed,
-            child: Container(
-              width: 35,
-              height: 60,
-              decoration: BoxDecoration(
-                color: color9,
-                borderRadius: BorderRadius.circular(10,),
+            child:SizedBox(
+              child: SvgPicture.asset(
+                'assets/svg/edit_Icon.svg',
+                width: 28,
               ),
-              child: Icon(Icons.check,),
             ),
           )
+
           :GestureDetector(
-        //  onTap: widget.onEditIconPressed,
         onTap: () {
           setState(() {
             widget.activeEdit=true;

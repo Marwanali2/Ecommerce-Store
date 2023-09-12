@@ -88,6 +88,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       height: 15,
                     ),
 
+                    // user name
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
                         UserDataCubit userDataCubit = BlocProvider.of<UserDataCubit>(context);
@@ -100,13 +101,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                           activeEdit: isActiveEdit ,
                           onEditIconPressed: () {
                             setState(() {
-                              userDataCubit.editUser(
-                                name: userDataCubit.userModel?.name,
-                                email: userDataCubit.userModel?.email,
-                                password: RegisterView.thePassword,
-                                phone: userDataCubit.userModel?.phone,
-                              );
-                              userName= ContactEditRow.test.isEmpty?userDataCubit.userModel?.name:ContactEditRow.test;
+                              // userDataCubit.editUser(
+                              //   name: userDataCubit.userModel?.name,
+                              //   email: userDataCubit.userModel?.email,
+                              //   password: RegisterView.thePassword,
+                              //   phone: userDataCubit.userModel?.phone,
+                              // );
+                              // userName= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.name:ContactEditRow.theInputUserText;
                               isActiveEdit=true;
                             });
                           },
@@ -118,34 +119,69 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 15,
                     ),
-                    BlocConsumer<UserDataCubit, UserDataState>(
-                      listener: (context, state) {
-                        // TODO: implement listener
-                      },
-                      builder: (context, state) {
-                        UserDataCubit userDataCubit =
-                            BlocProvider.of<UserDataCubit>(context);
-                        return ContactEditRow(
-                            icon: Icons.email_outlined,
-                            mainText: userDataCubit.userModel?.email ?? '',
-                            textType: 'Email',
-                            onEditIconPressed: () {});
-                      },
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
+
+                    // user email
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
                         UserDataCubit userDataCubit =
                             BlocProvider.of<UserDataCubit>(context);
+                        String? userEmail=userDataCubit.userModel?.email;
+                        bool isActiveEdit=false;
                         return ContactEditRow(
-                            icon: Icons.phone_outlined,
-                            mainText: userDataCubit.userModel?.phone ?? '',
-                            textType: 'Phone',
-                            onEditIconPressed: () {});
+                            icon: Icons.email_outlined,
+                            mainText: userEmail ?? '',
+                            textType: 'Email',
+                            activeEdit: isActiveEdit ,
+                          keyboardType: TextInputType.emailAddress,
+                            onEditIconPressed: () {
+                              setState(() {
+                                userDataCubit.editUser(
+                                  name: userDataCubit.userModel?.name,
+                                  email: userDataCubit.userModel?.email,
+                                  password: RegisterView.thePassword,
+                                  phone: userDataCubit.userModel?.phone,
+                                );
+                                userEmail= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.email:ContactEditRow.theInputUserText;
+                                isActiveEdit=true;
+                              });
+                            },
+                        );
                       },
                     ),
+
+                    const SizedBox(
+                      height: 15,
+                    ),
+
+                    // user phone
+                    BlocBuilder<UserDataCubit, UserDataState>(
+                      builder: (context, state) {
+                        UserDataCubit userDataCubit =
+                            BlocProvider.of<UserDataCubit>(context);
+                            String? userPhone=userDataCubit.userModel?.phone;
+                        bool isActiveEdit=false;
+                        return ContactEditRow(
+                            icon: Icons.phone_outlined,
+                            mainText: userPhone ?? '',
+                            textType: 'Phone',
+                            activeEdit: isActiveEdit ,
+                            keyboardType: TextInputType.phone,
+                            onEditIconPressed: () {
+                             setState(() {
+                              userDataCubit.editUser(
+                                name: userDataCubit.userModel?.name,
+                                email: userDataCubit.userModel?.email,
+                                password: RegisterView.thePassword,
+                                phone: userDataCubit.userModel?.phone,
+                              );
+                              userPhone= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.phone:ContactEditRow.theInputUserText;
+                              isActiveEdit=true;
+                            });
+                            },
+                            );
+                      },
+                    ),
+
                     const SizedBox(
                       height: 12,
                     ),
