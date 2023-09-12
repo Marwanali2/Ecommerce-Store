@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../../core/utils/colors.dart';
+import '../../../../auth/presentation/views/register_view.dart';
 import '../../../../profile/presentation/managers/user_data_cubit.dart';
 
 class ContactEditRow extends StatefulWidget {
-
+static String test='';
   ContactEditRow({
     super.key,
     required this.icon,
@@ -46,7 +47,14 @@ class _ContactEditRowState extends State<ContactEditRow> {
                   hintText: 'New name',
                  onFieldSubmitted: (inputText) {
                     setState(() {
-                      userDataCubit.userModel?.name=inputText;
+                      ContactEditRow.test=inputText;
+                    inputText.isEmpty? userDataCubit.userModel?.name : userDataCubit.userModel?.name=inputText;
+                      userDataCubit.editUser(
+                        name: userDataCubit.userModel?.name,
+                        email: userDataCubit.userModel?.email,
+                        password: RegisterView.thePassword,
+                        phone: userDataCubit.userModel?.phone,
+                      );
                       widget.activeEdit=false;
                     });
                  },

@@ -87,31 +87,34 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 15,
                     ),
+
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
-                        UserDataCubit userDataCubit =
-                            BlocProvider.of<UserDataCubit>(context);
-
+                        UserDataCubit userDataCubit = BlocProvider.of<UserDataCubit>(context);
+                        String? userName=userDataCubit.userModel?.name;
+                        bool isActiveEdit=false;
                         return ContactEditRow(
                           icon: Icons.person_outline,
-                          mainText: userDataCubit.userModel?.name ?? '',
+                          mainText: userName ?? '',
                           textType: 'Name',
-                          activeEdit: true,
+                          activeEdit: isActiveEdit ,
                           onEditIconPressed: () {
-                            userDataCubit.editUser(
-                              name: userDataCubit.userModel?.name,
-                              email: userDataCubit.userModel?.email,
-                              password: RegisterView.thePassword,
-                              phone: userDataCubit.userModel?.phone,
-                            );
                             setState(() {
-
+                              userDataCubit.editUser(
+                                name: userDataCubit.userModel?.name,
+                                email: userDataCubit.userModel?.email,
+                                password: RegisterView.thePassword,
+                                phone: userDataCubit.userModel?.phone,
+                              );
+                              userName= ContactEditRow.test.isEmpty?userDataCubit.userModel?.name:ContactEditRow.test;
+                              isActiveEdit=true;
                             });
                           },
 
                         );
                       },
                     ),
+
                     const SizedBox(
                       height: 15,
                     ),

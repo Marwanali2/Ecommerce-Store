@@ -32,13 +32,14 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textEditingController,
+      cursorColor: color9,
       validator: (value) {
-        if (textEditingController.text.isEmpty) {
-          return 'Required*';
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
         }
+        return null;
       },
 
-      cursorColor: color9,
       style:  TextStyle(color: inputTextColor),
       decoration: InputDecoration(
         enabled: true,
