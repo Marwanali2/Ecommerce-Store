@@ -15,7 +15,7 @@ import 'contact_edit_row.dart';
 
 class CheckoutView extends StatefulWidget {
   CheckoutView({Key? key}) : super(key: key);
-
+  // static  bool isActive=false;
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
 }
@@ -25,6 +25,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: color3,
         body: Column(
           children: [
@@ -74,6 +75,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView(
+                  // physics: NeverScrollableScrollPhysics(),
                   children: [
                     const SizedBox(
                       height: 15,
@@ -87,14 +89,26 @@ class _CheckoutViewState extends State<CheckoutView> {
                     ),
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
-                        UserDataCubit userDataCubit = BlocProvider.of<UserDataCubit>(context);
+                        UserDataCubit userDataCubit =
+                            BlocProvider.of<UserDataCubit>(context);
+
                         return ContactEditRow(
                           icon: Icons.person_outline,
-                          mainText: userDataCubit.userModel!.name ??'',
+                          mainText: userDataCubit.userModel?.name ?? '',
                           textType: 'Name',
+                          activeEdit: true,
                           onEditIconPressed: () {
-                            userDataCubit.editUser(name: userDataCubit.userModel?.name, email: userDataCubit.userModel?.email, password: RegisterView.thePassword, phone: userDataCubit.userModel?.phone,);
+                            userDataCubit.editUser(
+                              name: userDataCubit.userModel?.name,
+                              email: userDataCubit.userModel?.email,
+                              password: RegisterView.thePassword,
+                              phone: userDataCubit.userModel?.phone,
+                            );
+                            setState(() {
+
+                            });
                           },
+
                         );
                       },
                     ),
@@ -301,9 +315,9 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
-  late String lat ;
+  late String lat;
 
-  late String long ;
+  late String long;
 
   late String locationMessage = '';
 
