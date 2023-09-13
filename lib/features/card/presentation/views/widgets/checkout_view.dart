@@ -12,9 +12,11 @@ import '../../../../../core/utils/colors.dart';
 import '../../../../auth/presentation/views/register_view.dart';
 import '../../managers/carts_cubit.dart';
 import 'contact_edit_row.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class CheckoutView extends StatefulWidget {
   CheckoutView({Key? key}) : super(key: key);
+
   // static  bool isActive=false;
   @override
   State<CheckoutView> createState() => _CheckoutViewState();
@@ -91,14 +93,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                     // user name
                     BlocBuilder<UserDataCubit, UserDataState>(
                       builder: (context, state) {
-                        UserDataCubit userDataCubit = BlocProvider.of<UserDataCubit>(context);
-                        String? userName=userDataCubit.userModel?.name;
-                        bool isActiveEdit=false;
+                        UserDataCubit userDataCubit =
+                            BlocProvider.of<UserDataCubit>(context);
+                        String? userName = userDataCubit.userModel?.name;
+                        bool isActiveEdit = false;
                         return ContactEditRow(
                           icon: Icons.person_outline,
                           mainText: userName ?? '',
                           textType: 'Name',
-                          activeEdit: isActiveEdit ,
+                          activeEdit: isActiveEdit,
                           onEditIconPressed: () {
                             setState(() {
                               // userDataCubit.editUser(
@@ -108,10 +111,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                               //   phone: userDataCubit.userModel?.phone,
                               // );
                               // userName= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.name:ContactEditRow.theInputUserText;
-                              isActiveEdit=true;
+                              isActiveEdit = true;
                             });
                           },
-
                         );
                       },
                     ),
@@ -125,26 +127,29 @@ class _CheckoutViewState extends State<CheckoutView> {
                       builder: (context, state) {
                         UserDataCubit userDataCubit =
                             BlocProvider.of<UserDataCubit>(context);
-                        String? userEmail=userDataCubit.userModel?.email;
-                        bool isActiveEdit=false;
+                        String? userEmail = userDataCubit.userModel?.email;
+                        bool isActiveEdit = false;
                         return ContactEditRow(
-                            icon: Icons.email_outlined,
-                            mainText: userEmail ?? '',
-                            textType: 'Email',
-                            activeEdit: isActiveEdit ,
+                          icon: Icons.email_outlined,
+                          mainText: userEmail ?? '',
+                          textType: 'Email',
+                          activeEdit: isActiveEdit,
                           keyboardType: TextInputType.emailAddress,
-                            onEditIconPressed: () {
-                              setState(() {
-                                userDataCubit.editUser(
-                                  name: userDataCubit.userModel?.name,
-                                  email: userDataCubit.userModel?.email,
-                                  password: RegisterView.thePassword,
-                                  phone: userDataCubit.userModel?.phone,
-                                );
-                                userEmail= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.email:ContactEditRow.theInputUserText;
-                                isActiveEdit=true;
-                              });
-                            },
+                          onEditIconPressed: () {
+                            setState(() {
+                              userDataCubit.editUser(
+                                name: userDataCubit.userModel?.name,
+                                email: userDataCubit.userModel?.email,
+                                password: RegisterView.thePassword,
+                                phone: userDataCubit.userModel?.phone,
+                              );
+                              userEmail =
+                                  ContactEditRow.theInputUserText.isEmpty
+                                      ? userDataCubit.userModel?.email
+                                      : ContactEditRow.theInputUserText;
+                              isActiveEdit = true;
+                            });
+                          },
                         );
                       },
                     ),
@@ -158,27 +163,30 @@ class _CheckoutViewState extends State<CheckoutView> {
                       builder: (context, state) {
                         UserDataCubit userDataCubit =
                             BlocProvider.of<UserDataCubit>(context);
-                            String? userPhone=userDataCubit.userModel?.phone;
-                        bool isActiveEdit=false;
+                        String? userPhone = userDataCubit.userModel?.phone;
+                        bool isActiveEdit = false;
                         return ContactEditRow(
-                            icon: Icons.phone_outlined,
-                            mainText: userPhone ?? '',
-                            textType: 'Phone',
-                            activeEdit: isActiveEdit ,
-                            keyboardType: TextInputType.phone,
-                            onEditIconPressed: () {
-                             setState(() {
+                          icon: Icons.phone_outlined,
+                          mainText: userPhone ?? '',
+                          textType: 'Phone',
+                          activeEdit: isActiveEdit,
+                          keyboardType: TextInputType.phone,
+                          onEditIconPressed: () {
+                            setState(() {
                               userDataCubit.editUser(
                                 name: userDataCubit.userModel?.name,
                                 email: userDataCubit.userModel?.email,
                                 password: RegisterView.thePassword,
                                 phone: userDataCubit.userModel?.phone,
                               );
-                              userPhone= ContactEditRow.theInputUserText.isEmpty?userDataCubit.userModel?.phone:ContactEditRow.theInputUserText;
-                              isActiveEdit=true;
+                              userPhone =
+                                  ContactEditRow.theInputUserText.isEmpty
+                                      ? userDataCubit.userModel?.phone
+                                      : ContactEditRow.theInputUserText;
+                              isActiveEdit = true;
                             });
-                            },
-                            );
+                          },
+                        );
                       },
                     ),
 
@@ -218,9 +226,81 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 12,
                     ),
-                    const Text(
-                      'Payment Method',
-                      style: TextStyle(fontSize: 17),
+                    Row(
+                      children: [
+                        const Text(
+                          'Payment Method',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                        const Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return  SizedBox(
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 10,left: 10,top: 10,),
+                                      child: Column(
+                                   //   mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          CreditCardWidget(
+                                            cardNumber: '4364 1345 8932 8378',
+                                            expiryDate: '05/24',
+                                            cardHolderName: 'maromaromaro',
+                                            cvvCode: '333333',
+                                            showBackView: true,
+                                            onCreditCardWidgetChange: (CreditCardBrand ) {  }, //true when you want to show cvv(back) view
+                                          ),
+
+                                        ],
+                                      ),
+                                    ) ,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(color1),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            'Add New Card',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    CreditCardWidget(
+                      cardNumber: '4364 1345 8932 8378',
+                      expiryDate: '05/24',
+                      cardHolderName: 'MARWAN ALI ELKONY',
+                      bankName: "CIB Bank",
+                      isHolderNameVisible: true,
+                      labelCardHolder:'MARWAN ALI ELKONY',
+                      labelExpiredDate: '05/24',
+                      obscureInitialCardNumber: true,
+                      obscureCardNumber: true,
+                      obscureCardCvv: false,
+                      cardType: CardType.visa,
+                      cvvCode: '128',
+                      showBackView: false,
+                      width: MediaQuery.sizeOf(context).width,
+                      cardBgColor: color9,
+                      backgroundImage: "assets/images/Map.png",
+
+                      onCreditCardWidgetChange: (CreditCardBrand ) {
+
+                      }, //true when you want to show cvv(back) view
                     ),
                   ],
                 ),
