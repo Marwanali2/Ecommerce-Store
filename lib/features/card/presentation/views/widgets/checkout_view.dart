@@ -25,6 +25,17 @@ class CheckoutView extends StatefulWidget {
 class _CheckoutViewState extends State<CheckoutView> {
   @override
   Widget build(BuildContext context) {
+    String cardNumber = '';
+    String expiryDate = '';
+    String cardHolderName = '';
+    String cvvCode = '';
+    bool isCvvFocused = false;
+    bool useGlassMorphism = false;
+    bool useBackgroundImage = false;
+    OutlineInputBorder? border;
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    void Function(CreditCardModel)onCreditCardModelChange=(p0){};
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -238,12 +249,16 @@ class _CheckoutViewState extends State<CheckoutView> {
                             showModalBottomSheet(
                               context: context,
                               builder: (BuildContext context) {
-                                return  SizedBox(
+                                return SizedBox(
                                   child: Center(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(right: 10,left: 10,top: 10,),
+                                      padding: const EdgeInsets.only(
+                                        right: 10,
+                                        left: 10,
+                                        top: 10,
+                                      ),
                                       child: Column(
-                                   //   mainAxisAlignment: MainAxisAlignment.center,
+                                        //   mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           CreditCardWidget(
                                             cardNumber: '4364 1345 8932 8378',
@@ -251,12 +266,12 @@ class _CheckoutViewState extends State<CheckoutView> {
                                             cardHolderName: 'maromaromaro',
                                             cvvCode: '333333',
                                             showBackView: true,
-                                            onCreditCardWidgetChange: (CreditCardBrand ) {  }, //true when you want to show cvv(back) view
+                                            onCreditCardWidgetChange:
+                                                (CreditCardBrand) {}, //true when you want to show cvv(back) view
                                           ),
-
                                         ],
                                       ),
-                                    ) ,
+                                    ),
                                   ),
                                 );
                               },
@@ -281,27 +296,47 @@ class _CheckoutViewState extends State<CheckoutView> {
                       ],
                     ),
                     CreditCardWidget(
-                      cardNumber: '4364 1345 8932 8378',
-                      expiryDate: '05/24',
-                      cardHolderName: 'MARWAN ALI ELKONY',
+                      cardNumber: cardNumber,
+                      expiryDate: expiryDate,
+                      cardHolderName:cardHolderName ,
                       bankName: "CIB Bank",
                       isHolderNameVisible: true,
-                      labelCardHolder:'MARWAN ALI ELKONY',
-                      labelExpiredDate: '05/24',
+                     // labelCardHolder: 'MARWAN ALI ELKONY',
+                    //  labelExpiredDate: '05/24',
                       obscureInitialCardNumber: true,
+
+                      isSwipeGestureEnabled: true,
+
                       obscureCardNumber: true,
                       obscureCardCvv: false,
                       cardType: CardType.visa,
-                      cvvCode: '128',
-                      showBackView: false,
+                      cvvCode: cvvCode,
+                      showBackView: isCvvFocused,
                       width: MediaQuery.sizeOf(context).width,
                       cardBgColor: color9,
                       backgroundImage: "assets/images/Map.png",
 
-                      onCreditCardWidgetChange: (CreditCardBrand ) {
-
-                      }, //true when you want to show cvv(back) view
+                      onCreditCardWidgetChange:
+                          (CreditCardBrand) {}, //true when you want to show cvv(back) view
                     ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            CreditCardForm(
+                              cardNumber: cardNumber,//'4364 1345 8932 8378'
+                              expiryDate: expiryDate,//'05/24'
+                              cardHolderName: cardHolderName,//'MARWAN ALI ELKONY'
+                              cvvCode: cvvCode,
+                              isHolderNameVisible: true,
+                              onCreditCardModelChange: onCreditCardModelChange,
+                              themeColor: Colors.red,// themeColor,
+                              formKey: formKey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -432,6 +467,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         ),
       ),
     );
+
   }
 
   late String lat;
