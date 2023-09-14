@@ -1,3 +1,4 @@
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
@@ -9,7 +10,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/widgets/show_snack_bar.dart';
 import '../../../../auth/presentation/views/register_view.dart';
+import '../../../../stripe_payment/payment_manager.dart';
 import '../../managers/carts_cubit.dart';
 import 'contact_edit_row.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -25,17 +28,7 @@ class CheckoutView extends StatefulWidget {
 class _CheckoutViewState extends State<CheckoutView> {
   @override
   Widget build(BuildContext context) {
-    String cardNumber = '';
-    String expiryDate = '';
-    String cardHolderName = '';
-    String cvvCode = '';
-    bool isCvvFocused = false;
-    bool useGlassMorphism = false;
-    bool useBackgroundImage = false;
-    OutlineInputBorder? border;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-    void Function(CreditCardModel)onCreditCardModelChange=(p0){};
+    //PaymentManager paymentManager=PaymentManager(initialState);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -86,9 +79,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ListView(
+                padding: const EdgeInsets.only(left: 10,right: 10,),
+                child: Column(
                   // physics: NeverScrollableScrollPhysics(),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const SizedBox(
                       height: 15,
@@ -211,132 +206,94 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 12,
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        _getCurrentLocation().then((value) {
-                          lat = '${value.latitude}';
-                          long = '${value.longitude}';
-                          setState(() {
-                            locationMessage =
-                                'latitude: $lat , longitude: $long';
+                    Center(
+                      child: GestureDetector(
+                        onTap: () async {
+                          _getCurrentLocation().then((value) {
+                            lat = '${value.latitude}';
+                            long = '${value.longitude}';
+                            setState(() {
+                              locationMessage =
+                                  'latitude: $lat , longitude: $long';
+                            });
+                            _liveLocation();
                           });
-                          _liveLocation();
-                        });
-                        String mapUrl = "geo:$lat,$long";
-                        if (await canLaunch(mapUrl)) {
-                          await launch(mapUrl);
-                        } else {
-                          throw "Couldn't launch Map";
-                        }
-                      },
-                      child: SvgPicture.asset(
-                        'assets/svg/Map.svg',
-                        width: MediaQuery.sizeOf(context).width * 0.7,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        const Text(
-                          'Payment Method',
-                          style: TextStyle(fontSize: 17),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SizedBox(
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        right: 10,
-                                        left: 10,
-                                        top: 10,
-                                      ),
-                                      child: Column(
-                                        //   mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          CreditCardWidget(
-                                            cardNumber: '4364 1345 8932 8378',
-                                            expiryDate: '05/24',
-                                            cardHolderName: 'maromaromaro',
-                                            cvvCode: '333333',
-                                            showBackView: true,
-                                            onCreditCardWidgetChange:
-                                                (CreditCardBrand) {}, //true when you want to show cvv(back) view
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(color1),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
-                            'Add New Card',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    CreditCardWidget(
-                      cardNumber: cardNumber,
-                      expiryDate: expiryDate,
-                      cardHolderName:cardHolderName ,
-                      bankName: "CIB Bank",
-                      isHolderNameVisible: true,
-                     // labelCardHolder: 'MARWAN ALI ELKONY',
-                    //  labelExpiredDate: '05/24',
-                      obscureInitialCardNumber: true,
-
-                      isSwipeGestureEnabled: true,
-
-                      obscureCardNumber: true,
-                      obscureCardCvv: false,
-                      cardType: CardType.visa,
-                      cvvCode: cvvCode,
-                      showBackView: isCvvFocused,
-                      width: MediaQuery.sizeOf(context).width,
-                      cardBgColor: color9,
-                      backgroundImage: "assets/images/Map.png",
-
-                      onCreditCardWidgetChange:
-                          (CreditCardBrand) {}, //true when you want to show cvv(back) view
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            CreditCardForm(
-                              cardNumber: cardNumber,//'4364 1345 8932 8378'
-                              expiryDate: expiryDate,//'05/24'
-                              cardHolderName: cardHolderName,//'MARWAN ALI ELKONY'
-                              cvvCode: cvvCode,
-                              isHolderNameVisible: true,
-                              onCreditCardModelChange: onCreditCardModelChange,
-                              themeColor: Colors.red,// themeColor,
-                              formKey: formKey,
-                            ),
-                          ],
+                          String mapUrl = "geo:$lat,$long";
+                          if (await canLaunch(mapUrl)) {
+                            await launch(mapUrl);
+                          } else {
+                            throw "Couldn't launch Map";
+                          }
+                        },
+                        child: SvgPicture.asset(
+                          'assets/svg/Map.svg',
+                          width: MediaQuery.sizeOf(context).width * 0.7,
                         ),
                       ),
-                    )
+                    ),
+                    // const SizedBox(
+                    //   height: 12,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     const Text(
+                    //       'Payment Method',
+                    //       style: TextStyle(fontSize: 17),
+                    //     ),
+                    //     const Spacer(),
+                    //     ElevatedButton(
+                    //       onPressed: () {
+                    //         showModalBottomSheet(
+                    //           context: context,
+                    //           builder: (BuildContext context) {
+                    //             return SizedBox(
+                    //               child: Center(
+                    //                 child: Padding(
+                    //                   padding: const EdgeInsets.only(
+                    //                     right: 10,
+                    //                     left: 10,
+                    //                     top: 10,
+                    //                   ),
+                    //                   child: Column(
+                    //                     //   mainAxisAlignment: MainAxisAlignment.center,
+                    //                     children: [
+                    //                       CreditCardWidget(
+                    //                         cardNumber: '4364 1345 8932 8378',
+                    //                         expiryDate: '05/24',
+                    //                         cardHolderName: 'maromaromaro',
+                    //                         cvvCode: '333333',
+                    //                         showBackView: true,
+                    //                         onCreditCardWidgetChange:
+                    //                             (CreditCardBrand) {}, //true when you want to show cvv(back) view
+                    //                       ),
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             );
+                    //           },
+                    //         );
+                    //       },
+                    //       style: ButtonStyle(
+                    //         backgroundColor: MaterialStateProperty.all(color1),
+                    //         shape: MaterialStateProperty.all(
+                    //           RoundedRectangleBorder(
+                    //             borderRadius: BorderRadius.circular(10),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       child: const Text(
+                    //         'Add New Card',
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 15,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+
+
                   ],
                 ),
               ),
@@ -440,7 +397,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          PaymentManager.makePayment(CartsCubit.total +30, 'USD');
+
+                        },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               color9,
@@ -452,7 +412,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                                 EdgeInsets.symmetric(
                                     horizontal:
                                         MediaQuery.sizeOf(context).width * 0.35,
-                                    vertical: 10))),
+                                    vertical: 10,),),),
                         child: const Text(
                           'Checkout',
                           style: TextStyle(color: Colors.white, fontSize: 20),

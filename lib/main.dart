@@ -10,9 +10,11 @@ import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
 import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
+import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
@@ -27,6 +29,7 @@ void main() async {
   await CachedNetwork.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
+  Stripe.publishableKey=StripeApiKeys.publishableKey;
   runApp(const EcommerceApp());
 }
 

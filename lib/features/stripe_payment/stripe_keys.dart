@@ -1,0 +1,4 @@
+abstract class StripeApiKeys{
+  static const String publishableKey="pk_test_51NqChiI08h7FNctR7FVULp6PCUllzn65hZsBEMijd9f0Et3liYbsjYhZI6qmieWZ8d2iKgKIedTUgXzYWJ8KpjUj00YqMA6hgP";
+  static const String secretKey="sk_test_51NqChiI08h7FNctRkD0OdIhI148Zllad8I1KBLlZRCsdmJlMDpceOj6LzYSBd6a1fvGHfMJRLPHAVfXcJyr9Q7sB00lQK4YYZI";
+}
