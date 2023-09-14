@@ -18,7 +18,7 @@ import 'contact_edit_row.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 class CheckoutView extends StatefulWidget {
-  CheckoutView({Key? key}) : super(key: key);
+  const CheckoutView({Key? key}) : super(key: key);
 
   // static  bool isActive=false;
   @override
