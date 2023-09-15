@@ -224,8 +224,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                             _liveLocation();
                           });
                           String mapUrl = "geo:$lat,$long";
-                          if (await canLaunch(mapUrl)) {
-                            await launch(mapUrl);
+                          if (await canLaunchUrlString(mapUrl)) {
+                            await launchUrlString(mapUrl);
                           } else {
                             throw "Couldn't launch Map";
                           }
