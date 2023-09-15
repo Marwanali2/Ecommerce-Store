@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,6 +29,8 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
+  File?_selectedImage;
+
   @override
   Widget build(BuildContext context) {
     //PaymentManager paymentManager=PaymentManager(initialState);
@@ -411,10 +416,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                             padding: MaterialStateProperty.all(
                                 EdgeInsets.symmetric(
                                     horizontal:
-                                        MediaQuery.sizeOf(context).width * 0.35,
+                                        MediaQuery.sizeOf(context).width * 0.43,
                                     vertical: 10,),),),
                         child: const Text(
-                          'Checkout',
+                          'Pay',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
@@ -423,13 +428,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
     );
 
   }
-
   late String lat;
 
   late String long;
