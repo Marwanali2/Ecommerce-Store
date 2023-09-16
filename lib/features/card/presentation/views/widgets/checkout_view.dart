@@ -1,4 +1,4 @@
-
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dotted_line/dotted_line.dart';
@@ -29,7 +29,7 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
-  File?_selectedImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 10,right: 10,),
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                ),
                 child: Column(
                   // physics: NeverScrollableScrollPhysics(),
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,15 +218,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                       child: GestureDetector(
                         onTap: () async {
                           _getCurrentLocation().then((value) {
-                            lat = '${value.latitude}';
-                            long = '${value.longitude}';
+                            lat = value.latitude; //'${value.latitude}';
+                            long = value.longitude; //'${value.longitude}';
                             setState(() {
                               locationMessage =
-                                  'latitude: $lat , longitude: $long';
+                                  'latitude: ${lat.toString()} , longitude: ${long.toString()}';
                             });
                             _liveLocation();
                           });
-                          String mapUrl = "geo:$lat,$long";
+                          String mapUrl = "geo:${lat.toString()},${long.toString()}";
                           if (await canLaunchUrlString(mapUrl)) {
                             await launchUrlString(mapUrl);
                           } else {
@@ -297,8 +300,6 @@ class _CheckoutViewState extends State<CheckoutView> {
                     //     ),
                     //   ],
                     // ),
-
-
                   ],
                 ),
               ),
@@ -349,10 +350,30 @@ class _CheckoutViewState extends State<CheckoutView> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Row(
+                    distanceInMeters==null?
+                    Row(
                       children: [
                         Text(
-                          'Delivery',
+                          'Delivery Cost',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: color5,
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          'select your location first',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )
+                        :  Row(
+                      children: [
+                        Text(
+                         'Delivery cost for ${(distanceInMeters!/1000).toStringAsFixed(2)} KM',
                           style: TextStyle(
                             fontSize: 18,
                             color: color5,
@@ -387,7 +408,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             CartsCubit cartsCubit =
                                 BlocProvider.of<CartsCubit>(context);
                             return Text(
-                              '\$  ${CartsCubit.total + 30 ?? 30}',
+                              distanceInMeters==null? '\$  ${CartsCubit.total}'  :'\$  ${CartsCubit.total + 30 ?? 30}',
                               style: const TextStyle(
                                 color: color1,
                                 fontSize: 18,
@@ -403,21 +424,24 @@ class _CheckoutViewState extends State<CheckoutView> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: ElevatedButton(
                         onPressed: () {
-                          PaymentManager.makePayment(CartsCubit.total +30, 'USD');
-
+                          PaymentManager.makePayment(
+                              CartsCubit.total + 30, 'USD');
                         },
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              color9,
+                          backgroundColor: MaterialStateProperty.all(
+                            color9,
+                          ),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          padding: MaterialStateProperty.all(
+                            EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.sizeOf(context).width * 0.43,
+                              vertical: 10,
                             ),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.sizeOf(context).width * 0.43,
-                                    vertical: 10,),),),
+                          ),
+                        ),
                         child: const Text(
                           'Pay',
                           style: TextStyle(color: Colors.white, fontSize: 20),
@@ -428,36 +452,40 @@ class _CheckoutViewState extends State<CheckoutView> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
-
   }
-  late String lat;
 
-  late String long;
+  late double lat;
+
+  late double long;
 
   late String locationMessage = '';
+
+   StreamSubscription<Position>?positionStream;
+
+  double?distanceInMeters;
 
   // get current location
   Future<Position> _getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
+    if (serviceEnabled==false) {
+      showSnackBar(context: context, label: 'Please, Enable GBS in your phone', backgroundColor: Colors.red);
     }
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        showSnackBar(context: context, label: ' Allow Location permissions in App settings ', backgroundColor: Colors.red);
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      showSnackBar(context: context, label: ' Location permissions are permanently denied, we cannot request permissions. ', backgroundColor: Colors.red);
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -469,13 +497,22 @@ class _CheckoutViewState extends State<CheckoutView> {
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
-    Geolocator.getPositionStream(locationSettings: locationSettings)
+     positionStream=Geolocator.getPositionStream(locationSettings: locationSettings)
         .listen((Position position) {
-      lat = position.latitude.toString();
-      long = position.longitude.toString();
+      lat = position.latitude;
+      long = position.longitude;
     });
+     distanceInMeters = Geolocator.distanceBetween(lat , long , 30.033333, 31.233334);
     setState(() {
       locationMessage = 'latitude: $lat , longitude: $long';
     });
+  }
+  @override
+  void dispose() {
+    if(positionStream!=null){
+      positionStream!.cancel();
+    }
+    // TODO: implement dispose
+    super.dispose();
   }
 }
