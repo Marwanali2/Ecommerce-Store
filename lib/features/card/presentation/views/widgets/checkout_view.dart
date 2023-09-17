@@ -88,10 +88,10 @@ class _CheckoutViewState extends State<CheckoutView> {
                   left: 10,
                   right: 10,
                 ),
-                child: Column(
+                child: ListView(
                   // physics: NeverScrollableScrollPhysics(),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const SizedBox(
                       height: 15,
@@ -351,7 +351,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                       height: 10,
                     ),
                     distanceInMeters==null?
-                    Row(
+                    const Row(
                       children: [
                         Text(
                           'Delivery Cost',
