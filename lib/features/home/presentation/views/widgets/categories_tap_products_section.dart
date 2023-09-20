@@ -37,7 +37,22 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
           return Stack(children: [
             GestureDetector(
              onTap: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProductDetailsView(),));
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProductDetailsView(
+                        price: widget.categoriesCubit.categoryProductsList[index].price,
+                        oldPrice: widget.categoriesCubit.categoryProductsList[index].oldPrice,
+                        discount: widget.categoriesCubit.categoryProductsList[index].discount,
+                        image: widget.categoriesCubit.categoryProductsList[index].image,
+                        name: widget.categoriesCubit.categoryProductsList[index].name,
+                        description: widget.categoriesCubit.categoryProductsList[index].description,
+                        images: widget.categoriesCubit.categoryProductsList[index].images,
+                      );
+                    },
+                  ),
+                );
              },
               child: Container(
                 decoration: const BoxDecoration(
@@ -84,7 +99,8 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                               .discount !=
                               0
                               ? Center(
-                            child: Container(
+                            child:
+                            Container(
                               width: 80,
                               decoration: BoxDecoration(
                                 borderRadius:
