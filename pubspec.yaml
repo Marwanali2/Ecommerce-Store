@@ -64,6 +64,8 @@ dependencies:
   flutter_credit_card: ^3.0.7
   flutter_stripe: ^9.4.0
   image_picker: ^1.0.4
+  readmore: ^2.2.0
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
 
@@ -90,6 +92,7 @@ flutter:
   assets:
     - assets/images/Map.png
     - assets/images/user_avatar.png
+    - assets/images/Hero Image2.png
     - assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg
     - assets/lottie_json_animations/
     - assets/svg/

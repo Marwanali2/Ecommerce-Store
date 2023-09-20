@@ -1,14 +1,9 @@
-import 'package:ecommerce/core/widgets/enjoy_bar.dart';
-import 'package:ecommerce/features/home/presentation/views/home_view.dart';
-import 'package:ecommerce/features/home/presentation/views/widgets/home_view_body.dart';
 import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
-import 'package:ecommerce/features/profile/presentation/views/widgets/profile_view_body.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 
 import '../../../../core/utils/colors.dart';
-import '../../../profile/presentation/views/profile_view.dart';
 
 class LayoutView extends StatefulWidget {
   const LayoutView({Key? key}) : super(key: key);
@@ -63,12 +58,12 @@ class _LayoutViewState extends State<LayoutView> {
               ),
               label: 'Card',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_outlined,
-              ),
-              label: 'Profile',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.person_outlined,
+            //   ),
+            //   label: 'Profile',
+            // ),
           ],
         ),
       ),

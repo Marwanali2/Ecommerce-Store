@@ -1,3 +1,5 @@
+import 'package:ecommerce/features/home/presentation/views/widgets/product_details_view.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -33,157 +35,162 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
         itemBuilder: (context, index) {
           var cubit = widget.favoritesCubit;
           return Stack(children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: color2,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+            GestureDetector(
+             onTap: () {
+               Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProductDetailsView(),));
+             },
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: color2,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            widget.favoritesCubit.favoritesProductsId
-                                .contains(widget.categoriesCubit
-                                .categoryProductsList[index]
-                                .id
-                                .toString())
-                                ? Icons.favorite_rounded
-                                : Icons.favorite_border_rounded,
-                            color: widget.favoritesCubit
-                                .favoritesProductsId
-                                .contains(widget.categoriesCubit
-                                .categoryProductsList[index]
-                                .id
-                                .toString())
-                                ? Colors.red
-                                : color8,
-                          ),
-                          onPressed: () async {
-                            await cubit.addOrRemoveFavorites(
-                                productId: widget.categoriesCubit
-                                    .categoryProductsList[index].id
-                                    .toString());
-                            setState(() {});
-                          },
-                        ),
-                        const Spacer(),
-                        widget.categoriesCubit.categoryProductsList[index]
-                            .discount !=
-                            0
-                            ? Center(
-                          child: Container(
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(
-                                5,
-                              ),
-                              color: Colors.greenAccent,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              widget.favoritesCubit.favoritesProductsId
+                                  .contains(widget.categoriesCubit
+                                  .categoryProductsList[index]
+                                  .id
+                                  .toString())
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              color: widget.favoritesCubit
+                                  .favoritesProductsId
+                                  .contains(widget.categoriesCubit
+                                  .categoryProductsList[index]
+                                  .id
+                                  .toString())
+                                  ? Colors.red
+                                  : color8,
                             ),
-                            child: Center(
-                              child: Text(
-                                'Sale -${widget.categoriesCubit.categoryProductsList[index].discount}%',
-                                style: const TextStyle(
-                                  color: color4,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'DancingScript',
+                            onPressed: () async {
+                              await cubit.addOrRemoveFavorites(
+                                  productId: widget.categoriesCubit
+                                      .categoryProductsList[index].id
+                                      .toString());
+                              setState(() {});
+                            },
+                          ),
+                          const Spacer(),
+                          widget.categoriesCubit.categoryProductsList[index]
+                              .discount !=
+                              0
+                              ? Center(
+                            child: Container(
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(
+                                  5,
+                                ),
+                                color: Colors.greenAccent,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Sale -${widget.categoriesCubit.categoryProductsList[index].discount}%',
+                                  style: const TextStyle(
+                                    color: color4,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'DancingScript',
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        )
-                            : const SizedBox(),
-                      ],
-                    ),
-                    Container(
-                      height: 165,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            '${widget.categoriesCubit.categoryProductsList[index].image}',
-                          ),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      '${widget.categoriesCubit.categoryProductsList[index].name}',
-                      style: const TextStyle(
-                        color: color6,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Row(
-                        children: [
-                          widget.categoriesCubit
-                              .categoryProductsList[index]
-                              .oldPrice ==
-                              widget.categoriesCubit
-                                  .categoryProductsList[index]
-                                  .price
-                              ? Text(
-                            '${widget.categoriesCubit.categoryProductsList[index].price}',
-                            style: const TextStyle(
-                              color: color8,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
                             ),
                           )
-                              : Row(
-                            children: [
-                              Text(
-                                '${widget.categoriesCubit.categoryProductsList[index].oldPrice}\$',
-                                style: const TextStyle(
-                                  color: color6,
-                                  decoration: TextDecoration
-                                      .lineThrough,
-                                  decorationColor: Colors.red,
-                                  decorationThickness: 1.5,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${widget.categoriesCubit.categoryProductsList[index].price}',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 1,
-                          ),
-                          const Text(
-                            '\$',
-                            style: TextStyle(
-                              color: mainColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),
-                          ),
+                              : const SizedBox(),
                         ],
                       ),
-                    ),
-                  ],
+                      Container(
+                        height: 165,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              '${widget.categoriesCubit.categoryProductsList[index].image}',
+                            ),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${widget.categoriesCubit.categoryProductsList[index].name}',
+                        style: const TextStyle(
+                          color: color6,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Row(
+                          children: [
+                            widget.categoriesCubit
+                                .categoryProductsList[index]
+                                .oldPrice ==
+                                widget.categoriesCubit
+                                    .categoryProductsList[index]
+                                    .price
+                                ? Text(
+                              '${widget.categoriesCubit.categoryProductsList[index].price}',
+                              style: const TextStyle(
+                                color: color8,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                  '${widget.categoriesCubit.categoryProductsList[index].oldPrice}\$',
+                                  style: const TextStyle(
+                                    color: color6,
+                                    decoration: TextDecoration
+                                        .lineThrough,
+                                    decorationColor: Colors.red,
+                                    decorationThickness: 1.5,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '${widget.categoriesCubit.categoryProductsList[index].price}',
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 1,
+                            ),
+                            const Text(
+                              '\$',
+                              style: TextStyle(
+                                color: mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

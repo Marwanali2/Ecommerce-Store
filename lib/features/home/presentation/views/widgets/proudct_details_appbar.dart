@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
-class SimpleAppBarSection extends StatelessWidget {
-  const SimpleAppBarSection({
-    super.key, required this.pageName,
+class ProductDetailsAppBar extends StatelessWidget {
+  const ProductDetailsAppBar({
+    super.key,
   });
-  final String pageName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,10 +27,10 @@ class SimpleAppBarSection extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(width: MediaQuery.sizeOf(context).width*0.28,),
-             Text(
-              pageName,
-              style: const TextStyle(
+            SizedBox(width: MediaQuery.sizeOf(context).width*0.2,),
+            const Text(
+              'Product Name',
+              style: TextStyle(
                 color: color4,
                 //fontFamily: 'DancingScript',
                 fontSize: 20,

@@ -21,6 +21,6 @@ class LayoutCubit extends Cubit<LayoutState> {
     //CategoriesViewBody(),
     FavouriteViewBody(),
     CardViewBody(),
-    ProfileViewBody(),
+    // ProfileViewBody(),
   ];
 }
