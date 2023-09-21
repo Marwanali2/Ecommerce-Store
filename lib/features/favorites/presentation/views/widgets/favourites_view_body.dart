@@ -33,8 +33,8 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                       'Favourites',
                       style: TextStyle(
                         color: color4,
-                        //fontFamily: 'DancingScript',
-                        fontSize: 20,
+                        fontFamily: 'DancingScript',
+                        fontSize: 35,
                       ),
                     ),
                     const Spacer(),

@@ -23,7 +23,7 @@ class SimpleAppBarSection extends StatelessWidget {
                 ),
                 color: Colors.black,
                 onPressed: () {
-
+                  Navigator.pop(context);
                 },
               ),
             ),

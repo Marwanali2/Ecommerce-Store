@@ -50,8 +50,8 @@ class _CardViewBodyState extends State<CardViewBody> {
                         'Carts',
                         style: TextStyle(
                           color: color4,
-                          //fontFamily: 'DancingScript',
-                          fontSize: 20,
+                          fontFamily: 'DancingScript',
+                          fontSize: 35,
                         ),
                       ),
                       const Spacer(),
@@ -444,7 +444,7 @@ class _CardViewBodyState extends State<CardViewBody> {
               ),
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height * 0.2,
+                height: MediaQuery.sizeOf(context).height * 0.3,
                 decoration: const BoxDecoration(
                   color: color2,
                 ),
@@ -483,7 +483,7 @@ class _CardViewBodyState extends State<CardViewBody> {
                         ],
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       ElevatedButton(
                         onPressed: () {

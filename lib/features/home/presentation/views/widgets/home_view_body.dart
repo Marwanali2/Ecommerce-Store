@@ -35,72 +35,91 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var cartsCubit = BlocProvider.of<CartsCubit>(context);
     final pageController = PageController();
     TextEditingController textController = TextEditingController();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        enjoyBar(context, text: 'Enjoy our products'),
-        const SizedBox(
-          height: 15,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-          child: SearchTextField(textController: textController, productsCubit: productsCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)//buildSearchTextFormField(textController, productsCubit, context, favoritesCubit, cartsCubit),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        BlocBuilder<BannerCubit, BannerState>(
-          builder: (context, state) {
-            if (state is BannerSuccess) {
-              return BannerSection(pageController: pageController, bannersCubit: bannersCubit);
-            } else if (state is BannerFailure) {
-              return const SizedBox(height: 150, child: CustomErrorWidget());
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 10,right: 10),
-          child:Text(
-            'Select Category',
-            style: TextStyle(
-              color: color4,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height*0.88,
+      child: ListView(
+        scrollDirection: Axis.vertical,
+       // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          enjoyBar(context, text: 'Enjoy our products',),
+          const SizedBox(
+            height: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: SearchTextField(textController: textController, productsCubit: productsCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)//buildSearchTextFormField(textController, productsCubit, context, favoritesCubit, cartsCubit),
+          ),
+
+          const SizedBox(
+            height: 20,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 10,right: 10),
+            child:Text(
+              'Select Category',
+              style: TextStyle(
+                color: color4,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: CategoriesTaps(categoriesCubit: categoriesCubit) //buildCategoriesNamesListView(categoriesCubit),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        BlocBuilder<CategoriesCubit, CategoriesState>(
-          builder: (context, state) {
-            if (state is CategoryProductsSuccess) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: CategoryTapProductsListView(categoriesCubit: categoriesCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)
-              );
-            } else if (state is CategoryProductsFailure) {
-              return const Center(child: CustomErrorWidget());
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-      ],
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: CategoriesTaps(categoriesCubit: categoriesCubit) //buildCategoriesNamesListView(categoriesCubit),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          BlocBuilder<CategoriesCubit, CategoriesState>(
+            builder: (context, state) {
+              if (state is CategoryProductsSuccess) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: CategoryTapProductsListView(categoriesCubit: categoriesCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)
+                );
+              } else if (state is CategoryProductsFailure) {
+                return const Center(child: CustomErrorWidget());
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              'New Offers And Discounts',
+              style: TextStyle(
+                color: color4,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          BlocBuilder<BannerCubit, BannerState>(
+            builder: (context, state) {
+              if (state is BannerSuccess) {
+                return BannerSection(pageController: pageController, bannersCubit: bannersCubit);
+              } else if (state is BannerFailure) {
+                return const SizedBox(height: 150, child: CustomErrorWidget());
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,11 +1,20 @@
+import 'package:ecommerce/features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
+import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/proudct_details_appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import '../../../../../core/utils/colors.dart';
+import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
+
+import '../../../../../core/widgets/show_snack_bar.dart';
+import '../../../../card/presentation/managers/carts_cubit.dart';
 
 class ProductDetailsView extends StatefulWidget {
+  final int? id;
   final int? price;
   final int? oldPrice;
   final int? discount;
@@ -16,6 +25,7 @@ class ProductDetailsView extends StatefulWidget {
 
   const ProductDetailsView({
     Key? key,
+    this.id,
     this.price,
     this.oldPrice,
     this.discount,
@@ -33,6 +43,9 @@ class ProductDetailsView extends StatefulWidget {
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   Widget build(BuildContext context) {
+    var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
+    var cartsCubit = BlocProvider.of<CartsCubit>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: color2,
@@ -103,23 +116,41 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           ),
                         ],
                       ),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: 400,
-                  child: PageView.builder(
-                    itemCount: widget.images?.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Image.network(
-                        '${widget.images![index]}',
-                      );
-                    },
-                    onPageChanged: (int value) {
-                      setState(() {
-                        ProductDetailsView.currentPage = value;
-                      });
-                    },
-                  ),
+                BlocBuilder<ProductsCubit, ProductsState>(
+                  builder: (context, state) {
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 400,
+                      child: PageView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: widget.images?.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return ZoomOverlay(
+                            // modalBarrierColor: Colors.black12, // Optional
+                            minScale: 0.5,
+                            // Optional
+                            maxScale: 5.0,
+                            // Optional
+                            animationCurve: Curves.elasticInOut,
+                            animationDuration:
+                                const Duration(milliseconds: 300),
+                            // Defaults to 100 Milliseconds. Recommended duration is 300 milliseconds for Curves.fastOutSlowIn
+                            twoTouchOnly: true,
+                            // Defaults to false
+                            child: Image.network(
+                              '${widget.images![index]}',
+                            ),
+                          );
+                        },
+                        onPageChanged: (int value) {
+                          setState(() {
+                            ProductDetailsView.currentPage = value;
+                          });
+                        },
+                      ),
+                    );
+                  },
                 ),
                 Center(
                   child: SvgPicture.asset(
@@ -127,17 +158,66 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     width: MediaQuery.sizeOf(context).width,
                   ),
                 ),
-                Center(
-                  child: DotsIndicator(
-                    dotsCount: widget.images!.length,
-                    position: ProductDetailsView.currentPage,
-                    decorator: const DotsDecorator(
-                      activeColor: Colors.indigo,
-                      size: Size.square(9.0),
-                      activeSize: Size(20, 20),
-                      activeShape: StarBorder(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width * 0.38,
                     ),
-                  ),
+                    DotsIndicator(
+                      dotsCount: widget.images!.length,
+                      position: ProductDetailsView.currentPage,
+                      decorator: const DotsDecorator(
+                        activeColor: Colors.indigo,
+                        size: Size.square(9.0),
+                        activeSize: Size(20, 20),
+                        activeShape: StarBorder(),
+                      ),
+                    ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 0.9,
+                                height: 150,
+                                decoration: BoxDecoration(
+                                  color: color9,
+                                  borderRadius: BorderRadius.circular(
+                                    18,
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      'Zoom Image With Your Fingers',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: color9,
+                        child: Text(
+                          'i',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 23,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 10,
@@ -174,19 +254,60 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       CircleAvatar(
                         backgroundColor: color3,
                         maxRadius: 30,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.favorite_border_rounded,
-                            size: 25,
-                          ),
-                          color: Colors.black,
-                          onPressed: () {
-                            Navigator.pop(context);
+                        child: BlocBuilder<FavoritesCubit, FavoritesState>(
+                          builder: (context, state) {
+                            return IconButton(
+                              icon: Icon(
+                                favoritesCubit.favoritesProductsId
+                                        .contains(widget.id.toString())
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_rounded,
+                                size: 25,
+                              ),
+                              color: favoritesCubit.favoritesProductsId
+                                      .contains(widget.id.toString())
+                                  ? Colors.red
+                                  : Colors.black,
+                              onPressed: () {
+                                setState(() {
+                                  favoritesCubit
+                                      .addOrRemoveFavorites(
+                                      productId: widget.id.toString());
+                                });
+                                favoritesCubit.favoritesProductsId
+                                    .contains(widget.id.toString())
+                                    ? showSnackBar(
+                                    context: context,
+                                    label:
+                                    "Removed From Favourites successfully",
+                                    backgroundColor: Colors.red)
+                                    : showSnackBar(
+                                    context: context,
+                                    label:
+                                    "Added to Favourites successfully",
+                                    backgroundColor: color9);
+                              },
+                            );
                           },
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            cartsCubit.addOrRemoveCarts(
+                                productId: widget.id.toString());
+                            cartsCubit.cartsProductsId
+                                    .contains(widget.id.toString())
+                                ? showSnackBar(
+                                    context: context,
+                                    label: "Removed From Carts successfully",
+                                    backgroundColor: Colors.red)
+                                : showSnackBar(
+                                    context: context,
+                                    label: "Added to carts successfully",
+                                    backgroundColor: color9);
+                          });
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             color9,
@@ -202,20 +323,34 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             ),
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset('assets/svg/cart_bag.svg'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Add To Cart',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
+                        child: BlocBuilder<CartsCubit, CartsState>(
+                          builder: (context, state) {
+                            return Row(
+                              children: [
+                                cartsCubit.cartsProductsId
+                                        .contains(widget.id.toString())
+                                    ? const Icon(
+                                        Icons.remove_shopping_cart_rounded,
+                                        color: Colors.white,
+                                      )
+                                    : SvgPicture.asset(
+                                        'assets/svg/cart_bag.svg'),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  cartsCubit.cartsProductsId
+                                          .contains(widget.id.toString())
+                                      ? 'Remove From Carts'
+                                      : 'Add To Cart',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ],

@@ -3,6 +3,7 @@ import 'package:ecommerce/features/home/presentation/views/widgets/product_detai
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/widgets/show_snack_bar.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../managers/categories_cubit/categories_cubit.dart';
@@ -22,7 +23,7 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 370,
+      height: MediaQuery.sizeOf(context).height*0.5,
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: widget.categoriesCubit.categoryProductsList.length,
@@ -42,6 +43,7 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                   MaterialPageRoute(
                     builder: (context) {
                       return ProductDetailsView(
+                        id: widget.categoriesCubit.categoryProductsList[index].id,
                         price: widget.categoriesCubit.categoryProductsList[index].price,
                         oldPrice: widget.categoriesCubit.categoryProductsList[index].oldPrice,
                         discount: widget.categoriesCubit.categoryProductsList[index].discount,
@@ -92,6 +94,21 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                                       .categoryProductsList[index].id
                                       .toString());
                               setState(() {});
+                              widget.favoritesCubit.favoritesProductsId
+                                  .contains(widget.categoriesCubit
+                                  .categoryProductsList[index]
+                                  .id
+                                  .toString())?
+                              showSnackBar(
+                                  context: context,
+                                  label:
+                                  "Added to Favourites successfully",
+                                  backgroundColor: color9)
+                                  : showSnackBar(
+                                  context: context,
+                                  label:
+                                  "Removed From Favourites successfully",
+                                  backgroundColor: Colors.red);
                             },
                           ),
                           const Spacer(),
@@ -220,6 +237,21 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                           .toString());
                   setState(
                         () {},
+                  );
+                  widget.cartsCubit.cartsProductsId.contains(
+                      widget.categoriesCubit
+                          .categoryProductsList[index].id
+                          .toString())
+                      ?
+                  showSnackBar(
+                    context:   context,
+                    label:  "Added to carts successfully",
+                    backgroundColor:  color9,)
+
+                      : showSnackBar(
+                    context:  context,
+                    label: "Removed From Carts successfully",
+                    backgroundColor:  Colors.red,
                   );
                 },
                 child: Container(
