@@ -1,4 +1,6 @@
 import 'package:ecommerce/core/utils/constants.dart';
+import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
+import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
 import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:equatable/equatable.dart';
 import 'package:dio/dio.dart';
@@ -82,11 +84,14 @@ class AuthCubit extends Cubit<AuthState> {
           CachedNetwork.insertToCache(
             key: 'token',
             value: responseBody['data']['token'],
-          );
+          ).then((value) {
+            userToken==UserDataCubit().userModel?.token;
+
+          });
           emit(LoginSuccessState());
         } else {
           debugPrint('Failure response: $responseBody');
-          emit(LoginFailureState(errorMessage: responseBody));
+          emit(LoginFailureState(errorMessage: responseBody.toString()));
         }
       }
     } on Exception catch (e) {

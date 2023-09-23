@@ -2,10 +2,12 @@ import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/formButton.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
 import 'package:ecommerce/features/home/presentation/views/home_view.dart';
+import 'package:ecommerce/features/layout/presentation/views/layout_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/colors.dart';
 import '../managers/auth_cubit.dart';
 
 class RegisterView extends StatefulWidget {
@@ -34,7 +36,7 @@ class _RegisterViewState extends State<RegisterView> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeView(),
+                builder: (context) => const LayoutView(),
               ),
             );
           }
@@ -57,38 +59,50 @@ class _RegisterViewState extends State<RegisterView> {
         },
         builder: (context, state) {
           return Scaffold(
-              body: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg'),
-                    opacity: 0.5,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 150,
-                  ),
-                  child: Form(
-                    key: formKey,
-                    child: SingleChildScrollView(
+              backgroundColor: color3,
+              body: Padding(
+               padding:  EdgeInsets.only(right: MediaQuery.sizeOf(context).width*0.03,left: MediaQuery.sizeOf(context).width*0.03,top: MediaQuery.sizeOf(context).height*0.03,bottom: MediaQuery.sizeOf(context).height*0.01,),
+                child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
+                          Center(
+                            child: const Text(
+                              'Register Account',
+                              style: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-
                           const SizedBox(
-                            height: 40,
+                            height: 8,
                           ),
-
+                          const Center(
+                            child: Text(
+                              'Fill your details to Sign Up',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: color5,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.03,
+                          ),
+                          const Text(
+                            'Your Name',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.02,
+                          ),
                           buildTextFormField(
                               label: 'User Name',
                               prefixIcon: Icons.person,
@@ -96,27 +110,51 @@ class _RegisterViewState extends State<RegisterView> {
                               keyboardType: TextInputType.name),
                           //user name
 
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-
+                          const Text(
+                            'Email Address',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.02,
+                          ),
                           buildTextFormField(
                             label: 'Email',
                             prefixIcon: Icons.email,
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
                           ),
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-
+                          const Text(
+                            'Password',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.02,
+                          ),
                           buildPasswordTextFormField(),
                           //password
 
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-
+                          const Text(
+                            'Phone',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.02,
+                          ),
                           buildTextFormField(
                             label: 'Phone',
                             prefixIcon: Icons.phone,
@@ -124,11 +162,12 @@ class _RegisterViewState extends State<RegisterView> {
                             keyboardType: TextInputType.phone,
                           ),
 
-                          const SizedBox(
-                            height: 20,
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height*0.03,
                           ),
 
                           buildFormButton(
+                            context: context,
                             text: state is RegisterLoadingState
                                 ? 'Loading...'
                                 : 'Register',
@@ -145,14 +184,12 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           // register button
 
-                          const SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: MediaQuery.sizeOf(context).height*0.03,),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                              const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: color5)),
                               TextButton(
                                 onPressed: () {
                                   Navigator.pushReplacement(
@@ -164,7 +201,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 },
                                 child: const Text(
                                   'Login',
-                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                  style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
                                 ),
                               ),
                             ],
@@ -186,6 +223,7 @@ class _RegisterViewState extends State<RegisterView> {
                         controller: RegisterView.passwordController,
                         obscureText: obscureText,
                         obscuringCharacter: '*',
+                        cursorColor: color9,
                         validator: (value) {
                           if (RegisterView.passwordController.text.isEmpty) {
                             return 'Please Enter password';
@@ -212,8 +250,8 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           enabled: true,
                           label: const Text(
-                            'password',
-                            style: TextStyle(fontSize: 20),
+                            '●●●●●●',
+                            style: TextStyle(fontSize: 15,color: color5,),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(

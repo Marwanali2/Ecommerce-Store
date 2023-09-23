@@ -4,6 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/colors.dart';
+import '../../../auth/presentation/views/register_view.dart';
+import '../../../card/presentation/managers/carts_cubit.dart';
+import '../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
+import '../../../home/presentation/managers/banner_cubit/banner_cubit.dart';
+import '../../../home/presentation/managers/categories_cubit/categories_cubit.dart';
+import '../../../home/presentation/managers/products_cubit/products_cubit.dart';
+import '../../../layout/presentation/managers/layout_cubit.dart';
+import '../../../layout/presentation/views/layout_view.dart';
+import '../../../profile/presentation/managers/user_data_cubit.dart';
+import '../../../profile/presentation/views/profile_view.dart';
 
 class LayoutView extends StatefulWidget {
   const LayoutView({Key? key}) : super(key: key);
@@ -13,6 +23,19 @@ class LayoutView extends StatefulWidget {
 }
 
 class _LayoutViewState extends State<LayoutView> {
+
+  @override
+  void initState(){
+    super.initState();
+    BlocProvider(create: (context) => LayoutCubit(),);
+    BlocProvider(create: (context) => BannerCubit()..getBanners(),);
+    BlocProvider(create: (context) => CategoriesCubit());
+    BlocProvider(create: (context) => ProductsCubit()..getProducts(),);
+    BlocProvider(create: (context) => FavoritesCubit()..getFavorites(),);
+    BlocProvider(create: (context) => CartsCubit()..getCarts(),);
+    BlocProvider( create: (context) => UserDataCubit()..getUserData(),);
+  }
+
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<LayoutCubit>(context);

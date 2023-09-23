@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/utils/colors.dart';
+
 TextFormField buildTextFormField(
     {required String label,
       required IconData prefixIcon,
       required TextEditingController controller,
       required TextInputType keyboardType}) {
   return TextFormField(
+    cursorColor: color9,
+
     controller: controller,
     keyboardType: keyboardType,
     validator: (value) {
@@ -21,7 +25,7 @@ TextFormField buildTextFormField(
       enabled: true,
       label: Text(
         label,
-        style: TextStyle(fontSize: 20,),
+        style: const TextStyle(fontSize: 15,color: color5,),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.grey),

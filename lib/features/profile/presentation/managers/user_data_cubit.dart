@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/utils/constants.dart';
+import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/user_model/user_model.dart';
 
 part 'user_data_state.dart';
@@ -95,6 +95,50 @@ class UserDataCubit extends Cubit<UserDataState> {
       debugPrint('Failed to edit user , The Reason : $e');
       emit(
         EditFailureState(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> logOut() async {
+    emit(LogOutLoadingState());
+    try {
+      Response response = await _dio.post(
+        'https://student.valuxapps.com/api/logout',
+        options: Options(
+          headers: {
+            'lang': 'en',
+            'Authorization':userToken,
+          },
+        ),
+        data: {
+          'fcm_token':userToken,
+        }
+      );
+      if (response.statusCode == 200) {
+        var responseBody = response.data;
+        if (responseBody['status'] == true) {
+          userModel=UserModel.fromJson(responseBody['data']);
+          // TODO:delete and remove userToken variable key
+          debugPrint('success Logout response is $responseBody}:');
+         // CachedNetwork.deleteCacheItem(key: 'token');
+
+          debugPrint('deleted token key = $userToken}:');
+          emit(LogOutSuccessState());
+        } else {
+          debugPrint('failure logOut response is $responseBody}:');
+          emit(
+            LogOutFailureState(
+              errorMessage: responseBody['message'],
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('Failed to log out , The Reason : $e');
+      emit(
+        LogOutFailureState(
           errorMessage: e.toString(),
         ),
       );

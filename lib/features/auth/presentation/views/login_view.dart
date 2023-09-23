@@ -1,16 +1,32 @@
+import 'package:ecommerce/core/utils/constants.dart';
+import 'package:ecommerce/features/auth/presentation/views/change_password.dart';
 import 'package:ecommerce/features/auth/presentation/views/register_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/formButton.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
 import 'package:ecommerce/features/home/presentation/views/home_view.dart';
+import 'package:ecommerce/features/splach/presentation/splach_view.dart';
+import 'package:ecommerce/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/colors.dart';
+import '../../../layout/presentation/views/layout_view.dart';
 import '../managers/auth_cubit.dart';
+import '../../../auth/presentation/views/register_view.dart';
+import '../../../card/presentation/managers/carts_cubit.dart';
+import '../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
+import '../../../home/presentation/managers/banner_cubit/banner_cubit.dart';
+import '../../../home/presentation/managers/categories_cubit/categories_cubit.dart';
+import '../../../home/presentation/managers/products_cubit/products_cubit.dart';
+import '../../../layout/presentation/managers/layout_cubit.dart';
+import '../../../layout/presentation/views/layout_view.dart';
+import '../../../profile/presentation/managers/user_data_cubit.dart';
+import '../../../profile/presentation/views/profile_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
-
+  static UserDataCubit userDataCubit=UserDataCubit();
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -24,17 +40,16 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            Navigator.pop(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeView(),
-              ),
-            );
-          } else if (state is LoginFailureState) {
+            //userToken==userDataCubit.userModel?.token;
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LayoutView(),));
+          }
+          else
+            if (state is LoginFailureState) {
             showDialog(
               context: context,
               builder: (context) {
@@ -53,56 +68,78 @@ class _LoginViewState extends State<LoginView> {
         },
         builder: (context, state) {
           return Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg',),
-                    opacity: 0.5,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 150,
-                  ),
+            backgroundColor: color3,
+            body: Padding(
+              padding:  EdgeInsets.only(right: MediaQuery.sizeOf(context).width*0.03,left: MediaQuery.sizeOf(context).width*0.03,top: MediaQuery.sizeOf(context).height*0.1,bottom: MediaQuery.sizeOf(context).height*0.01,),
+              child: SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                child: SingleChildScrollView(
                   child: Form(
                     key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                        const Center(
+                          child: Text(
+                            'Hello Again!',
+                            style: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-
                         const SizedBox(
-                          height: 40,
+                          height: 8,
                         ),
-
+                        const Center(
+                          child: Text(
+                            'Fill your details to sign in',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: color5,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height*0.03,
+                        ),
+                        const Text(
+                          'Email Address',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height*0.02,
+                        ),
                         buildTextFormField(
-                          label: 'Email',
+                          label: 'xyz@gmail.com',
                           prefixIcon: Icons.email,
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height*0.03,
+                        ),
+                        const Text(
+                          'Password',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                         SizedBox(
+                          height: MediaQuery.sizeOf(context).height*0.02,
                         ),
                         buildPasswordTextFormField(), //password
-                        const SizedBox(
-                          height: 20,
+                         SizedBox(
+                          height: MediaQuery.sizeOf(context).height*0.1,
                         ),
 
                         buildFormButton(
+                          context: context,
                           text: state is LoginLoadingState
                               ? 'Loading...'
-                              : 'Login',
+                              : 'Sign In',
                           onPressed: () {
                             if (formKey.currentState!.validate() == true) {
                               BlocProvider.of<AuthCubit>(context).loginUser(
@@ -113,14 +150,11 @@ class _LoginViewState extends State<LoginView> {
                           },
                         ),
 
-                        const SizedBox(
-                          height: 20,
-                        ),
-
+                       SizedBox(height: MediaQuery.sizeOf(context).height*0.2,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Don\'t have an account? ',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                            const Text('New User?',style: TextStyle(fontSize: 16,color: color5,),),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -131,8 +165,8 @@ class _LoginViewState extends State<LoginView> {
                                 );
                               },
                               child: const Text(
-                                'Register',
-                                style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),
+                                'Create Account',
+                                style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.black,),
                               ),
                             ),
                           ],
@@ -181,8 +215,8 @@ class _LoginViewState extends State<LoginView> {
                             ),
                             enabled: true,
                             label: const Text(
-                              'password',
-                              style: TextStyle(fontSize: 20),
+                              '●●●●●●',
+                              style: TextStyle(fontSize: 15,color: color5,),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(

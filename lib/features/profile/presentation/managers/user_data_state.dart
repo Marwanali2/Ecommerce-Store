@@ -22,3 +22,13 @@ class EditFailureState extends UserDataState{
 
   EditFailureState({required this.errorMessage});
 }
+
+class LogOutLoadingState extends UserDataState{}
+
+class LogOutSuccessState extends UserDataState{}
+
+class LogOutFailureState extends UserDataState{
+  String? errorMessage;
+
+  LogOutFailureState({required this.errorMessage});
+}

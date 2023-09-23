@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/utils/colors.dart';
+
 SizedBox buildFormButton(
-    {required void Function() onPressed, required String text}) {
+    {required BuildContext context,required void Function() onPressed, required String text}) {
   return SizedBox(
     width: double.maxFinite,
-    height: 50,
+    height: MediaQuery.sizeOf(context).height*0.07,
     child: ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        overlayColor: MaterialStateProperty.all(
-          Colors.blue.withOpacity(0.5),
-        ),
+        
         backgroundColor: MaterialStateProperty.all(
-          Colors.purple,
+          color9,
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
-              10,
+              18,
             ),
           ),
         ),
@@ -26,7 +26,6 @@ SizedBox buildFormButton(
         text,
         style: const TextStyle(
           fontSize: 18,
-          fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
