@@ -13,6 +13,7 @@ import 'package:ecommerce/features/home/presentation/managers/products_cubit/pro
 import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -31,6 +32,9 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
   Stripe.publishableKey=StripeApiKeys.publishableKey;
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp]);
   runApp(const EcommerceApp());
 }
 
