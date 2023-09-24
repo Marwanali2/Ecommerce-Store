@@ -4,6 +4,8 @@ import 'package:ecommerce/features/home/presentation/managers/categories_cubit/c
 import 'package:ecommerce/features/home/presentation/views/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
@@ -83,10 +85,70 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   ),
                   child: CategoryTapProductsListView(categoriesCubit: categoriesCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)
                 );
+               return SizedBox(
+                 height: MediaQuery.sizeOf(context).height*0.5,
+                 child: GridView.builder(
+                     physics: const BouncingScrollPhysics(),
+                     itemCount: 6,
+                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                       crossAxisCount: 2,
+                       mainAxisSpacing: 12,
+                       crossAxisSpacing: 20,
+                       childAspectRatio: 0.6,
+                     ),
+                  itemBuilder: (context, index) {
+                    return  SizedBox(
+                      width: 200.w,
+                      height: 100.h,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.red,
+                        highlightColor: Colors.yellow,
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18,),color: Colors.grey,),
+                          child: Text('test'),
+                        ),
+                      ),
+                    );
+                  },
+
+                 ),
+               );
               } else if (state is CategoryProductsFailure) {
+
                 return const Center(child: CustomErrorWidget());
               } else {
-                return const Center(child: CircularProgressIndicator());
+                // return const Center(child: CircularProgressIndicator());
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SizedBox(
+                    height: MediaQuery.sizeOf(context).height*0.5,
+                    child: GridView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: 6,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 0.6,
+                      ),
+                      itemBuilder: (context, index) {
+                        return  SizedBox(
+                          width: 200.w,
+                          height: 100.h,
+                          child: Shimmer.fromColors(
+                            baseColor: color9,
+                            highlightColor: color9.withOpacity(0.5,),
+                            period: const Duration(milliseconds:500),
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(18,),color: Colors.grey,),
+                            ),
+                          ),
+                        );
+                      },
+
+                    ),
+                  ),
+                );
               }
             },
           ),
@@ -114,7 +176,23 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               } else if (state is BannerFailure) {
                 return const SizedBox(height: 150, child: CustomErrorWidget());
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SizedBox(
+                    height: 150.h,
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Shimmer.fromColors(
+                        baseColor: color9,
+                        highlightColor: color9.withOpacity(0.5,),
+                        period: const Duration(milliseconds:500),
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18,),color: Colors.grey,),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               }
             },
           ),

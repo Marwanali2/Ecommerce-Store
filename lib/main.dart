@@ -14,6 +14,7 @@ import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
@@ -50,13 +51,18 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider( create: (context) => UserDataCubit()..getUserData(),),
         //BlocProvider(create: (context) => SearchCubit()..searchProducts(),),
       ],
-      child: MaterialApp(
-        routes: {
-          '/': (context) =>  const SplashView(),
-        },
-        theme: ThemeData(
-          useMaterial3: true,
-          fontFamily: 'Ubuntu',
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        child: MaterialApp(
+          routes: {
+            '/': (context) =>  const SplashView(),
+          },
+          theme: ThemeData(
+            useMaterial3: true,
+            fontFamily: 'Ubuntu',
+          ),
         ),
       ),
     );

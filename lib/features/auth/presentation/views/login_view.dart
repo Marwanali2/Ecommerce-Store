@@ -46,7 +46,7 @@ class _LoginViewState extends State<LoginView> {
         listener: (context, state) {
           if (state is LoginSuccessState) {
             //userToken==userDataCubit.userModel?.token;
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LayoutView(),));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SplashView(),));
           }
           else
             if (state is LoginFailureState) {

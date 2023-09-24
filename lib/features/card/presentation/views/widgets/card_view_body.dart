@@ -4,8 +4,10 @@ import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view
 import 'package:ecommerce/features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
@@ -629,8 +631,41 @@ class _CardViewBodyState extends State<CardViewBody> {
                   ),
                 ),
               ),
-              const Center(
-                child: CircularProgressIndicator(),
+               Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.81,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: ListView.builder(
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: SizedBox(
+                          height: 150.h,
+                          child: SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            child: Shimmer.fromColors(
+                              baseColor: color9,
+                              highlightColor: color9.withOpacity(
+                                0.5,
+                              ),
+                              period: const Duration(milliseconds: 500),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    18,
+                                  ),
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ],
           );

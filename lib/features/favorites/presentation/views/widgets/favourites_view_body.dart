@@ -3,7 +3,9 @@ import 'package:ecommerce/features/auth/presentation/views/widgets/showSnackBar.
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../managers/favorites_cubit/favorites_cubit.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -23,9 +25,10 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
       builder: (context, state) {
         return Column(
           children: [
-             Center(
+            Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -42,19 +45,17 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                       child: Container(
                         width: 80,
                         decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius
-                              .circular(
+                          borderRadius: BorderRadius.circular(
                             5,
                           ),
-                          color:
-                          color9,
+                          color: color9,
                         ),
                         child: Center(
                           child: Text(
-                            state is FavoritesLoading?'... Items':'${favoritesCubit.favoritesModelList.length} Items',
-                            style:
-                            const TextStyle(
+                            state is FavoritesLoading
+                                ? '... Items'
+                                : '${favoritesCubit.favoritesModelList.length} Items',
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -64,7 +65,9 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 5,),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     const CircleAvatar(
                       backgroundColor: color9,
                       child: Icon(Icons.favorite, color: Colors.red),
@@ -76,7 +79,42 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: state is FavoritesLoading
-                  ? const CircularProgressIndicator()
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: SizedBox(
+                        height: MediaQuery.sizeOf(context).height * 0.81,
+                        width: MediaQuery.sizeOf(context).width,
+                        child: ListView.builder(
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: SizedBox(
+                                height: 150.h,
+                                child: SizedBox(
+                                  width: MediaQuery.sizeOf(context).width,
+                                  child: Shimmer.fromColors(
+                                    baseColor: color9,
+                                    highlightColor: color9.withOpacity(
+                                      0.5,
+                                    ),
+                                    period: const Duration(milliseconds: 500),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          18,
+                                        ),
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    )
                   : favoritesCubit.favoritesModelList.isNotEmpty
                       ? SizedBox(
                           height: MediaQuery.sizeOf(context).height * 0.83,
@@ -393,7 +431,6 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                   ),
                                 ),
                               );
-
                             },
                           ),
                         )
