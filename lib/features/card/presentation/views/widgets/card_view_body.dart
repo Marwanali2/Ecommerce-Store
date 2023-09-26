@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/widgets/custom_error_widget.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
 import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
@@ -10,7 +11,6 @@ import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/utils/colors.dart';
-import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../../core/widgets/show_snack_bar.dart';
 import 'package:dotted_line/dotted_line.dart';
 
@@ -48,18 +48,18 @@ class _CardViewBodyState extends State<CardViewBody> {
                   child: Row(
                     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                       Text(
                         'Carts',
                         style: TextStyle(
                           color: color4,
                           fontFamily: 'DancingScript',
-                          fontSize: 35,
+                          fontSize: 33.sp,
                         ),
                       ),
                       const Spacer(),
                       Center(
                         child: Container(
-                          width: 80,
+                          width: 80.w,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                               5,
@@ -69,9 +69,9 @@ class _CardViewBodyState extends State<CardViewBody> {
                           child: Center(
                             child: Text(
                               '${cartsCubit.cartsList.length} Items',
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'DancingScript',
                               ),
@@ -79,8 +79,8 @@ class _CardViewBodyState extends State<CardViewBody> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
+                       SizedBox(
+                        width: 5.w,
                       ),
                       const CircleAvatar(
                         backgroundColor: color9,
@@ -96,7 +96,7 @@ class _CardViewBodyState extends State<CardViewBody> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SizedBox(
-                  height: MediaQuery.sizeOf(context).height * 0.7,
+                  height: MediaQuery.sizeOf(context).height * 0.63,
                   child: cartsCubit.cartsList.isNotEmpty
                       ? ListView.builder(
                           itemCount: cartsCubit.cartsList.length,
@@ -111,7 +111,7 @@ class _CardViewBodyState extends State<CardViewBody> {
                                   motion: const ScrollMotion(),
                                   children: [
                                     Container(
-                                      height: 180,
+                                      height: 180.w,
                                       width: MediaQuery.sizeOf(context).width *
                                           0.45,
                                       decoration: BoxDecoration(
@@ -140,9 +140,9 @@ class _CardViewBodyState extends State<CardViewBody> {
                                            Text(
                                              cartsCubit.cartItems[index].quantity>1? '${cartsCubit.cartItems[index].quantity}':'1',
                                             //'test',
-                                            style: const TextStyle(
+                                            style:  TextStyle(
                                               color: color2,
-                                              fontSize: 20,
+                                              fontSize: 20.sp,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -247,7 +247,7 @@ class _CardViewBodyState extends State<CardViewBody> {
                                 ),
                                 child: Container(
                                   width: MediaQuery.sizeOf(context).width,
-                                  height: 180,
+                                  height: 180.h,
                                   decoration: BoxDecoration(
                                     color: color2,
                                     borderRadius: BorderRadius.circular(
@@ -258,24 +258,29 @@ class _CardViewBodyState extends State<CardViewBody> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 17,
-                                          right: 10,
+                                        padding:  EdgeInsets.only(
+                                          left: 17.w,
+                                          right: 10.w,
                                         ),
-                                        child: Container(
-                                          height: 155,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                '${cartsCubit.cartsList[index].image}',
+                                        child: CachedNetworkImage(
+                                          imageUrl: '${cartsCubit.cartsList[index].image}',
+                                          imageBuilder: (context, imageProvider) {
+                                            return Container(
+                                              height: 140.h,
+                                              width: 135.w,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    '${cartsCubit.cartsList[index].image}',
+                                                  ),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                borderRadius: BorderRadius.circular(
+                                                  20,
+                                                ),
                                               ),
-                                              fit: BoxFit.fill,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                          ),
+                                            );
+                                          },
                                         ),
                                       ),
                                       Column(
@@ -300,9 +305,9 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                     child: Center(
                                                       child: Text(
                                                         'Sale -${cartsCubit.cartsList[index].discount}%',
-                                                        style: const TextStyle(
+                                                        style:  TextStyle(
                                                           color: color4,
-                                                          fontSize: 15,
+                                                          fontSize: 13.sp,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontFamily:
@@ -313,8 +318,8 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                   ),
                                                 )
                                               : const SizedBox(),
-                                          const SizedBox(
-                                            height: 20,
+                                           SizedBox(
+                                            height: 20.h,
                                           ),
                                           SizedBox(
                                             width: MediaQuery.sizeOf(context)
@@ -324,15 +329,15 @@ class _CardViewBodyState extends State<CardViewBody> {
                                               '${cartsCubit.cartsList[index].name}',
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
+                                              style:  TextStyle(
                                                 color: color10,
-                                                fontSize: 18,
+                                                fontSize: 16.sp,
                                               ),
                                             ),
                                           ),
                                           //  const Spacer(),
-                                          const SizedBox(
-                                            height: 20,
+                                           SizedBox(
+                                            height: 20.h,
                                           ),
                                           SizedBox(
                                             width: MediaQuery.sizeOf(context)
@@ -347,8 +352,8 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style: const TextStyle(color: color10,
-                                                      fontSize: 20,
+                                                    style:  TextStyle(color: color10,
+                                                      fontSize: 20.sp,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -360,7 +365,7 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                           Text(
                                                             '${cartsCubit.cartsList[index].oldPrice}\$',
                                                             style:
-                                                                const TextStyle(
+                                                                 TextStyle(
                                                               color:
                                                                   Colors.grey,
                                                               decoration:
@@ -370,11 +375,11 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                                   Colors.red,
                                                               decorationThickness:
                                                                   1.5,
-                                                              fontSize: 15,
+                                                              fontSize: 13.sp,
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                            width: 5,
+                                                           SizedBox(
+                                                            width: 5.w,
                                                           ),
                                                           Text(
                                                             '${cartsCubit.cartsList[index].price}\$',
@@ -383,9 +388,9 @@ class _CardViewBodyState extends State<CardViewBody> {
                                                                 TextOverflow
                                                                     .ellipsis,
                                                             style:
-                                                                const TextStyle(
+                                                                 TextStyle(
                                                               color: color10,
-                                                              fontSize: 20,
+                                                              fontSize: 18.sp,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -410,43 +415,26 @@ class _CardViewBodyState extends State<CardViewBody> {
                           child: Column(
                             children: [
                               SizedBox(
+                                height: MediaQuery.sizeOf(context).height * 0.5,
                                 child: Lottie.asset(
                                   'assets/lottie_json_animations/no_carts_products.json',
                                   reverse: true,
                                 ),
                               ),
-                              const Text(
+                               Text(
                                 'No Carts Products',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 23.sp,
                                 ),
                               ),
                             ],
                           ),
                         ),
                 ),
-                //     :
-                // SizedBox(
-                // height: MediaQuery.sizeOf(context).height*0.5,
-                // child: Column(
-                // children: [
-                // Lottie.asset(
-                // 'assets/lottie_json_animations/animation_llnsj0db.json',
-                // reverse: true,
-                // ),
-                //  Text(
-                // 'No Favorites Products',
-                // style: TextStyle(
-                // fontSize: 25,
-                // ),
-                // ),
-                // ],
-                // ),
-                // )
               ),
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height * 0.3,
+                height: MediaQuery.sizeOf(context).height * 0.2,
                 decoration: const BoxDecoration(
                   color: color2,
                 ),
@@ -502,10 +490,10 @@ class _CardViewBodyState extends State<CardViewBody> {
                                 EdgeInsets.symmetric(
                                     horizontal:
                                         MediaQuery.sizeOf(context).width * 0.35,
-                                    vertical: 10))),
-                        child: const Text(
+                                    vertical: 10,),),),
+                        child:  Text(
                           'Checkout',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(color: Colors.white, fontSize: 18.sp,),
                         ),
                       ),
                     ],
@@ -617,8 +605,8 @@ class _CardViewBodyState extends State<CardViewBody> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
+                       SizedBox(
+                        width: 5.w,
                       ),
                       const CircleAvatar(
                         backgroundColor: color9,

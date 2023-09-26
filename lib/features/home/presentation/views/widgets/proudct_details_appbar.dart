@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/utils/colors.dart';
 class ProductDetailsAppBar extends StatelessWidget {
@@ -12,7 +13,6 @@ class ProductDetailsAppBar extends StatelessWidget {
       padding: const EdgeInsets.only(top: 12,),
       child: Center(
         child: Row(
-
           children: [
             CircleAvatar(
               backgroundColor: color3,
@@ -29,12 +29,12 @@ class ProductDetailsAppBar extends StatelessWidget {
               ),
             ),
             SizedBox(width: MediaQuery.sizeOf(context).width*0.15,),
-            const Text(
+             Text(
               'Explore Details',
               style: TextStyle(
                 color: color4,
                 fontFamily: 'DancingScript',
-                fontSize: 25,
+                fontSize: 23.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -42,8 +42,8 @@ class ProductDetailsAppBar extends StatelessWidget {
           discount==0?  const SizedBox():
 
           Container(
-              width: 100,
-              height: 50,
+              width: 100.w,
+              height: 40.h,
               decoration: BoxDecoration(
                 borderRadius:
                 BorderRadius.circular(
@@ -54,9 +54,9 @@ class ProductDetailsAppBar extends StatelessWidget {
               child:  Center(
                 child: Text(
                   'Sale - $discount %',
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: color4,
-                    fontSize: 15,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'DancingScript',
                   ),

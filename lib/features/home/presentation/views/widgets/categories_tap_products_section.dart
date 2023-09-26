@@ -7,7 +7,7 @@ import '../../../../../core/widgets/show_snack_bar.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../managers/categories_cubit/categories_cubit.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class CategoryTapProductsListView extends StatefulWidget {
   const CategoryTapProductsListView({Key? key, required this.categoriesCubit, required this.favoritesCubit, required this.cartsCubit}) : super(key: key);
 
@@ -23,7 +23,7 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.sizeOf(context).height*0.5,
+      height: MediaQuery.sizeOf(context).height*0.49,
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: widget.categoriesCubit.categoryProductsList.length,
@@ -142,16 +142,21 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                               : const SizedBox(),
                         ],
                       ),
-                      Container(
-                        height: 165,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              '${widget.categoriesCubit.categoryProductsList[index].image}',
+                      CachedNetworkImage(
+                        imageUrl: '${widget.categoriesCubit.categoryProductsList[index].image}',
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            height: 165,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(
+                                  '${widget.categoriesCubit.categoryProductsList[index].image}',
+                                ),
+                              ),
                             ),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                          );
+                        },
                       ),
                       Text(
                         '${widget.categoriesCubit.categoryProductsList[index].name}',

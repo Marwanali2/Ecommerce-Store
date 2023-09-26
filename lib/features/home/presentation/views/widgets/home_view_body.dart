@@ -85,34 +85,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   ),
                   child: CategoryTapProductsListView(categoriesCubit: categoriesCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)
                 );
-               return SizedBox(
-                 height: MediaQuery.sizeOf(context).height*0.5,
-                 child: GridView.builder(
-                     physics: const BouncingScrollPhysics(),
-                     itemCount: 6,
-                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                       crossAxisCount: 2,
-                       mainAxisSpacing: 12,
-                       crossAxisSpacing: 20,
-                       childAspectRatio: 0.6,
-                     ),
-                  itemBuilder: (context, index) {
-                    return  SizedBox(
-                      width: 200.w,
-                      height: 100.h,
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.red,
-                        highlightColor: Colors.yellow,
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18,),color: Colors.grey,),
-                          child: Text('test'),
-                        ),
-                      ),
-                    );
-                  },
-
-                 ),
-               );
               } else if (state is CategoryProductsFailure) {
 
                 return const Center(child: CustomErrorWidget());
@@ -166,15 +138,15 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.h,
           ),
           BlocBuilder<BannerCubit, BannerState>(
             builder: (context, state) {
               if (state is BannerSuccess) {
                 return BannerSection(pageController: pageController, bannersCubit: bannersCubit);
               } else if (state is BannerFailure) {
-                return const SizedBox(height: 150, child: CustomErrorWidget());
+                return  SizedBox(height: 150.h, child: CustomErrorWidget());
               } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),

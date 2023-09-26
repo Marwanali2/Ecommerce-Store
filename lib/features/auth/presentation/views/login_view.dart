@@ -9,6 +9,7 @@ import 'package:ecommerce/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/colors.dart';
 import '../../../layout/presentation/views/layout_view.dart';
@@ -25,7 +26,7 @@ import '../../../profile/presentation/managers/user_data_cubit.dart';
 import '../../../profile/presentation/views/profile_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+   LoginView({Key? key}) : super(key: key);
   static UserDataCubit userDataCubit=UserDataCubit();
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -46,7 +47,7 @@ class _LoginViewState extends State<LoginView> {
         listener: (context, state) {
           if (state is LoginSuccessState) {
             //userToken==userDataCubit.userModel?.token;
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SplashView(),));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const SplashView(),));
           }
           else
             if (state is LoginFailureState) {
@@ -56,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
                 return AlertDialog(
                   content: Text(
                     '${state.errorMessage}',
-                    style: const TextStyle(
+                    style:  const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -79,23 +80,23 @@ class _LoginViewState extends State<LoginView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Center(
+                         Center(
                           child: Text(
                             'Hello Again!',
                             style: TextStyle(
-                              fontSize: 35,
+                              fontSize: 33.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 8,
+                         SizedBox(
+                          height: 8.h,
                         ),
-                        const Center(
+                         Center(
                           child: Text(
                             'Fill your details to sign in',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18.sp,
                               color: color5,
                             ),
                           ),
@@ -103,10 +104,10 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(
                           height: MediaQuery.sizeOf(context).height*0.03,
                         ),
-                        const Text(
+                         Text(
                           'Email Address',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18.sp,
                           ),
                         ),
                         SizedBox(
@@ -121,10 +122,10 @@ class _LoginViewState extends State<LoginView> {
                         SizedBox(
                           height: MediaQuery.sizeOf(context).height*0.03,
                         ),
-                        const Text(
+                         Text(
                           'Password',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18.sp,
                           ),
                         ),
                          SizedBox(
@@ -154,19 +155,19 @@ class _LoginViewState extends State<LoginView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('New User?',style: TextStyle(fontSize: 16,color: color5,),),
+                             Text('New User?',style: TextStyle(fontSize: 14.sp,color: color5,),),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const RegisterView(),
+                                    builder: (context) =>  const RegisterView(),
                                   ),
                                 );
                               },
-                              child: const Text(
+                              child:  Text(
                                 'Create Account',
-                                style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.black,),
+                                style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: Colors.black,),
                               ),
                             ),
                           ],
@@ -196,7 +197,7 @@ class _LoginViewState extends State<LoginView> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.password),
+                            prefixIcon:  const Icon(Icons.password),
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -204,19 +205,19 @@ class _LoginViewState extends State<LoginView> {
                                 });
                               },
                               child: obscureText
-                                  ? const Icon(
+                                  ?  const Icon(
                                       CupertinoIcons.eye,
                                       color: Colors.black,
                                     )
-                                  : const Icon(
+                                  :  const Icon(
                                       CupertinoIcons.eye_slash,
                                       color: Colors.black,
                                     ),
                             ),
                             enabled: true,
-                            label: const Text(
+                            label:  Text(
                               '●●●●●●',
-                              style: TextStyle(fontSize: 15,color: color5,),
+                              style: TextStyle(fontSize: 13.sp,color: color5,),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
@@ -224,7 +225,7 @@ class _LoginViewState extends State<LoginView> {
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
+                              borderSide:  const BorderSide(color: Colors.grey),
                               borderRadius: BorderRadius.circular(
                                 18,
                               ),

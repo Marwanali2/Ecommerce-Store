@@ -4,6 +4,7 @@ import 'package:ecommerce/features/home/presentation/views/home_view.dart';
 import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../core/utils/constants.dart';
@@ -47,14 +48,14 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 100,),
+           SizedBox(height: 100.h,),
           Lottie.asset(
             'assets/lottie_json_animations/splash.json',
           ),
-          const SizedBox(height: 10,),
-          const Text('All what you need in one place',style: TextStyle(fontSize: 30,fontFamily: 'DancingScript'),),
+           SizedBox(height: 10.h,),
+           Text('All what you need in one place',style: TextStyle(fontSize: 28.sp,fontFamily: 'DancingScript'),),
           const Spacer(),
-          const Text('Developed By Marwan Ali',style: TextStyle(fontSize: 15,color: Colors.grey),),
+           Text('Developed By Marwan Ali',style: TextStyle(fontSize: 15.sp,color: Colors.grey),),
         ],
       ),
     );

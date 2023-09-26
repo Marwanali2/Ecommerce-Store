@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/utils/colors.dart';
 
@@ -29,12 +30,12 @@ class CheckoutViewAppBar extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const Text(
+             Text(
               'My Cart',
               style: TextStyle(
                 color: color4,
                 //fontFamily: 'DancingScript',
-                fontSize: 20,
+                fontSize: 18.sp,
               ),
             ),
             const Spacer(),

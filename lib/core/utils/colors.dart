@@ -8,7 +8,7 @@ const fourthColor =  Color(0xff8B9556);
 const fifthColor = Color(0xff756D54);
 
 const color1=Color(0xff0D6EFD);
-const color2=Color(0xffffffff);
+  const color2=Color(0xffffffff);
 const color3=Color(0xf9f7f7f9);
 const color4=Color(0xff2B2B2B);
 const color5=Color(0xff707B81);

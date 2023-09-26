@@ -1,6 +1,7 @@
 import 'package:ecommerce/features/auth/presentation/views/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../auth/presentation/views/register_view.dart';
@@ -85,14 +86,14 @@ class _ContactEditRowState extends State<ContactEditRow> {
                 children: [
                   Text(
                     widget.mainText,
-                    style: const TextStyle(
-                      fontSize: 15,
+                    style:  TextStyle(
+                      fontSize: 13.sp,
                       color: color10,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 4,
+                   SizedBox(
+                    height: 4.h,
                   ),
                   Text(
                     widget.textType,
@@ -111,7 +112,7 @@ class _ContactEditRowState extends State<ContactEditRow> {
             child:SizedBox(
               child: SvgPicture.asset(
                 'assets/svg/edit_Icon.svg',
-                width: 28,
+                width: 28.w,
               ),
             ),
           )
@@ -125,7 +126,7 @@ class _ContactEditRowState extends State<ContactEditRow> {
           child: SizedBox(
             child: SvgPicture.asset(
               'assets/svg/edit_Icon.svg',
-              width: 28,
+              width: 25.w,
             ),
           ),
         ),

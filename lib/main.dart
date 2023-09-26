@@ -11,12 +11,14 @@ import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
+import 'package:ecommerce/hive_example.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
@@ -32,9 +34,9 @@ void main() async {
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
   Stripe.publishableKey=StripeApiKeys.publishableKey;
-  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp]);
+  await Hive.initFlutter();
   runApp(const EcommerceApp());
 }
 
@@ -62,6 +64,7 @@ class EcommerceApp extends StatelessWidget {
         child: MaterialApp(
           routes: {
             '/': (context) =>  const SplashView(),
+        //    '/': (context) => HiveExample(),
           },
           theme: ThemeData(
             useMaterial3: true,

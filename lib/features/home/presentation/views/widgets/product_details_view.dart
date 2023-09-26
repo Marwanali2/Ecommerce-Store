@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/proudct_details_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -45,7 +47,6 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   Widget build(BuildContext context) {
     var favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
     var cartsCubit = BlocProvider.of<CartsCubit>(context);
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: color2,
@@ -56,62 +57,62 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProductDetailsAppBar(discount: widget.discount!),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 10.h,
                 ),
                 ReadMoreText(
                   widget.name!,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 26,
+                    fontSize: 25.sp,
                   ),
                   trimLines: 3,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: ' Read more',
                   trimExpandedText: '  Read less',
-                  moreStyle: const TextStyle(
+                  moreStyle:  TextStyle(
                     color: color9,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14.sp,
                   ),
-                  lessStyle: const TextStyle(
+                  lessStyle:  TextStyle(
                     color: Colors.red,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14.sp,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 5.h,
                 ),
                 widget.oldPrice == widget.price
                     ? Text(
                         '\$ ${widget.price!}',
-                        style: const TextStyle(
+                        style:  TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 26,
+                          fontSize: 24.sp,
                         ),
                       )
                     : Row(
                         children: [
                           Text(
                             '\$${widget.oldPrice!}',
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: color6,
                               decoration: TextDecoration.lineThrough,
                               decorationColor: Colors.red,
                               decorationThickness: 1.5,
-                              fontSize: 16,
+                              fontSize: 14.sp,
                             ),
                           ),
-                          const SizedBox(
-                            width: 10,
+                           SizedBox(
+                            width: 10.w,
                           ),
                           Text(
                             '\$${widget.price!}',
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
-                              fontSize: 26,
+                              fontSize: 24.sp,
                             ),
                           ),
                         ],
@@ -120,7 +121,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   builder: (context, state) {
                     return SizedBox(
                       width: MediaQuery.sizeOf(context).width,
-                      height: 400,
+                      height: 280.h,
                       child: PageView.builder(
                         physics: const BouncingScrollPhysics(),
                         itemCount: widget.images?.length,
@@ -138,8 +139,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             // Defaults to 100 Milliseconds. Recommended duration is 300 milliseconds for Curves.fastOutSlowIn
                             twoTouchOnly: true,
                             // Defaults to false
-                            child: Image.network(
-                              '${widget.images![index]}',
+                            child: CachedNetworkImage(
+                              imageUrl: '${widget.images![index]}',
+                              imageBuilder: (context, imageProvider) {
+                                return  Image.network(
+                                  '${widget.images![index]}',
+                                );
+                              },
                             ),
                           );
                         },
@@ -182,21 +188,21 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             return Center(
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
-                                height: 150,
+                                height: 150.h,
                                 decoration: BoxDecoration(
                                   color: color9,
                                   borderRadius: BorderRadius.circular(
                                     18,
                                   ),
                                 ),
-                                child: const Padding(
+                                child:  Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Center(
                                     child: Text(
                                       'Zoom Image With Your Fingers',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
+                                        fontSize: 16.sp,
                                       ),
                                     ),
                                   ),
@@ -206,45 +212,45 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           },
                         );
                       },
-                      child: const CircleAvatar(
+                      child:  CircleAvatar(
                         backgroundColor: color9,
                         child: Text(
                           'i',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 23,
+                            fontSize: 21.sp,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: 10.h,
                 ),
                 ReadMoreText(
                   widget.description!,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style:  TextStyle(
+                    fontSize: 12.sp,
                     color: color5,
                   ),
                   trimLines: 6,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: '  Read more',
                   trimExpandedText: '  Read less',
-                  moreStyle: const TextStyle(
+                  moreStyle:  TextStyle(
                     color: color9,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14.sp,
                   ),
-                  lessStyle: const TextStyle(
+                  lessStyle:  TextStyle(
                     color: Colors.red,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14.sp,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                 SizedBox(
+                  height: 20.h,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
@@ -319,7 +325,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             EdgeInsets.symmetric(
                               horizontal:
                                   MediaQuery.sizeOf(context).width * 0.15,
-                              vertical: 15,
+                              vertical: 15.h,
                             ),
                           ),
                         ),
@@ -335,8 +341,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                                       )
                                     : SvgPicture.asset(
                                         'assets/svg/cart_bag.svg'),
-                                const SizedBox(
-                                  width: 10,
+                                 SizedBox(
+                                  width: 10.w,
                                 ),
                                 Text(
                                   cartsCubit.cartsProductsId

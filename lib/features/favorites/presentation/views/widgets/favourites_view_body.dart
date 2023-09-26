@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/utils/colors.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/showSnackBar.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
@@ -28,25 +29,25 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
             Center(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                     EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                 child: Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                     Text(
                       'Favourites',
                       style: TextStyle(
                         color: color4,
                         fontFamily: 'DancingScript',
-                        fontSize: 35,
+                        fontSize: 33.sp,
                       ),
                     ),
                     const Spacer(),
                     Center(
                       child: Container(
-                        width: 80,
+                        width: 80.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
-                            5,
+                            5.r,
                           ),
                           color: color9,
                         ),
@@ -55,9 +56,9 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                             state is FavoritesLoading
                                 ? '... Items'
                                 : '${favoritesCubit.favoritesModelList.length} Items',
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Colors.white,
-                              fontSize: 20,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'DancingScript',
                             ),
@@ -65,8 +66,8 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 5,
+                     SizedBox(
+                      width: 5.w,
                     ),
                     const CircleAvatar(
                       backgroundColor: color9,
@@ -117,7 +118,7 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                     )
                   : favoritesCubit.favoritesModelList.isNotEmpty
                       ? SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.83,
+                          height: MediaQuery.sizeOf(context).height * 0.77,
                           child: ListView.builder(
                             itemCount: favoritesCubit.favoritesModelList.length,
                             scrollDirection: Axis.vertical,
@@ -228,21 +229,26 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                             left: 17,
                                             right: 10,
                                           ),
-                                          child: Container(
-                                            height: 155,
-                                            width: 150,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  '${favoritesCubit.favoritesModelList[index].image}',
-                                                ),
-                                                fit: BoxFit.fill,
-                                              ),
-                                              borderRadius:
+                                          child: CachedNetworkImage(
+                                            imageUrl: '${favoritesCubit.favoritesModelList[index].image}',
+                                            imageBuilder: (context, imageProvider) {
+                                              return Container(
+                                                height: 155,
+                                                width: 150,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      '${favoritesCubit.favoritesModelList[index].image}',
+                                                    ),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  borderRadius:
                                                   BorderRadius.circular(
-                                                20,
-                                              ),
-                                            ),
+                                                    20,
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                         Column(
@@ -373,57 +379,6 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                                                       ],
                                                     ),
                                             ),
-
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(
-                                            //       bottom: 10, left: 25),
-                                            //   child: ElevatedButton(
-                                            //     style: ButtonStyle(
-                                            //       backgroundColor:
-                                            //           MaterialStateProperty.all(
-                                            //         Colors.red,
-                                            //       ),
-                                            //       shape: MaterialStateProperty.all(
-                                            //         RoundedRectangleBorder(
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(
-                                            //             18,
-                                            //           ),
-                                            //         ),
-                                            //       ),
-                                            //       padding:
-                                            //           const MaterialStatePropertyAll(
-                                            //         EdgeInsets.symmetric(
-                                            //           horizontal: 30,
-                                            //           vertical: 15,
-                                            //         ),
-                                            //       ),
-                                            //       side: MaterialStateProperty.all(
-                                            //         const BorderSide(
-                                            //           color: mainColor,
-                                            //           width: 2,
-                                            //         ),
-                                            //       ),
-                                            //     ),
-                                            //     onPressed: () {
-                                            //       setState(() {
-                                            //         favoritesCubit.addOrRemoveFavorites(
-                                            //             productId: favoritesCubit
-                                            //                 .favoritesModelList[index]
-                                            //                 .id
-                                            //                 .toString());
-                                            //       });
-                                            //     },
-                                            //     child: const Text(
-                                            //       'Remove',
-                                            //       style: TextStyle(
-                                            //         color: color10,
-                                            //         fontSize: 20,
-                                            //         fontWeight: FontWeight.bold,
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // )
                                           ],
                                         ),
                                       ],
@@ -435,17 +390,20 @@ class _FavouriteViewBodyState extends State<FavouriteViewBody> {
                           ),
                         )
                       : SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.5,
+                          height: MediaQuery.sizeOf(context).height,
                           child: Column(
                             children: [
-                              Lottie.asset(
-                                'assets/lottie_json_animations/no_favorite_products.json',
-                                reverse: true,
+                              SizedBox(
+                                height: MediaQuery.sizeOf(context).height*0.5,
+                                child: Lottie.asset(
+                                  'assets/lottie_json_animations/no_favorite_products.json',
+                                  reverse: true,
+                                ),
                               ),
-                              const Text(
+                               Text(
                                 'No Favorites Products',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 25.sp,
                                 ),
                               ),
                             ],

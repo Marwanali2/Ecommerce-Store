@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -18,7 +19,7 @@ class BannerSection extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 200,
+          height: 180.h,
           child: PageView.builder(
             controller: pageController,
             itemCount: bannersCubit.bannersList.length,
@@ -30,10 +31,10 @@ class BannerSection extends StatelessWidget {
                   horizontal: 10,
                 ),
                 child: SizedBox(
-                  height: 200,
-                  width: 350,
+                  height: 200.h,
+                  width: 350.w,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18.0),
+                    borderRadius: BorderRadius.circular(15.0.r),
                     child: Image.network(
                       '${bannersCubit.bannersList[index].imageUrl}',
                       fit: BoxFit.fill,
@@ -44,19 +45,22 @@ class BannerSection extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(
-          height: 5,
+         SizedBox(
+          height: 5.h,
         ),
         Center(
           child: SmoothPageIndicator(
             controller: pageController,
             count: bannersCubit.bannersList.length,
             axisDirection: Axis.horizontal,
-            effect:  const ScrollingDotsEffect(
+            effect:   ScrollingDotsEffect(
               activeDotColor: color9,
-              radius: 5,
+              radius: 5.r,
             ),
           ),
+        ),
+        SizedBox(
+          height: 10.h,
         ),
       ],
     );

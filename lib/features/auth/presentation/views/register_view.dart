@@ -6,12 +6,13 @@ import 'package:ecommerce/features/layout/presentation/views/layout_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/colors.dart';
 import '../managers/auth_cubit.dart';
 
 class RegisterView extends StatefulWidget {
-  const RegisterView({Key? key}) : super(key: key);
+   RegisterView({Key? key}) : super(key: key);
   static final passwordController = TextEditingController();
   static final String thePassword=passwordController.text;
   @override
@@ -36,7 +37,7 @@ class _RegisterViewState extends State<RegisterView> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const LayoutView(),
+                builder: (context) =>  const LayoutView(),
               ),
             );
           }
@@ -47,7 +48,7 @@ class _RegisterViewState extends State<RegisterView> {
                 return AlertDialog(
                   content: Text(
                     '${state.errorMessage}',
-                    style: const TextStyle(
+                    style:  const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -71,22 +72,22 @@ class _RegisterViewState extends State<RegisterView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child: const Text(
+                            child:  Text(
                               'Register Account',
                               style: TextStyle(
-                                fontSize: 35,
+                                fontSize: 33.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 8,
+                           SizedBox(
+                            height: 8.h,
                           ),
-                          const Center(
+                           Center(
                             child: Text(
                               'Fill your details to Sign Up',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18.sp,
                                 color: color5,
                               ),
                             ),
@@ -94,10 +95,10 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-                          const Text(
+                           Text(
                             'Your Name',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
@@ -113,10 +114,10 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-                          const Text(
+                           Text(
                             'Email Address',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
@@ -131,10 +132,10 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-                          const Text(
+                           Text(
                             'Password',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
@@ -146,10 +147,10 @@ class _RegisterViewState extends State<RegisterView> {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height*0.03,
                           ),
-                          const Text(
+                           Text(
                             'Phone',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
@@ -189,19 +190,19 @@ class _RegisterViewState extends State<RegisterView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Already have an account?',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: color5)),
+                               Text('Already have an account?',style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold,color: color5)),
                               TextButton(
                                 onPressed: () {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const LoginView(),
+                                      builder: (context) =>  LoginView(),
                                     ),
                                   );
                                 },
-                                child: const Text(
+                                child:  Text(
                                   'Login',
-                                  style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 18),
+                                  style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 16.sp),
                                 ),
                               ),
                             ],
@@ -231,7 +232,7 @@ class _RegisterViewState extends State<RegisterView> {
                           return null;
                         },
                         decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.password),
+                          prefixIcon:  const Icon(Icons.password),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -239,19 +240,19 @@ class _RegisterViewState extends State<RegisterView> {
                               });
                             },
                             child: obscureText
-                                ? const Icon(
+                                ?  const Icon(
                                     CupertinoIcons.eye,
                                     color: Colors.black,
                                   )
-                                : const Icon(
+                                :  const Icon(
                                     CupertinoIcons.eye_slash,
                                     color: Colors.black,
                                   ),
                           ),
                           enabled: true,
-                          label: const Text(
+                          label:  Text(
                             '●●●●●●',
-                            style: TextStyle(fontSize: 15,color: color5,),
+                            style: TextStyle(fontSize: 13.sp,color: color5,),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -259,7 +260,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.grey),
+                            borderSide:  const BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(
                               18,
                             ),
