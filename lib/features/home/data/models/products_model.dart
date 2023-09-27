@@ -1,13 +1,26 @@
+import 'package:hive/hive.dart';
+part'products_model.g.dart';
+@HiveType(typeId: 0)
 class ProductModel {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   int? price;
+  @HiveField(2)
   int? oldPrice;
+  @HiveField(3)
   int? discount;
+  @HiveField(4)
   String? image;
+  @HiveField(5)
   String? name;
+  @HiveField(6)
   String? description;
+  @HiveField(7)
   List<dynamic>? images;
+  @HiveField(8)
   bool? inFavorites;
+  @HiveField(9)
   bool? inCart;
 
   ProductModel(

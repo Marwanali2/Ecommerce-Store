@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../core/utils/constants.dart';
+import '../../../../core/utils/functions.dart';
 import '../../data/models/cart_model.dart';
 
 part 'carts_state.dart';
@@ -48,8 +49,7 @@ class CartsCubit extends Cubit<CartsState> {
         debugPrint(
             'get carts products response Successfully with status code ${response.statusCode} ');
         debugPrint('carts products number = ${cartsList.length}');
-        var cartProductsBox=Hive.box(kCartProducts);
-        cartProductsBox.addAll(cartsList);
+        saveDataToBox(cachedData: cartsList, boxName: kCartProducts);
         emit(CartsSuccess());
       } else {
         debugPrint(

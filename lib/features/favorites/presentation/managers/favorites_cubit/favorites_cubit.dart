@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/utils/constants.dart';
+import 'package:ecommerce/core/utils/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -35,8 +36,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         }
         debugPrint('get favorites products response Successfully with status code ${response.statusCode} ');
         debugPrint('favorites products number = ${favoritesModelList.length}');
-        var favProductsBox=Hive.box(kFavProducts);
-        favProductsBox.addAll(favoritesModelList);
+
+        saveDataToBox(cachedData: favoritesModelList, boxName: kFavProducts);
         emit(FavoritesSuccess());
       } else {
         debugPrint(

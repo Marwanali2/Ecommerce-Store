@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../core/utils/functions.dart';
+
 part 'banner_state.dart';
 
 class BannerCubit extends Cubit<BannerState> {
@@ -28,8 +30,7 @@ class BannerCubit extends Cubit<BannerState> {
            ),
          );
        }
-       var bannersBox=Hive.box(kBannersImages);
-       bannersBox.addAll(bannersList);
+        saveDataToBox(cachedData: bannersList, boxName: kBannersImages);
        debugPrint('get banners response Successfully with status code ${response.statusCode} ');
        emit(BannerSuccess());
      }else{

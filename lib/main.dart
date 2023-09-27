@@ -8,8 +8,10 @@ import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
 import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
+import 'package:ecommerce/features/home/data/models/banners_model.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
+import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
 import 'package:ecommerce/hive_example.dart';
 import 'package:ecommerce/simple_bloc_observer.dart';
@@ -23,6 +25,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/data/models/entities/banner_entity/banner_entity.dart';
 import 'features/home/data/models/entities/product_entity/product_entity.dart';
+import 'features/home/data/models/products_model.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/layout/presentation/views/layout_view.dart';
@@ -32,27 +35,28 @@ import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();//ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
+  WidgetsFlutterBinding
+      .ensureInitialized(); //ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
   await CachedNetwork.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
-  Stripe.publishableKey=StripeApiKeys.publishableKey;
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp]);
+  Stripe.publishableKey = StripeApiKeys.publishableKey;
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   await Hive.initFlutter();
+  Hive.registerAdapter(ProductModelAdapter());
+  await Hive.openBox<ProductModel>(kCategoriesProducts);
+  await Hive.openBox<ProductModel>(kFilteredProducts);
+  await Hive.openBox<ProductModel>(kFavProducts);
+  await Hive.openBox<ProductModel>(kCartProducts);
+
+  Hive.registerAdapter(BannerModelAdapter());
+  await Hive.openBox<BannerModel>(kBannersImages);
+
+  Hive.registerAdapter(UserModelAdapter());
+  await Hive.openBox<UserModel>(kUserDetails);
+
   runApp(const EcommerceApp());
-  Hive.registerAdapter(ProductEntityAdapter());
-  await Hive.openBox<ProductEntity>(kCategoriesProducts);
-  await Hive.openBox<ProductEntity>(kFilteredProducts);
-  await Hive.openBox<ProductEntity>(kFavProducts);
-  await Hive.openBox<ProductEntity>(kCartProducts);
-
-  Hive.registerAdapter(BannerEntityAdapter());
-  await Hive.openBox<BannerEntity>(kBannersImages);
-
-  Hive.registerAdapter(UserEntityAdapter());
-  await Hive.openBox<UserEntity>(kUserDetails);
-
 }
 
 class EcommerceApp extends StatelessWidget {
@@ -62,14 +66,28 @@ class EcommerceApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthCubit(),),
-        BlocProvider(create: (context) => LayoutCubit(),),
-        BlocProvider(create: (context) => BannerCubit()..getBanners(),),
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LayoutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BannerCubit()..getBanners(),
+        ),
         BlocProvider(create: (context) => CategoriesCubit()),
-        BlocProvider(create: (context) => ProductsCubit()..getProducts(),),
-        BlocProvider(create: (context) => FavoritesCubit()..getFavorites(),),
-        BlocProvider(create: (context) => CartsCubit()..getCarts(),),
-        BlocProvider( create: (context) => UserDataCubit()..getUserData(),),
+        BlocProvider(
+          create: (context) => ProductsCubit()..getProducts(),
+        ),
+        BlocProvider(
+          create: (context) => FavoritesCubit()..getFavorites(),
+        ),
+        BlocProvider(
+          create: (context) => CartsCubit()..getCarts(),
+        ),
+        BlocProvider(
+          create: (context) => UserDataCubit()..getUserData(),
+        ),
         //BlocProvider(create: (context) => SearchCubit()..searchProducts(),),
       ],
       child: ScreenUtilInit(
@@ -78,8 +96,8 @@ class EcommerceApp extends StatelessWidget {
         splitScreenMode: true,
         child: MaterialApp(
           routes: {
-            '/': (context) =>  const SplashView(),
-        //    '/': (context) => HiveExample(),
+            '/': (context) => const SplashView(),
+            //    '/': (context) => HiveExample(),
           },
           theme: ThemeData(
             useMaterial3: true,

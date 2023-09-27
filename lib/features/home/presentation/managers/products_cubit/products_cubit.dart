@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../core/utils/functions.dart';
 import '../../../data/models/products_model.dart';
 
 part 'products_state.dart';
@@ -35,8 +36,7 @@ class ProductsCubit extends Cubit<ProductsState> {
               item,
             ),
           );
-          var productsBox=Hive.box(kCategoriesProducts);
-          productsBox.addAll(productsModelList);
+          saveDataToBox(cachedData: productsModelList,boxName: kCategoriesProducts);
         }
         debugPrint(
             'get products response Successfully with status code ${response.statusCode} ');
@@ -56,6 +56,8 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+
+
   List<ProductModel> filteredProductsModelList = [];
 
   void filterProducts({required String input}) {
@@ -63,8 +65,7 @@ class ProductsCubit extends Cubit<ProductsState> {
         .where((element) =>
             element.name!.toLowerCase().startsWith(input.toLowerCase()))
         .toList();
-    var filteredProductsBox=Hive.box(kFilteredProducts);
-    filteredProductsBox.addAll(filteredProductsModelList);
+    saveDataToBox(cachedData: filteredProductsModelList,boxName: kFilteredProducts);
     emit(FilteredProductsSuccess());
   }
 
