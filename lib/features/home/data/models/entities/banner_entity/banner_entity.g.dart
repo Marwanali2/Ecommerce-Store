@@ -6,24 +6,24 @@ part of 'banner_entity.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ProductEntityAdapter extends TypeAdapter<ProductEntity> {
+class BannerEntityAdapter extends TypeAdapter<BannerEntity> {
   @override
   final int typeId = 1;
 
   @override
-  ProductEntity read(BinaryReader reader) {
+  BannerEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ProductEntity(
+    return BannerEntity(
       id: fields[0] as int?,
       imageUrl: fields[1] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ProductEntity obj) {
+  void write(BinaryWriter writer, BannerEntity obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -38,7 +38,7 @@ class ProductEntityAdapter extends TypeAdapter<ProductEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ProductEntityAdapter &&
+      other is BannerEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

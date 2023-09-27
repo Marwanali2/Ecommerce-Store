@@ -4,13 +4,13 @@ part 'banner_entity.g.dart';
 
 
 @HiveType(typeId: 1)
-class ProductEntity {
+class BannerEntity {
   @HiveField(0)
   int? id;
   @HiveField(1)
   String? imageUrl;
 
-  ProductEntity({
+  BannerEntity({
     required this.id,
     required this.imageUrl,
   });

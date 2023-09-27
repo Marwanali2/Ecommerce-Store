@@ -21,9 +21,12 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
+import 'features/home/data/models/entities/banner_entity/banner_entity.dart';
+import 'features/home/data/models/entities/product_entity/product_entity.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
 import 'features/layout/presentation/views/layout_view.dart';
+import 'features/profile/data/entites/user_entity/user_entity.dart';
 import 'features/profile/presentation/managers/user_data_cubit.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
@@ -38,6 +41,18 @@ void main() async {
       [DeviceOrientation.portraitUp]);
   await Hive.initFlutter();
   runApp(const EcommerceApp());
+  Hive.registerAdapter(ProductEntityAdapter());
+  await Hive.openBox<ProductEntity>(kCategoriesProducts);
+  await Hive.openBox<ProductEntity>(kFilteredProducts);
+  await Hive.openBox<ProductEntity>(kFavProducts);
+  await Hive.openBox<ProductEntity>(kCartProducts);
+
+  Hive.registerAdapter(BannerEntityAdapter());
+  await Hive.openBox<BannerEntity>(kBannersImages);
+
+  Hive.registerAdapter(UserEntityAdapter());
+  await Hive.openBox<UserEntity>(kUserDetails);
+
 }
 
 class EcommerceApp extends StatelessWidget {

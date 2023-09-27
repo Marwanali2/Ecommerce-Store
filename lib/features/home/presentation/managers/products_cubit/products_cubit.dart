@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
 import '../../../data/models/products_model.dart';
@@ -34,6 +35,8 @@ class ProductsCubit extends Cubit<ProductsState> {
               item,
             ),
           );
+          var productsBox=Hive.box(kCategoriesProducts);
+          productsBox.addAll(productsModelList);
         }
         debugPrint(
             'get products response Successfully with status code ${response.statusCode} ');
@@ -60,6 +63,8 @@ class ProductsCubit extends Cubit<ProductsState> {
         .where((element) =>
             element.name!.toLowerCase().startsWith(input.toLowerCase()))
         .toList();
+    var filteredProductsBox=Hive.box(kFilteredProducts);
+    filteredProductsBox.addAll(filteredProductsModelList);
     emit(FilteredProductsSuccess());
   }
 
