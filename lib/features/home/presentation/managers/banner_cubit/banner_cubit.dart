@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/home/data/models/banners_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
 part 'banner_state.dart';
@@ -26,6 +28,8 @@ class BannerCubit extends Cubit<BannerState> {
            ),
          );
        }
+       var bannersBox=Hive.box(kBannersImages);
+       bannersBox.addAll(bannersList);
        debugPrint('get banners response Successfully with status code ${response.statusCode} ');
        emit(BannerSuccess());
      }else{

@@ -3,6 +3,7 @@ import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import '../../data/user_model/user_model.dart';
 
 part 'user_data_state.dart';
@@ -28,6 +29,8 @@ class UserDataCubit extends Cubit<UserDataState> {
         if (responseBody['status'] == true) {
           userModel=UserModel.fromJson(responseBody['data']);
           debugPrint('get user data response Success with status code ${response.statusCode} ');
+          var userDataBox=Hive.box(kUserDetails);
+          userDataBox.add(userModel);//**** مش متاكد صح ولا غلط
           emit(
             UserDataSuccess(),
           );

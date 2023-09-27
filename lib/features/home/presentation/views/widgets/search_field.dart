@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/utils/colors.dart';
@@ -25,7 +26,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
         
         filled: true,
         fillColor: color2,
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
         hintText: 'Search Products...',
         hintStyle: const TextStyle(color: color6,fontSize: 15),
         suffixIcon: IconButton(
@@ -91,13 +92,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
                         vertical: 10
                     ),
                     child: SizedBox(
-                      height: 500,
+                      height: 500.h,
                       child:widget.productsCubit.filteredProductsModelList.isEmpty?
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                              height:200,
+                              height:200.h,
                               child: Lottie.asset('assets/lottie_json_animations/no_products.json')),
                           const Text('Not Available Now'),
                         ],
@@ -176,9 +177,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                               child: Text(
                                                 'Sale -${productModel.discount}%',
                                                 style:
-                                                const TextStyle(
+                                                 TextStyle(
                                                   color: color4,
-                                                  fontSize: 15,
+                                                  fontSize: 13.sp,
                                                   fontWeight:
                                                   FontWeight.bold,
                                                   fontFamily:
@@ -192,7 +193,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                       ],
                                     ),
                                     Container(
-                                      height: 165,
+                                      height: 165.h,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(
@@ -204,15 +205,15 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                     ),
                                     Text(
                                       '${productModel.name}',
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                         color: color6,
-                                        fontSize: 13,
+                                        fontSize: 11.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 5),
                                       child: Row(
@@ -221,18 +222,18 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                               productModel.price
                                               ? Text(
                                             '${productModel.price}',
-                                            style: const TextStyle(
+                                            style:  TextStyle(
                                               color: color8,
                                               fontWeight:
                                               FontWeight.bold,
-                                              fontSize: 20,
+                                              fontSize: 20.sp,
                                             ),
                                           )
                                               : Row(
                                             children: [
                                               Text(
                                                 '${productModel.oldPrice}\$',
-                                                style: const TextStyle(
+                                                style:  TextStyle(
                                                   color: color6,
                                                   decoration:
                                                   TextDecoration
@@ -241,32 +242,32 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                                   Colors.red,
                                                   decorationThickness:
                                                   1.5,
-                                                  fontSize: 14,
+                                                  fontSize: 12.sp,
                                                 ),
                                               ),
-                                              const SizedBox(
-                                                width: 5,
+                                               SizedBox(
+                                                width: 5.w,
                                               ),
                                               Text(
                                                 '${productModel.price}',
-                                                style: const TextStyle(
+                                                style:  TextStyle(
                                                   color: Colors.black,
                                                   fontWeight:
                                                   FontWeight.bold,
-                                                  fontSize: 17,
+                                                  fontSize: 15.sp,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(
-                                            width: 1,
+                                           SizedBox(
+                                            width: 1.w,
                                           ),
-                                          const Text(
+                                           Text(
                                             '\$',
                                             style: TextStyle(
                                               color: mainColor,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 17,
+                                              fontSize: 15.sp,
                                             ),
                                           ),
                                         ],
@@ -288,8 +289,8 @@ class _SearchTextFieldState extends State<SearchTextField> {
                                   },);
                                 },
                                 child: Container(
-                                  height: 40,
-                                  width: 40,
+                                  height: 40.h,
+                                  width: 40.w,
                                   decoration: const BoxDecoration(
                                     color: color9,
                                     borderRadius: BorderRadius.only(

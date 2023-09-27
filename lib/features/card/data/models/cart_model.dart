@@ -23,7 +23,7 @@ class CartModel {
   }
 }
 
-class Product {
+ class Product {
   int? id;
   double? price;
   double? oldPrice;

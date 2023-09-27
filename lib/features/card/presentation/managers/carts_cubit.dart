@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/features/home/data/models/products_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 import '../../../../core/utils/constants.dart';
 import '../../data/models/cart_model.dart';
@@ -47,6 +48,8 @@ class CartsCubit extends Cubit<CartsState> {
         debugPrint(
             'get carts products response Successfully with status code ${response.statusCode} ');
         debugPrint('carts products number = ${cartsList.length}');
+        var cartProductsBox=Hive.box(kCartProducts);
+        cartProductsBox.addAll(cartsList);
         emit(CartsSuccess());
       } else {
         debugPrint(
