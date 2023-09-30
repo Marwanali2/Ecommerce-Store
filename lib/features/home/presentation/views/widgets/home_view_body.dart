@@ -52,29 +52,29 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             child: SearchTextField(textController: textController, productsCubit: productsCubit, favoritesCubit: favoritesCubit, cartsCubit: cartsCubit)//buildSearchTextFormField(textController, productsCubit, context, favoritesCubit, cartsCubit),
           ),
 
-          const SizedBox(
-            height: 20,
+           SizedBox(
+            height: 20.h,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 10,right: 10),
+           Padding(
+            padding: const EdgeInsets.only(left: 10,right: 10),
             child:Text(
               'Select Category',
               style: TextStyle(
                 color: color4,
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.h,
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: CategoriesTaps(categoriesCubit: categoriesCubit) //buildCategoriesNamesListView(categoriesCubit),
           ),
-          const SizedBox(
-            height: 16,
+           SizedBox(
+            height: 16.h,
           ),
           BlocBuilder<CategoriesCubit, CategoriesState>(
             builder: (context, state) {
@@ -124,16 +124,16 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               }
             },
           ),
-          const SizedBox(
-            height: 16,
+           SizedBox(
+            height: 16.h,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               'New Offers And Discounts',
               style: TextStyle(
                 color: color4,
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -146,7 +146,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               if (state is BannerSuccess) {
                 return BannerSection(pageController: pageController, bannersCubit: bannersCubit);
               } else if (state is BannerFailure) {
-                return  SizedBox(height: 150.h, child: CustomErrorWidget());
+                return  SizedBox(height: 150.h, child: const CustomErrorWidget());
               } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),

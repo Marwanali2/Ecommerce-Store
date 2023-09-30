@@ -5,8 +5,10 @@ import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../../core/utils/app_router.dart';
 import '../../../../core/utils/constants.dart';
 import '../../../auth/presentation/views/register_view.dart';
 import '../../../card/presentation/managers/carts_cubit.dart';
@@ -36,12 +38,13 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     super.initState();
     Future.delayed(const Duration(seconds: 10,),() {
       (userToken.isEmpty||userToken=="")?
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginView(),)):
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LayoutView(),));
+     GoRouter.of(context).pushReplacement(AppRouter.kLoginView):
+      GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
     },);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),

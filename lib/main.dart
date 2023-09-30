@@ -22,6 +22,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/utils/app_router.dart';
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/data/models/entities/banner_entity/banner_entity.dart';
 import 'features/home/data/models/entities/product_entity/product_entity.dart';
@@ -94,11 +95,8 @@ class EcommerceApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         splitScreenMode: true,
-        child: MaterialApp(
-          routes: {
-            '/': (context) => const SplashView(),
-            //    '/': (context) => HiveExample(),
-          },
+        child: MaterialApp.router(
+          routerConfig: AppRouter.router,
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: 'Ubuntu',

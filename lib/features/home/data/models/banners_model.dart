@@ -7,7 +7,6 @@ class BannerModel {
   @HiveField(1)
   String? imageUrl;
 
-
   BannerModel({this.id, this.imageUrl, });
 
   BannerModel.fromJson(Map<String, dynamic> json) {
