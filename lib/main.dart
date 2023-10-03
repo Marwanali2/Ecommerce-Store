@@ -46,7 +46,7 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(ProductModelAdapter());
-  //await Hive.openBox<ProductModel>(kCategoriesProducts);
+  await Hive.openBox(kCategoriesProducts);
 
   await Hive.openBox<ProductModel>(kFilteredProducts);
   await Hive.openBox<ProductModel>(kFavProducts);

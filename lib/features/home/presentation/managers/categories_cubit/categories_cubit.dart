@@ -55,7 +55,8 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   }
 
   Future<void> saveCategoryProducts(List<ProductModel> data) async {
-    var box = await Hive.openBox(kCategoriesProducts);
+   // var box = await Hive.openBox(kCategoriesProducts);
+    var box = Hive.box(kCategoriesProducts);
     if (kDebugMode) {
       print(
           'categoriesProductsBox opened successfully************************************');

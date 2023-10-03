@@ -181,50 +181,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        favoritesCubit.favoritesProductsId
-                                                .contains(categoriesCubit
-                                                    .categoryProductsList[index]
-                                                    .id
-                                                    .toString())
-                                            ? Icons.favorite_rounded
-                                            : Icons.favorite_border_rounded,
-                                        color: favoritesCubit
-                                                .favoritesProductsId
-                                                .contains(categoriesCubit
-                                                    .categoryProductsList[index]
-                                                    .id
-                                                    .toString())
-                                            ? Colors.red
-                                            : color8,
-                                      ),
-                                      onPressed: () async {
-                                        await cubit.addOrRemoveFavorites(
-                                            productId: categoriesCubit
-                                                .categoryProductsList[index].id
-                                                .toString());
-                                        setState(() {});
-                                        favoritesCubit.favoritesProductsId
-                                                .contains(categoriesCubit
-                                                    .categoryProductsList[index]
-                                                    .id
-                                                    .toString())
-                                            ? showSnackBar(
-                                                context: context,
-                                                label:
-                                                    "Added to Favourites successfully",
-                                                backgroundColor: color9)
-                                            : showSnackBar(
-                                                context: context,
-                                                label:
-                                                    "Removed From Favourites successfully",
-                                                backgroundColor: Colors.red);
-                                      },
-                                    ),
-                                    const Spacer(),
-                                    categoriesCubit.categoryProductsList[index]
+                                    categoriesCubit.categoryProductsLocalList[index]
                                                 .discount !=
                                             0
                                         ? Center(
@@ -239,7 +198,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  'Sale -${categoriesCubit.categoryProductsList[index].discount}%',
+                                                  'Sale -${categoriesCubit.categoryProductsLocalList[index].discount}%',
                                                   style: const TextStyle(
                                                     color: color4,
                                                     fontSize: 15,
@@ -255,7 +214,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                 ),
                                 CachedNetworkImage(
                                   imageUrl:
-                                      '${categoriesCubit.categoryProductsList[index].image}',
+                                      '${categoriesCubit.categoryProductsLocalList[index].image}',
                                   imageBuilder: (context, imageProvider) {
                                     return Container(
                                       height: 165,
@@ -263,7 +222,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
                                           image: NetworkImage(
-                                            '${categoriesCubit.categoryProductsList[index].image}',
+                                            '${categoriesCubit.categoryProductsLocalList[index].image}',
                                           ),
                                         ),
                                       ),
@@ -271,7 +230,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                   },
                                 ),
                                 Text(
-                                  '${categoriesCubit.categoryProductsList[index].name}',
+                                  '${categoriesCubit.categoryProductsLocalList[index].name}',
                                   style: const TextStyle(
                                     color: color6,
                                     fontSize: 15,
@@ -286,13 +245,13 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                   child: Row(
                                     children: [
                                       categoriesCubit
-                                                  .categoryProductsList[index]
+                                                  .categoryProductsLocalList[index]
                                                   .oldPrice ==
                                               categoriesCubit
-                                                  .categoryProductsList[index]
+                                                  .categoryProductsLocalList[index]
                                                   .price
                                           ? Text(
-                                              '${categoriesCubit.categoryProductsList[index].price}',
+                                              '${categoriesCubit.categoryProductsLocalList[index].price}',
                                               style: const TextStyle(
                                                 color: color8,
                                                 fontWeight: FontWeight.bold,
@@ -302,7 +261,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                           : Row(
                                               children: [
                                                 Text(
-                                                  '${categoriesCubit.categoryProductsList[index].oldPrice}\$',
+                                                  '${categoriesCubit.categoryProductsLocalList[index].oldPrice}\$',
                                                   style: const TextStyle(
                                                     color: color6,
                                                     decoration: TextDecoration
@@ -316,7 +275,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  '${categoriesCubit.categoryProductsList[index].price}',
+                                                  '${categoriesCubit.categoryProductsLocalList[index].price}',
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
@@ -343,60 +302,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: GestureDetector(
-                            onTap: () async {
-                              await cartsCubit.addOrRemoveCarts(
-                                  productId: categoriesCubit
-                                      .categoryProductsList[index].id
-                                      .toString());
-                              setState(
-                                () {},
-                              );
-                              cartsCubit.cartsProductsId.contains(
-                                      categoriesCubit
-                                          .categoryProductsList[index].id
-                                          .toString())
-                                  ? showSnackBar(
-                                      context: context,
-                                      label: "Added to carts successfully",
-                                      backgroundColor: color9,
-                                    )
-                                  : showSnackBar(
-                                      context: context,
-                                      label: "Removed From Carts successfully",
-                                      backgroundColor: Colors.red,
-                                    );
-                            },
-                            child: Container(
-                              height: 45,
-                              width: 45,
-                              decoration: const BoxDecoration(
-                                color: color9,
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(
-                                    20,
-                                  ),
-                                  topLeft: Radius.circular(
-                                    20,
-                                  ),
-                                ),
-                              ),
-                              child: Icon(
-                                cartsCubit.cartsProductsId.contains(
-                                        categoriesCubit
-                                            .categoryProductsList[index].id
-                                            .toString())
-                                    ? Icons.check
-                                    : Icons.add,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]);
+                      ],
+                      );
                     },
                   ),
                 );
