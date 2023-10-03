@@ -16,6 +16,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<ProductModel> productsModelList = [];
 
   Future getProducts() async {
+
     emit(ProductsLoading());
     try {
       Response response = await _dio.get(
@@ -36,10 +37,10 @@ class ProductsCubit extends Cubit<ProductsState> {
               item,
             ),
           );
-          saveDataToBox(cachedData: productsModelList,boxName: kCategoriesProducts);
         }
         debugPrint(
             'get products response Successfully with status code ${response.statusCode} ');
+
         emit(ProductsSuccess());
       } else {
         debugPrint(
@@ -56,7 +57,47 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+  /*Future getProducts() async {
 
+    emit(ProductsLoading());
+    try {
+      Response response = await _dio.get(
+        'https://student.valuxapps.com/api/home',
+        options: Options(
+          headers: {
+            'lang': 'en',
+            'Authorization': userToken,
+          },
+        ),
+      );
+      var responseBody = response.data;
+      if (response.statusCode == 200) {
+        productsModelList = [];
+        for (var item in responseBody['data']['products']) {
+          productsModelList.add(
+            ProductModel.fromJson(
+              item,
+            ),
+          );
+        }
+        saveDataToBox(cachedData: productsModelList,boxName: kCategoriesProducts);
+        debugPrint(
+            'get products response Successfully with status code ${response.statusCode} ');
+        emit(ProductsSuccess());
+      } else {
+        debugPrint(
+            'get products response Failed with status code ${response.statusCode} ,the response is :$responseBody');
+        emit(ProductsFailure(errorMessage: responseBody));
+      }
+    } on Exception catch (e) {
+      debugPrint('Failed to get products , The Reason : $e');
+      emit(
+        ProductsFailure(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }*/
 
   List<ProductModel> filteredProductsModelList = [];
 
@@ -65,7 +106,7 @@ class ProductsCubit extends Cubit<ProductsState> {
         .where((element) =>
             element.name!.toLowerCase().startsWith(input.toLowerCase()))
         .toList();
-    saveDataToBox(cachedData: filteredProductsModelList,boxName: kFilteredProducts);
+   // saveDataToBox(cachedData: filteredProductsModelList,boxName: kFilteredProducts);
     emit(FilteredProductsSuccess());
   }
 

@@ -46,7 +46,8 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(ProductModelAdapter());
-  await Hive.openBox<ProductModel>(kCategoriesProducts);
+  //await Hive.openBox<ProductModel>(kCategoriesProducts);
+
   await Hive.openBox<ProductModel>(kFilteredProducts);
   await Hive.openBox<ProductModel>(kFavProducts);
   await Hive.openBox<ProductModel>(kCartProducts);
@@ -76,7 +77,7 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(
           create: (context) => BannerCubit()..getBanners(),
         ),
-        BlocProvider(create: (context) => CategoriesCubit()),
+        BlocProvider(create: (context) => CategoriesCubit()..getCategoryProducts(categoryId: 44)),
         BlocProvider(
           create: (context) => ProductsCubit()..getProducts(),
         ),

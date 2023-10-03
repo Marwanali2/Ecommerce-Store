@@ -30,7 +30,7 @@ class BannerCubit extends Cubit<BannerState> {
            ),
          );
        }
-        saveDataToBox(cachedData: bannersList, boxName: kBannersImages);
+     //   saveDataToBox(cachedData: bannersList, boxName: kBannersImages);
        debugPrint('get banners response Successfully with status code ${response.statusCode} ');
        emit(BannerSuccess());
      }else{

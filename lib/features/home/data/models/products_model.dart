@@ -35,7 +35,7 @@ class ProductModel {
         this.inFavorites,
         this.inCart});
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  ProductModel.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'].toInt();
     price = json['price']?.toInt();
     oldPrice = json['old_price']?.toInt();

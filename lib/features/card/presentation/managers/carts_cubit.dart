@@ -49,7 +49,7 @@ class CartsCubit extends Cubit<CartsState> {
         debugPrint(
             'get carts products response Successfully with status code ${response.statusCode} ');
         debugPrint('carts products number = ${cartsList.length}');
-        saveDataToBox(cachedData: cartsList, boxName: kCartProducts);
+       // saveDataToBox(cachedData: cartsList, boxName: kCartProducts);
         emit(CartsSuccess());
       } else {
         debugPrint(

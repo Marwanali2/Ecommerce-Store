@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/home/data/models/categories_model.dart';
 import 'package:ecommerce/features/home/data/models/products_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 part 'categories_state.dart';
 
@@ -11,7 +13,9 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   CategoriesCubit() : super(CategoriesInitial());
   final Dio _dio = Dio();
   List<CategoryModel> categoriesList = [];
-  List<ProductModel>categoryProductsList=[];
+  List<ProductModel> categoryProductsList = [];
+  List<ProductModel> categoryProductsLocalList = [];
+
   Future getCategories() async {
     emit(CategoriesLoading());
     try {
@@ -26,13 +30,14 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       var responseBody = response.data;
 
       if (response.statusCode == 200) {
-        categoriesList=[];
+        categoriesList = [];
         for (var item in responseBody['data']['data']) {
           categoriesList?.add(
             CategoryModel.fromJson(item),
           );
         }
-        debugPrint('get categories response Successfully with status code ${response.statusCode}');
+        debugPrint(
+            'get categories response Successfully with status code ${response.statusCode}');
         emit(CategoriesSuccess());
       } else {
         debugPrint(
@@ -49,6 +54,28 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     }
   }
 
+  Future<void> saveCategoryProducts(List<ProductModel> data) async {
+    var box = await Hive.openBox(kCategoriesProducts);
+    if (kDebugMode) {
+      print(
+          'categoriesProductsBox opened successfully************************************');
+    }
+    //await box.clear(); // لحذف البيانات السابقة إذا وجدت
+
+    for (var item in data) {
+      box.add(item.toJson());
+      if (kDebugMode) {
+        print('****');
+        print(item.name);
+      }
+    }
+    if (kDebugMode) {
+      print(
+          '*****************************put data in categoriesProductsBox  successfully');
+    }
+   // await box.close();
+  }
+
   Future getCategoryProducts({required int categoryId}) async {
     emit(CategoryProductsInitial());
     try {
@@ -57,19 +84,26 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         options: Options(
           headers: {
             'lang': 'en',
-            'Authorization':userToken,
+            'Authorization': userToken,
           },
         ),
       );
       var responseBody = response.data;
-      if (responseBody['status']==true) {
-        categoryProductsList=[];
+      if (responseBody['status'] == true) {
+        categoryProductsList = [];
         for (var item in responseBody['data']['data']) {
           categoryProductsList.add(
             ProductModel.fromJson(item),
           );
+          categoryProductsLocalList.add(
+            ProductModel.fromJson(
+              item,
+            ),
+          );
         }
-        debugPrint('get category products response Successfully with status code ${response.statusCode}');
+        debugPrint(
+            'get category products response Successfully with status code ${response.statusCode}');
+        saveCategoryProducts(categoryProductsLocalList);
         emit(CategoryProductsSuccess());
       } else {
         debugPrint(

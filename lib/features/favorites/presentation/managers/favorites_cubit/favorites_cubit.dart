@@ -37,7 +37,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         debugPrint('get favorites products response Successfully with status code ${response.statusCode} ');
         debugPrint('favorites products number = ${favoritesModelList.length}');
 
-        saveDataToBox(cachedData: favoritesModelList, boxName: kFavProducts);
+
+
+        //saveDataToBox(cachedData: favoritesModelList, boxName: kFavProducts);
         emit(FavoritesSuccess());
       } else {
         debugPrint(
