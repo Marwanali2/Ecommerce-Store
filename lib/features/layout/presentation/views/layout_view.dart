@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/colors.dart';
+import '../../../../generated/l10n.dart';
 import '../../../auth/presentation/views/register_view.dart';
 import '../../../card/presentation/managers/carts_cubit.dart';
 import '../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
@@ -56,12 +57,12 @@ class _LayoutViewState extends State<LayoutView> {
           },
           selectedItemColor: Colors.indigo,
           unselectedItemColor: Colors.grey,
-          items: const [
+          items:  [
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_outlined,
               ),
-              label: 'Home',
+              label: S.of(context).bottomNavHome,
             ),
             // BottomNavigationBarItem(
             //   icon: Icon(
@@ -73,13 +74,13 @@ class _LayoutViewState extends State<LayoutView> {
               icon: Icon(
                 Icons.favorite_outline,
               ),
-              label: 'Favourites',
+              label: S.of(context).bottomNavFav,
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.shopping_cart_outlined,
               ),
-              label: 'Card',
+              label: S.of(context).bottomNavCard,
             ),
             // BottomNavigationBarItem(
             //   icon: Icon(

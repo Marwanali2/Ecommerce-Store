@@ -23,7 +23,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         'https://student.valuxapps.com/api/favorites',
         options: Options(
           headers: {
-            'lang': 'en',
+            'lang': isArabic == true ? 'ar' : 'en',
             'Authorization': userToken,
           },
         ),
@@ -34,10 +34,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
           favoritesModelList.add(ProductModel.fromJson(item['product']));
           favoritesProductsId.add(item['product']['id'].toString());
         }
-        debugPrint('get favorites products response Successfully with status code ${response.statusCode} ');
+        debugPrint(
+            'get favorites products response Successfully with status code ${response.statusCode} ');
         debugPrint('favorites products number = ${favoritesModelList.length}');
-
-
 
         //saveDataToBox(cachedData: favoritesModelList, boxName: kFavProducts);
         emit(FavoritesSuccess());
@@ -59,10 +58,11 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   Future<void> addOrRemoveFavorites({required String productId}) async {
     emit(AddOrDeleteFavoriteWithProductLoading());
     try {
-      Response response = await _dio.post('https://student.valuxapps.com/api/favorites',
+      Response response =
+          await _dio.post('https://student.valuxapps.com/api/favorites',
               options: Options(
                 headers: {
-                  'lang': 'en',
+                  'lang':'en',
                   'Authorization': userToken,
                 },
               ),
@@ -70,10 +70,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
             'product_id': productId,
           });
       var responseBody = response.data;
-      if (responseBody['status'] == true)  {
-        if(favoritesProductsId.contains(productId)==true){
+      if (responseBody['status'] == true) {
+        if (favoritesProductsId.contains(productId) == true) {
           favoritesProductsId.remove(productId);
-        }else{
+        } else {
           favoritesProductsId.add(productId);
         }
         debugPrint(

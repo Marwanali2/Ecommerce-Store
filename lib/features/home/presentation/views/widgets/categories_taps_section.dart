@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../generated/l10n.dart';
 import '../../managers/categories_cubit/categories_cubit.dart';
 import 'home_view_body.dart';
 class CategoriesTaps extends StatefulWidget {
@@ -50,11 +51,11 @@ class _CategoriesTapsState extends State<CategoriesTaps> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           List<String> categoriesNames = [
-            'Electronic Devices',
-            'Prevent Corona',
-            'Sports',
-            'Lighting',
-            'Clothes',
+            S.of(context).catTap1,
+            S.of(context).catTap2,
+            S.of(context).catTap3,
+            S.of(context).catTap4,
+            S.of(context).catTap5,
           ];
           List<bool> categoriesBooleanNames = [
             HomeViewBody.isElectronicDevices,
@@ -124,10 +125,6 @@ class _CategoriesTapsState extends State<CategoriesTaps> {
             ),
 
           );
-
-
-
-
         },
       ),
     );

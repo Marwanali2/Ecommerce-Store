@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../generated/l10n.dart';
 class ProfileEditRow extends StatelessWidget {
   const ProfileEditRow({
     super.key,
@@ -16,14 +17,14 @@ class ProfileEditRow extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Your $type',
+           '$type',
           style: const TextStyle(fontSize: 17, color: color5),
         ),
         const Spacer(),
         TextButton(
           onPressed: onPressed, //  onPressed,
           child: Text(
-            'Edit $type',
+            S.of(context).profileEdit,
             style: const TextStyle(
               color: color9,
               fontSize: 14,

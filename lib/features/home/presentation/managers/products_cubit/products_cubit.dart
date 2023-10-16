@@ -16,7 +16,6 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<ProductModel> productsModelList = [];
 
   Future getProducts() async {
-
     emit(ProductsLoading());
     try {
       Response response = await _dio.get(
@@ -106,8 +105,7 @@ class ProductsCubit extends Cubit<ProductsState> {
         .where((element) =>
             element.name!.toLowerCase().startsWith(input.toLowerCase()))
         .toList();
-   // saveDataToBox(cachedData: filteredProductsModelList,boxName: kFilteredProducts);
+    // saveDataToBox(cachedData: filteredProductsModelList,boxName: kFilteredProducts);
     emit(FilteredProductsSuccess());
   }
-
 }

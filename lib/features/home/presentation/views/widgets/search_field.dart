@@ -4,14 +4,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../managers/products_cubit/products_cubit.dart';
+import 'package:intl/intl.dart';
+
 class SearchTextField extends StatefulWidget {
-  const SearchTextField({Key? key, required this.textController, required this.productsCubit, required this.favoritesCubit, required this.cartsCubit}) : super(key: key);
+  const SearchTextField(
+      {Key? key,
+      required this.textController,
+      required this.productsCubit,
+      required this.favoritesCubit,
+      required this.cartsCubit})
+      : super(key: key);
   final TextEditingController textController;
   final ProductsCubit productsCubit;
-  final FavoritesCubit favoritesCubit ;
+  final FavoritesCubit favoritesCubit;
   final CartsCubit cartsCubit;
 
   @override
@@ -23,12 +32,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        
         filled: true,
         fillColor: color2,
         contentPadding: const EdgeInsets.all(20),
-        hintText: 'Search Products...',
-        hintStyle: const TextStyle(color: color6,fontSize: 15),
+        hintText: S.of(context).searchText,
+        hintStyle: const TextStyle(color: color6, fontSize: 15),
         suffixIcon: IconButton(
           onPressed: () {
             widget.textController.clear();
@@ -70,7 +78,6 @@ class _SearchTextFieldState extends State<SearchTextField> {
           ),
         ),
       ),
-      
       controller: widget.textController,
       onChanged: (value) {
         widget.productsCubit.filterProducts(input: value);
@@ -83,239 +90,248 @@ class _SearchTextFieldState extends State<SearchTextField> {
             return SizedBox(
               // Bottom sheet content
               height: MediaQuery.sizeOf(context).height,
-              width: MediaQuery.sizeOf(context).width*0.95,
-              child:  BlocBuilder<ProductsCubit, ProductsState>(
+              width: MediaQuery.sizeOf(context).width * 0.95,
+              child: BlocBuilder<ProductsCubit, ProductsState>(
                 builder: (context, state) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 10
-                    ),
+                        horizontal: 10, vertical: 10),
                     child: SizedBox(
                       height: 500.h,
-                      child:widget.productsCubit.filteredProductsModelList.isEmpty?
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              height:200.h,
-                              child: Lottie.asset('assets/lottie_json_animations/no_products.json')),
-                          const Text('Not Available Now'),
-                        ],
-                      )
-                          :GridView.builder(
-                        itemCount:widget.productsCubit.filteredProductsModelList.length,
-                        physics: const BouncingScrollPhysics(),
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 20,
-                          childAspectRatio: 0.6,
-                        ),
-                        itemBuilder: (context, index) {
-                          var productModel = widget.productsCubit.filteredProductsModelList[index];
-                          var cubit = widget.favoritesCubit;
-                          return Stack(children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: color2,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(20),
-                                ),
+                      child: widget
+                              .productsCubit.filteredProductsModelList.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    height: 200.h,
+                                    child: Lottie.asset(
+                                        'assets/lottie_json_animations/no_products.json')),
+                                const Text('Not Available Now'),
+                              ],
+                            )
+                          : GridView.builder(
+                              itemCount: widget.productsCubit
+                                  .filteredProductsModelList.length,
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 12,
+                                crossAxisSpacing: 20,
+                                childAspectRatio: 0.6,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            widget.favoritesCubit
-                                                .favoritesProductsId
-                                                .contains(productModel
-                                                .id
-                                                .toString())
-                                                ? Icons.favorite_rounded
-                                                : Icons
-                                                .favorite_border_rounded,
-                                            color: widget.favoritesCubit
-                                                .favoritesProductsId
-                                                .contains(productModel
-                                                .id
-                                                .toString())
-                                                ? Colors.red
-                                                : color8,
-                                          ),
-                                          onPressed: () async {
-                                            await cubit
-                                                .addOrRemoveFavorites(
-                                                productId: productModel
-                                                    .id
-                                                    .toString());
-                                            setState(() {});
-                                          },
-                                        ),
-                                        const Spacer(),
-                                        productModel.discount != 0
-                                            ? Center(
-                                          child: Container(
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                5,
-                                              ),
-                                              color:
-                                              Colors.greenAccent,
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                'Sale -${productModel.discount}%',
-                                                style:
-                                                 TextStyle(
-                                                  color: color4,
-                                                  fontSize: 13.sp,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontFamily:
-                                                  'DancingScript',
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                            : const SizedBox(),
-                                      ],
-                                    ),
-                                    Container(
-                                      height: 165.h,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            '${productModel.image}',
-                                          ),
-                                          fit: BoxFit.fill,
-                                        ),
+                              itemBuilder: (context, index) {
+                                var productModel = widget.productsCubit
+                                    .filteredProductsModelList[index];
+                                var cubit = widget.favoritesCubit;
+                                return Stack(children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      color: color2,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
                                       ),
                                     ),
-                                    Text(
-                                      '${productModel.name}',
-                                      style:  TextStyle(
-                                        color: color6,
-                                        fontSize: 11.sp,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Row(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          productModel.oldPrice ==
-                                              productModel.price
-                                              ? Text(
-                                            '${productModel.price}',
-                                            style:  TextStyle(
-                                              color: color8,
-                                              fontWeight:
-                                              FontWeight.bold,
-                                              fontSize: 20.sp,
-                                            ),
-                                          )
-                                              : Row(
+                                          Row(
                                             children: [
-                                              Text(
-                                                '${productModel.oldPrice}\$',
-                                                style:  TextStyle(
-                                                  color: color6,
-                                                  decoration:
-                                                  TextDecoration
-                                                      .lineThrough,
-                                                  decorationColor:
-                                                  Colors.red,
-                                                  decorationThickness:
-                                                  1.5,
-                                                  fontSize: 12.sp,
+                                              IconButton(
+                                                icon: Icon(
+                                                  widget.favoritesCubit
+                                                          .favoritesProductsId
+                                                          .contains(productModel
+                                                              .id
+                                                              .toString())
+                                                      ? Icons.favorite_rounded
+                                                      : Icons
+                                                          .favorite_border_rounded,
+                                                  color: widget.favoritesCubit
+                                                          .favoritesProductsId
+                                                          .contains(productModel
+                                                              .id
+                                                              .toString())
+                                                      ? Colors.red
+                                                      : color8,
                                                 ),
+                                                onPressed: () async {
+                                                  await cubit
+                                                      .addOrRemoveFavorites(
+                                                          productId:
+                                                              productModel.id
+                                                                  .toString());
+                                                  setState(() {});
+                                                },
                                               ),
-                                               SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              Text(
-                                                '${productModel.price}',
-                                                style:  TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight:
-                                                  FontWeight.bold,
-                                                  fontSize: 15.sp,
-                                                ),
-                                              ),
+                                              const Spacer(),
+                                              productModel.discount != 0
+                                                  ? Center(
+                                                      child: Container(
+                                                        width: 80,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                            5,
+                                                          ),
+                                                          color: Colors
+                                                              .greenAccent,
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            '${S.of(context).productSale} -${productModel.discount}%',
+                                                            style: TextStyle(
+                                                              color: color4,
+                                                              fontSize: 13.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  'DancingScript',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : const SizedBox(),
                                             ],
                                           ),
-                                           SizedBox(
-                                            width: 1.w,
+                                          Container(
+                                            height: 165.h,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  '${productModel.image}',
+                                                ),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
                                           ),
-                                           Text(
-                                            '\$',
+                                          Text(
+                                            '${productModel.name}',
                                             style: TextStyle(
-                                              color: mainColor,
+                                              color: color6,
+                                              fontSize: 11.sp,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 15.sp,
+                                            ),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const Spacer(),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5),
+                                            child: Row(
+                                              children: [
+                                                productModel.oldPrice ==
+                                                        productModel.price
+                                                    ? Text(
+                                                        '${productModel.price}',
+                                                        style: TextStyle(
+                                                          color: color8,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20.sp,
+                                                        ),
+                                                      )
+                                                    : Row(
+                                                        children: [
+                                                          Text(
+                                                            '${productModel.oldPrice}\$',
+                                                            style: TextStyle(
+                                                              color: color6,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              decorationColor:
+                                                                  Colors.red,
+                                                              decorationThickness:
+                                                                  1.5,
+                                                              fontSize: 12.sp,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5.w,
+                                                          ),
+                                                          Text(
+                                                            '${productModel.price}',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15.sp,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                SizedBox(
+                                                  width: 1.w,
+                                                ),
+                                                Text(
+                                                  '\$',
+                                                  style: TextStyle(
+                                                    color: mainColor,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15.sp,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  await widget.cartsCubit.addOrRemoveCarts(
-                                      productId:
-                                      productModel.id.toString());
-                                  setState(() {
-
-                                  },);
-                                },
-                                child: Container(
-                                  height: 40.h,
-                                  width: 40.w,
-                                  decoration: const BoxDecoration(
-                                    color: color9,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(
-                                        20,
-                                      ),
-                                      topLeft: Radius.circular(
-                                        20,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await widget.cartsCubit
+                                            .addOrRemoveCarts(
+                                                productId:
+                                                    productModel.id.toString());
+                                        setState(
+                                          () {},
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 40.h,
+                                        width: 40.w,
+                                        decoration: const BoxDecoration(
+                                          color: color9,
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(
+                                              20,
+                                            ),
+                                            topLeft: Radius.circular(
+                                              20,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          widget.cartsCubit.cartsProductsId
+                                                  .contains(productModel.id
+                                                      .toString())
+                                              ? Icons.check
+                                              : Icons.add,
+                                          color: Colors.white,
+                                          size: 35,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  child: Icon(
-                                    widget.cartsCubit.cartsProductsId.contains(
-                                        productModel.id.toString())
-                                        ? Icons.check
-                                        : Icons.add,
-                                    color: Colors.white,
-                                    size: 35,
-                                  ),
-                                ),
-                              ),
+                                ]);
+                              },
                             ),
-                          ]);
-                        },
-                      ),
                     ),
                   );
                 },

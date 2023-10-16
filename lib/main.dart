@@ -34,6 +34,8 @@ import 'features/profile/data/entites/user_entity/user_entity.dart';
 import 'features/profile/presentation/managers/user_data_cubit.dart';
 import 'features/shared/network/local_network.dart';
 import 'features/splach/presentation/splach_view.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -77,7 +79,9 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(
           create: (context) => BannerCubit()..getBanners(),
         ),
-        BlocProvider(create: (context) => CategoriesCubit()..getCategoryProducts(categoryId: 44)),
+        BlocProvider(
+            create: (context) =>
+                CategoriesCubit()..getCategoryProducts(categoryId: 44)),
         BlocProvider(
           create: (context) => ProductsCubit()..getProducts(),
         ),
@@ -97,6 +101,14 @@ class EcommerceApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp.router(
+          locale: const Locale('ar'),
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           routerConfig: AppRouter.router,
           theme: ThemeData(
             useMaterial3: true,

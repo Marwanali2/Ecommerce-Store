@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
+import '../../../../../core/utils/functions.dart';
+
 part 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
@@ -23,7 +25,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         'https://student.valuxapps.com/api/categories',
         options: Options(
           headers: {
-            'lang': 'en',
+            'lang': isArabic()?'ar':'en',
           },
         ),
       );
@@ -55,7 +57,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   }
 
   Future<void> saveCategoryProducts(List<ProductModel> data) async {
-   // var box = await Hive.openBox(kCategoriesProducts);
+    // var box = await Hive.openBox(kCategoriesProducts);
     var box = Hive.box(kCategoriesProducts);
     if (kDebugMode) {
       print(
@@ -74,7 +76,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       print(
           '*****************************put data in categoriesProductsBox  successfully');
     }
-   // await box.close();
+    // await box.close();
   }
 
   Future getCategoryProducts({required int categoryId}) async {
@@ -84,7 +86,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         'https://student.valuxapps.com/api/categories/$categoryId',
         options: Options(
           headers: {
-            'lang': 'en',
+            'lang': isArabic()?'ar':'en',
             'Authorization': userToken,
           },
         ),

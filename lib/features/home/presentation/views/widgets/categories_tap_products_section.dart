@@ -3,7 +3,9 @@ import 'package:ecommerce/features/home/presentation/views/widgets/product_detai
 import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/colors.dart';
+import '../../../../../core/utils/functions.dart';
 import '../../../../../core/widgets/show_snack_bar.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../managers/categories_cubit/categories_cubit.dart';
@@ -108,12 +110,12 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                             showSnackBar(
                                 context: context,
                                 label:
-                                "Added to Favourites successfully",
+                                S.of(context).snackAddFav,
                                 backgroundColor: color9)
                                 : showSnackBar(
                                 context: context,
                                 label:
-                                "Removed From Favourites successfully",
+                                S.of(context).snackDelFav,
                                 backgroundColor: Colors.red);
                           },
                         ),
@@ -134,7 +136,7 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                             ),
                             child: Center(
                               child: Text(
-                                'Sale -${widget.categoriesCubit.categoryProductsList[index].discount}%',
+                                '${S.of(context).productSale} -${widget.categoriesCubit.categoryProductsList[index].discount}%',
                                 style: const TextStyle(
                                   color: color4,
                                   fontSize: 15,
@@ -175,63 +177,61 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Row(
-                        children: [
-                          widget.categoriesCubit
-                              .categoryProductsList[index]
-                              .oldPrice ==
-                              widget.categoriesCubit
-                                  .categoryProductsList[index]
-                                  .price
-                              ? Text(
-                            '${widget.categoriesCubit.categoryProductsList[index].price}',
-                            style: const TextStyle(
-                              color: color8,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
+                    Row(
+                      mainAxisAlignment:isArabic()?MainAxisAlignment.end:MainAxisAlignment.start, //ar-end
+                      children: [
+                        widget.categoriesCubit
+                            .categoryProductsList[index]
+                            .oldPrice ==
+                            widget.categoriesCubit
+                                .categoryProductsList[index]
+                                .price
+                            ? Text(
+                          '${widget.categoriesCubit.categoryProductsList[index].price}',
+                          style: const TextStyle(
+                            color: color8,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        )
+                            : Row(
+                          children: [
+                            Text(
+                              '${widget.categoriesCubit.categoryProductsList[index].oldPrice}\$',
+                              style: const TextStyle(
+                                color: color6,
+                                decoration: TextDecoration
+                                    .lineThrough,
+                                decorationColor: Colors.red,
+                                decorationThickness: 1.5,
+                                fontSize: 14,
+                              ),
                             ),
-                          )
-                              : Row(
-                            children: [
-                              Text(
-                                '${widget.categoriesCubit.categoryProductsList[index].oldPrice}\$',
-                                style: const TextStyle(
-                                  color: color6,
-                                  decoration: TextDecoration
-                                      .lineThrough,
-                                  decorationColor: Colors.red,
-                                  decorationThickness: 1.5,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${widget.categoriesCubit.categoryProductsList[index].price}',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 1,
-                          ),
-                          const Text(
-                            '\$',
-                            style: TextStyle(
-                              color: mainColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
+                            const SizedBox(
+                              width: 5,
                             ),
+                            Text(
+                              '${widget.categoriesCubit.categoryProductsList[index].price}',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 1,
+                        ),
+                        const Text(
+                          '\$',
+                          style: TextStyle(
+                            color: mainColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -256,12 +256,12 @@ class _CategoryTapProductsListViewState extends State<CategoryTapProductsListVie
                     ?
                 showSnackBar(
                   context:   context,
-                  label:  "Added to carts successfully",
+                  label:  S.of(context).snackAddCard,
                   backgroundColor:  color9,)
 
                     : showSnackBar(
                   context:  context,
-                  label: "Removed From Carts successfully",
+                  label: S.of(context).snackDelCard,
                   backgroundColor:  Colors.red,
                 );
               },

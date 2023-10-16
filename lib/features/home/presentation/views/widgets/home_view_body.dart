@@ -13,6 +13,7 @@ import '../../../../../core/utils/constants.dart';
 import '../../../../../core/widgets/custom_error_widget.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../../core/widgets/show_snack_bar.dart';
+import '../../../../../generated/l10n.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../../data/models/products_model.dart';
@@ -20,7 +21,7 @@ import '../../managers/products_cubit/products_cubit.dart';
 import 'banner_section.dart';
 import 'categories_tap_products_section.dart';
 import 'categories_taps_section.dart';
-
+import 'package:intl/intl.dart';
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 
@@ -33,34 +34,6 @@ class HomeViewBody extends StatefulWidget {
   @override
   State<HomeViewBody> createState() => _HomeViewBodyState();
 }
-// Future<void> displayCategoryProducts() async {
-//   var box =  await Hive.openBox<ProductModel>(kCategoriesProducts);
-//   if (box.isNotEmpty) {
-//
-//     final categoryProductsList = box.values.toList();
-//     // استخدم categoryProducts لعرض البيانات على واجهة المستخدم أو في أي مكان آخر في التطبيق
-//     if (kDebugMode) {
-//       print(categoryProductsList);
-//     }
-//   } else {
-//     print('No category products found');
-//   }
-//
-//   await box.close();
-// }
-
-// Future<List<ProductModel>> getCategoryProductsFromHive() async {
-//   final box = await Hive.openBox<ProductModel>(kCategoriesProducts);
-//
-//   // استعادة البيانات من Hive Box وتحويلها إلى قائمة
-//   final categoryProductsList = box.values.toList();
-//
-//   // إغلاق Hive Box بعد الانتهاء
-//   await box.close();
-//
-//   return categoryProductsList;
-// }
-
 List<ProductModel> getCategoryProductsFromHive() {
   var box = Hive.box(kCategoriesProducts);
   List<ProductModel> products = [];
@@ -96,9 +69,10 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         scrollDirection: Axis.vertical,
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           enjoyBar(
             context,
-            text: 'Enjoy our products',
+            text: S.of(context).appBarTitle,
           ),
           const SizedBox(
             height: 15,
@@ -118,7 +92,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: Text(
-              'Select Category',
+              S.of(context).categorySelection,
               style: TextStyle(
                 color: color4,
                 fontSize: 18.sp,
@@ -198,10 +172,10 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  'Sale -${categoriesCubit.categoryProductsLocalList[index].discount}%',
-                                                  style: const TextStyle(
+                                                  '${S.of(context).productSale} -${categoriesCubit.categoryProductsLocalList[index].discount}%',
+                                                  style:  TextStyle(
                                                     color: color4,
-                                                    fontSize: 15,
+                                                    fontSize: 13.sp,
                                                     fontWeight: FontWeight.bold,
                                                     fontFamily: 'DancingScript',
                                                   ),
@@ -356,7 +330,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              'New Offers And Discounts',
+              S.of(context).bannerText,
               style: TextStyle(
                 color: color4,
                 fontSize: 18.sp,
