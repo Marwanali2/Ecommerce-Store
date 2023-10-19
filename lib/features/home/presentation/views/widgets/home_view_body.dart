@@ -14,6 +14,7 @@ import '../../../../../core/widgets/custom_error_widget.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
 import '../../../../../core/widgets/show_snack_bar.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../../main.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../../data/models/products_model.dart';
@@ -91,13 +92,67 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Text(
-              S.of(context).categorySelection,
-              style: TextStyle(
-                color: color4,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  S.of(context).categorySelection,
+                  style: TextStyle(
+                    color: color4,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      EcommerceApp.appLanguage='en';
+                    });
+
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    shape: MaterialStateProperty.all(
+                      const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(color9),
+                  ),
+                  child: const Text(
+                    'EN',
+                    style: TextStyle(
+                      color:  Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 1.w,),
+                ElevatedButton(
+                  onPressed: (){
+                    setState(() {
+                      EcommerceApp.appLanguage='ar';
+                    });
+
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    shape: MaterialStateProperty.all(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                  ),
+                  child: const Text(
+                    'AR',
+                    style: TextStyle(
+                      color:  Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(

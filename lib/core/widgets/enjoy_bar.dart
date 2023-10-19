@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../utils/app_router.dart';
 import '../utils/colors.dart';
-import 'package:circular_menu/circular_menu.dart';
 SizedBox enjoyBar(BuildContext context, {required String text}) {
   return SizedBox(
     height: 70.h,
@@ -14,20 +13,8 @@ SizedBox enjoyBar(BuildContext context, {required String text}) {
     child:  Row(
    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text('EN'),
-        Padding(
-          padding: const EdgeInsets.only(right: 35,left: 15),
-          child: SizedBox(
-            width: 20.w,
-            child: SwitchListTile(
-              activeColor: Colors.green,
-              value: true, onChanged: (value) {
 
-            },),
-          ),
-        ),
-        Text('AR'),
-        const Spacer(),
+        Spacer(),
         Center(
           child: Text(
             text,
