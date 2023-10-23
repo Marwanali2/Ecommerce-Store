@@ -6,6 +6,10 @@ void saveDataToBox({required Iterable cachedData, required String boxName}) {
   productsBox.addAll(cachedData);
 }
 
-bool isArabic() {
+ bool isArabic() {
   return Intl.getCurrentLocale() == 'ar';
+}
+
+bool isEnglish() {
+  return Intl.getCurrentLocale() == 'en';
 }

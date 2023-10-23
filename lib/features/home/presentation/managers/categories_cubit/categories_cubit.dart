@@ -69,7 +69,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       box.add(item.toJson());
       if (kDebugMode) {
         print('****');
-        print(item.name);
+      //  print(item.name);
       }
     }
     if (kDebugMode) {

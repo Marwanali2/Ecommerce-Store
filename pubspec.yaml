@@ -73,6 +73,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   circular_menu: ^2.0.1
+  intl: ^0.18.0
   animated_toggle_switch: ^0.8.0
 dev_dependencies:
 
@@ -102,6 +103,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

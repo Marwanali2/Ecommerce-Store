@@ -82,12 +82,12 @@ class _LayoutViewState extends State<LayoutView> {
               ),
               label: S.of(context).bottomNavCard,
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.person_outlined,
-            //   ),
-            //   label: 'Profile',
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+              ),
+              label: 'Profile',
+            ),
           ],
         ),
       ),

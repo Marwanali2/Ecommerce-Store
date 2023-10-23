@@ -6,23 +6,23 @@ import 'package:go_router/go_router.dart';
 
 import '../utils/app_router.dart';
 import '../utils/colors.dart';
+
 SizedBox enjoyBar(BuildContext context, {required String text}) {
   return SizedBox(
     height: 70.h,
     width: MediaQuery.sizeOf(context).width,
-    child:  Row(
-   //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-
         Spacer(),
         Center(
           child: Text(
             text,
-            style:  TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontFamily: 'DancingScript',
-              fontSize: isArabic()?30.sp:32.sp,
+              fontSize: isArabic() ? 30.sp : 32.sp,
             ),
           ),
         ),
@@ -41,7 +41,6 @@ SizedBox enjoyBar(BuildContext context, {required String text}) {
             ),
           ),
         ),
-
       ],
     ),
   );

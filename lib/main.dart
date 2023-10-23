@@ -65,7 +65,7 @@ void main() async {
 
 class EcommerceApp extends StatelessWidget {
   const EcommerceApp({Key? key}) : super(key: key);
-  static String appLanguage='en';
+  static String appLanguage = 'en';
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -101,7 +101,7 @@ class EcommerceApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp.router(
-          locale:  Locale(EcommerceApp.appLanguage),
+          locale: Locale(EcommerceApp.appLanguage),
           localizationsDelegates: const [
             S.delegate,
             GlobalMaterialLocalizations.delegate,
