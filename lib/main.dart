@@ -21,6 +21,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/utils/app_router.dart';
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
@@ -40,11 +41,11 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
+     sharedPreferences= await SharedPreferences.getInstance();
   await CachedNetwork.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
   Stripe.publishableKey = StripeApiKeys.publishableKey;
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await Hive.initFlutter();
   Hive.registerAdapter(ProductModelAdapter());
@@ -110,6 +111,7 @@ class EcommerceApp extends StatelessWidget {
           ],
           supportedLocales: S.delegate.supportedLocales,
           routerConfig: AppRouter.router,
+          themeMode: ThemeMode.dark,
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: 'Ubuntu',

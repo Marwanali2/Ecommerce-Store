@@ -42,10 +42,10 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: color3,
+        backgroundColor:color3,//color3,
         body: SingleChildScrollView(
           // shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child:  cubit.screens[cubit.bottomNavCurrentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -86,7 +86,7 @@ class _LayoutViewState extends State<LayoutView> {
               icon: Icon(
                 Icons.settings,
               ),
-              label: 'Profile',
+              label: 'Settings',
             ),
           ],
         ),

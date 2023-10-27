@@ -1,5 +1,7 @@
-import '../../features/shared/network/local_network.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../features/shared/network/local_network.dart';
+SharedPreferences?sharedPreferences;
  String userToken=CachedNetwork.getCacheData(key: 'token');
 const kCategoriesProducts='categories_products';
 const kFilteredProducts='filtered_products';

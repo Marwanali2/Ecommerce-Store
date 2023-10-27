@@ -11,7 +11,7 @@ part 'user_data_state.dart';
 class UserDataCubit extends Cubit<UserDataState> {
   UserDataCubit() : super(UserDataInitial());
   final Dio _dio = Dio();
-  UserModel?userModel;
+  UserModel? userModel;
   Future getUserData() async {
     emit(UserDataLoading());
     try {
@@ -27,16 +27,17 @@ class UserDataCubit extends Cubit<UserDataState> {
       if (response.statusCode == 200) {
         var responseBody = response.data;
         if (responseBody['status'] == true) {
-          userModel=UserModel.fromJson(responseBody['data']);
-          debugPrint('get user data response Success with status code ${response.statusCode} ');
-          var userDataBox=Hive.box(kUserDetails);
-          userDataBox.add(userModel);//**** مش متاكد صح ولا غلط
+          userModel = UserModel.fromJson(responseBody['data']);
+          debugPrint(
+              'get user data response Success with status code ${response.statusCode} ');
+          var userDataBox = Hive.box(kUserDetails);
+          userDataBox.add(userModel); //**** مش متاكد صح ولا غلط
           emit(
             UserDataSuccess(),
           );
-        }
-        else {
-          debugPrint('get user data response failed with status code ${response.statusCode} ,the response is :$responseBody');
+        } else {
+          debugPrint(
+              'get user data response failed with status code ${response.statusCode} ,the response is :$responseBody');
           emit(
             UserDataFailure(
               errorMessage: responseBody,
@@ -55,10 +56,10 @@ class UserDataCubit extends Cubit<UserDataState> {
   }
 
   Future<void> editUser({
-    required String?name,
-    required String?email,
-    required String?password,
-    required String?phone,
+    required String? name,
+    required String? email,
+    required String? password,
+    required String? phone,
   }) async {
     emit(EditLoadingState());
     try {
@@ -67,7 +68,7 @@ class UserDataCubit extends Cubit<UserDataState> {
         options: Options(
           headers: {
             'lang': 'en',
-            'Authorization':userToken,
+            'Authorization': userToken,
           },
         ),
         data: {
@@ -82,7 +83,7 @@ class UserDataCubit extends Cubit<UserDataState> {
       if (response.statusCode == 200) {
         var responseBody = response.data;
         if (responseBody['status'] == true) {
-          userModel=UserModel.fromJson(responseBody['data']);
+          userModel = UserModel.fromJson(responseBody['data']);
           debugPrint('success edit response is $responseBody}:');
           emit(EditSuccessState());
         } else {
@@ -107,25 +108,25 @@ class UserDataCubit extends Cubit<UserDataState> {
   Future<void> logOut() async {
     emit(LogOutLoadingState());
     try {
-      Response response = await _dio.post(
-        'https://student.valuxapps.com/api/logout',
-        options: Options(
-          headers: {
-            'lang': 'en',
-            'Authorization':userToken,
-          },
-        ),
-        data: {
-          'fcm_token':userToken,
-        }
-      );
+      Response response =
+          await _dio.post('https://student.valuxapps.com/api/logout',
+              options: Options(
+                headers: {
+                  'lang': 'en',
+                  'Authorization': userToken,
+                },
+              ),
+              data: {
+            'fcm_token': userToken,
+          });
       if (response.statusCode == 200) {
         var responseBody = response.data;
         if (responseBody['status'] == true) {
-          userModel=UserModel.fromJson(responseBody['data']);
+          //    userModel=UserModel.fromJson(responseBody['data']);
           // TODO:delete and remove userToken variable key
+          CachedNetwork.deleteCacheItem(key: 'token');
           debugPrint('success Logout response is $responseBody}:');
-         // CachedNetwork.deleteCacheItem(key: 'token');
+          // CachedNetwork.deleteCacheItem(key: 'token');
 
           debugPrint('deleted token key = $userToken}:');
           emit(LogOutSuccessState());
@@ -147,5 +148,4 @@ class UserDataCubit extends Cubit<UserDataState> {
       );
     }
   }
-
 }
