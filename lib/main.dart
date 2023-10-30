@@ -41,8 +41,9 @@ import 'generated/l10n.dart';
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
-     sharedPreferences= await SharedPreferences.getInstance();
+
   await CachedNetwork.cacheInitialization();
+  await CachedLocal.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
   Stripe.publishableKey = StripeApiKeys.publishableKey;
