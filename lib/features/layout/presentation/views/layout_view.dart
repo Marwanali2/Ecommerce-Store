@@ -24,17 +24,28 @@ class LayoutView extends StatefulWidget {
 }
 
 class _LayoutViewState extends State<LayoutView> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    BlocProvider(create: (context) => LayoutCubit(),);
-    BlocProvider(create: (context) => BannerCubit()..getBanners(),);
+    BlocProvider(
+      create: (context) => LayoutCubit(),
+    );
+    BlocProvider(
+      create: (context) => BannerCubit()..getBanners(),
+    );
     BlocProvider(create: (context) => CategoriesCubit());
-    BlocProvider(create: (context) => ProductsCubit()..getProducts(),);
-    BlocProvider(create: (context) => FavoritesCubit()..getFavorites(),);
-    BlocProvider(create: (context) => CartsCubit()..getCarts(),);
-    BlocProvider( create: (context) => UserDataCubit()..getUserData(),);
+    BlocProvider(
+      create: (context) => ProductsCubit()..getProducts(),
+    );
+    BlocProvider(
+      create: (context) => FavoritesCubit()..getFavorites(),
+    );
+    BlocProvider(
+      create: (context) => CartsCubit()..getCarts(),
+    );
+    BlocProvider(
+      create: (context) => UserDataCubit()..getUserData(),
+    );
   }
 
   @override
@@ -42,11 +53,11 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor:color3,//color3,
+        backgroundColor: color3, //color3,
         body: SingleChildScrollView(
           // shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          child:  cubit.screens[cubit.bottomNavCurrentIndex],
+          child: cubit.screens[cubit.bottomNavCurrentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: cubit.bottomNavCurrentIndex,
@@ -57,36 +68,24 @@ class _LayoutViewState extends State<LayoutView> {
           },
           selectedItemColor: Colors.indigo,
           unselectedItemColor: Colors.grey,
-          items:  [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(
+              icon: const Icon(
                 Icons.home_outlined,
               ),
               label: S.of(context).bottomNavHome,
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.category_outlined,
-            //   ),
-            //   label: 'Categories',
-            // ),
             BottomNavigationBarItem(
-              icon: Icon(
+              icon: const Icon(
                 Icons.favorite_outline,
               ),
               label: S.of(context).bottomNavFav,
             ),
             BottomNavigationBarItem(
-              icon: Icon(
+              icon: const Icon(
                 Icons.shopping_cart_outlined,
               ),
               label: S.of(context).bottomNavCard,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.settings,
-              ),
-              label: 'Settings',
             ),
           ],
         ),
@@ -96,25 +95,25 @@ class _LayoutViewState extends State<LayoutView> {
 
   ElevatedButton buildDrawerElement({required void Function() onPressed}) {
     return ElevatedButton(
-                onPressed:onPressed,
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    color9,
-                  ),
-                  elevation: MaterialStateProperty.all(0),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(Icons.person_outline, color: color2, size: 24),
-                    SizedBox(
-                      width: 22,
-                    ),
-                    Text(
-                      'Profile',
-                      style: TextStyle(color: color2, fontSize: 16),
-                    ),
-                  ],
-                ),
-              );
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          color9,
+        ),
+        elevation: MaterialStateProperty.all(0),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.person_outline, color: color2, size: 24),
+          SizedBox(
+            width: 22,
+          ),
+          Text(
+            'Profile',
+            style: TextStyle(color: color2, fontSize: 16),
+          ),
+        ],
+      ),
+    );
   }
 }

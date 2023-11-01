@@ -23,23 +23,3 @@ class CachedNetwork {
     return await shardPref.remove(key);
   }
 }
-
-class CachedLocal {
-  static late SharedPreferences shardPref;
-
-  static Future cacheInitialization() async {
-    shardPref = await SharedPreferences.getInstance();
-  }
-
-  static insertToCache({required String key, required bool value}) async {
-    return await shardPref.setBool(key, value);
-  }
-
-  static bool getCacheData({required String key}) {
-    return shardPref.getBool(key) ?? true;
-  }
-
-  static Future<bool> deleteCacheItem({required String key}) async {
-    return await shardPref.remove(key);
-  }
-}

@@ -43,7 +43,6 @@ void main() async {
       .ensureInitialized(); //ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
 
   await CachedNetwork.cacheInitialization();
-  await CachedLocal.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
   debugPrint('user token is :$userToken');
   Stripe.publishableKey = StripeApiKeys.publishableKey;

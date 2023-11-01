@@ -1,9 +1,12 @@
+import 'package:ecommerce/features/layout/presentation/managers/widgets/my_contatiner.dart';
+import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsViewBody extends StatefulWidget {
   const SettingsViewBody({Key? key}) : super(key: key);
@@ -91,41 +94,6 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
                   color: color4,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(0),
-                    shape: MaterialStateProperty.all(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                    ),
-                    backgroundColor: const MaterialStatePropertyAll(color9),
-                  ),
-                  child: const Icon(
-                    Icons.sunny,
-                    color: Colors.yellowAccent,
-                  )),
-              SizedBox(
-                width: 1.w,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                  backgroundColor: const MaterialStatePropertyAll(
-                    color9,
-                  ),
-                ),
-                child: const Icon(
-                  Icons.dark_mode,
-                  color: Colors.black,
                 ),
               ),
             ],
