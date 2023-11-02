@@ -21,7 +21,6 @@ import '../../../layout/presentation/views/layout_view.dart';
 import '../../../profile/presentation/managers/user_data_cubit.dart';
 import '../../../profile/presentation/views/profile_view.dart';
 
-
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({Key? key}) : super(key: key);
 
@@ -33,15 +32,22 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   debugPrint() {
     'token is $userToken';
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 10,),() {
-      (userToken.isEmpty||userToken=="")?
+    Future.delayed(
+      const Duration(
+        seconds: 10,
+      ),
+      () {
+        /*  (userToken.isEmpty||userToken=="")?
      GoRouter.of(context).pushReplacement(AppRouter.kLoginView):
-      GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
-      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
-    },);
+      GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);*/
+        GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
+        //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
+      },
+    );
   }
 
   @override
@@ -51,14 +57,24 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           SizedBox(height: 100.h,),
+          SizedBox(
+            height: 100.h,
+          ),
           Lottie.asset(
             'assets/lottie_json_animations/splash.json',
           ),
-           SizedBox(height: 10.h,),
-           Text('All what you need in one place',style: TextStyle(fontSize: 28.sp,fontFamily: 'DancingScript'),),
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            'All what you need in one place',
+            style: TextStyle(fontSize: 28.sp, fontFamily: 'DancingScript'),
+          ),
           const Spacer(),
-           Text('Developed By Marwan Ali',style: TextStyle(fontSize: 15.sp,color: Colors.grey),),
+          Text(
+            'Developed By Marwan Ali',
+            style: TextStyle(fontSize: 15.sp, color: Colors.grey),
+          ),
         ],
       ),
     );

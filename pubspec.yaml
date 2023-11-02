@@ -75,6 +75,7 @@ dependencies:
   circular_menu: ^2.0.1
   intl: ^0.18.0
   animated_toggle_switch: ^0.8.0
+  flutter_onboarding_slider: ^1.0.11
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -113,6 +114,7 @@ flutter:
     - assets/images/shopping-seamless-pattern-with-colorful-doodle_67074-1139.jpg
     - assets/images/online-shop.png
     - assets/lottie_json_animations/
+    - assets/images/undraw_Searching_re_3ra9.png
     - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see

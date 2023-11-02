@@ -1,7 +1,9 @@
+import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/register_view.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/product_details_view.dart';
 import 'package:ecommerce/features/layout/presentation/views/layout_view.dart';
+import 'package:ecommerce/features/splach/presentation/on_boarding.dart';
 import 'package:ecommerce/main.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,7 +23,9 @@ abstract class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SplashView(),
+        builder: (context, state) => (userToken.isEmpty || userToken == "")
+            ? const OnBoardingView()
+            : const SplashView(),
       ),
       GoRoute(
         path: kLoginView,
