@@ -5,6 +5,8 @@ import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dar
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stylish_bottom_bar/model/bar_items.dart';
+import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 import '../../../../core/utils/colors.dart';
 import '../../../../generated/l10n.dart';
@@ -59,16 +61,83 @@ class _LayoutViewState extends State<LayoutView> {
     var cubit = BlocProvider.of<LayoutCubit>(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: color3, //color3,
-        body: FadeInUp(
-          animate: true,
-          child: SingleChildScrollView(
-            // shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            child: cubit.screens[cubit.bottomNavCurrentIndex],
+          extendBody: true,
+          backgroundColor: color3, //color3,
+          body: FadeInUp(
+            animate: true,
+            child: SingleChildScrollView(
+              // shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              child: cubit.screens[cubit.bottomNavCurrentIndex],
+            ),
           ),
+          bottomNavigationBar: StylishBottomBar(
+            option: AnimatedBarOptions(
+              opacity: 0.3,
+              inkColor: color9,
+              inkEffect: true,
+            ),
+            items: [
+              BottomBarItem(
+                selectedColor: color9,
+                icon: const Icon(
+                  Icons.home_outlined,
+                ),
+                title: Text(S.of(context).bottomNavHome),
+              ),
+              BottomBarItem(
+                icon: const Icon(
+                  Icons.favorite_outline,
+                ),
+                title: Text(S.of(context).bottomNavFav),
+              ),
+              BottomBarItem(
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                ),
+                title: Text(S.of(context).bottomNavCard),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+            hasNotch: true,
+            currentIndex: cubit.bottomNavCurrentIndex,
+            onTap: (value) {
+              setState(() {
+                cubit.onBottomNavIndexChange(index: value);
+              });
+            },
+          )),
+    );
+  }
+
+  ElevatedButton buildDrawerElement({required void Function() onPressed}) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          color9,
         ),
-        bottomNavigationBar: BottomNavigationBar(
+        elevation: MaterialStateProperty.all(0),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.person_outline, color: color2, size: 24),
+          SizedBox(
+            width: 22,
+          ),
+          Text(
+            'Profile',
+            style: TextStyle(color: color2, fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*BottomNavigationBar(
           currentIndex: cubit.bottomNavCurrentIndex,
           onTap: (value) {
             setState(() {
@@ -97,32 +166,4 @@ class _LayoutViewState extends State<LayoutView> {
               label: S.of(context).bottomNavCard,
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  ElevatedButton buildDrawerElement({required void Function() onPressed}) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-          color9,
-        ),
-        elevation: MaterialStateProperty.all(0),
-      ),
-      child: const Row(
-        children: [
-          Icon(Icons.person_outline, color: color2, size: 24),
-          SizedBox(
-            width: 22,
-          ),
-          Text(
-            'Profile',
-            style: TextStyle(color: color2, fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-}
+        ), */

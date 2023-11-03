@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  animated_notch_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: animated_notch_bottom_bar
-      sha256: "0fb99df2834bb1c235b59d6888f31fd958565e0a79c5e55d9d430a923d9ea915"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   animated_toggle_switch:
     dependency: "direct main"
     description:
@@ -1474,6 +1466,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.5.0+1"
+  stylish_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: stylish_bottom_bar
+      sha256: "54970e4753b4273239b6dea0d1175c56beabcf39b5c65df4cbf86f1b86568d2b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   synchronized:
     dependency: transitive
     description:
