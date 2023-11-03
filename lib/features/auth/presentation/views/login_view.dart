@@ -4,6 +4,7 @@ import 'package:ecommerce/features/auth/presentation/views/register_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/formButton.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
 import 'package:ecommerce/features/home/presentation/views/home_view.dart';
+import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/splach/presentation/splach_view.dart';
 import 'package:ecommerce/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,8 +27,8 @@ import '../../../profile/presentation/managers/user_data_cubit.dart';
 import '../../../profile/presentation/views/profile_view.dart';
 
 class LoginView extends StatefulWidget {
-   LoginView({Key? key}) : super(key: key);
-  static UserDataCubit userDataCubit=UserDataCubit();
+  LoginView({Key? key}) : super(key: key);
+  static UserDataCubit userDataCubit = UserDataCubit();
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -41,23 +42,35 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginSuccessState) {
             //userToken==userDataCubit.userModel?.token;
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const SplashView(),));
-          }
-          else
-            if (state is LoginFailureState) {
+            /* Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SplashView(),
+                )); */
+            Future.delayed(
+                const Duration(
+                  milliseconds: 500,
+                ), () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LayoutView(),
+                ),
+              );
+            });
+          } else if (state is LoginFailureState) {
             showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
                   content: Text(
                     '${state.errorMessage}',
-                    style:  const TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -71,7 +84,12 @@ class _LoginViewState extends State<LoginView> {
           return Scaffold(
             backgroundColor: color3,
             body: Padding(
-              padding:  EdgeInsets.only(right: MediaQuery.sizeOf(context).width*0.03,left: MediaQuery.sizeOf(context).width*0.03,top: MediaQuery.sizeOf(context).height*0.1,bottom: MediaQuery.sizeOf(context).height*0.01,),
+              padding: EdgeInsets.only(
+                right: MediaQuery.sizeOf(context).width * 0.03,
+                left: MediaQuery.sizeOf(context).width * 0.03,
+                top: MediaQuery.sizeOf(context).height * 0.1,
+                bottom: MediaQuery.sizeOf(context).height * 0.01,
+              ),
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height,
                 child: SingleChildScrollView(
@@ -80,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Center(
+                        Center(
                           child: Text(
                             'Hello Again!',
                             style: TextStyle(
@@ -89,10 +107,10 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: 8.h,
                         ),
-                         Center(
+                        Center(
                           child: Text(
                             'Fill your details to sign in',
                             style: TextStyle(
@@ -102,16 +120,16 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.sizeOf(context).height*0.03,
+                          height: MediaQuery.sizeOf(context).height * 0.03,
                         ),
-                         Text(
+                        Text(
                           'Email Address',
                           style: TextStyle(
                             fontSize: 18.sp,
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.sizeOf(context).height*0.02,
+                          height: MediaQuery.sizeOf(context).height * 0.02,
                         ),
                         buildTextFormField(
                           label: 'xyz@gmail.com',
@@ -120,20 +138,20 @@ class _LoginViewState extends State<LoginView> {
                           keyboardType: TextInputType.emailAddress,
                         ),
                         SizedBox(
-                          height: MediaQuery.sizeOf(context).height*0.03,
+                          height: MediaQuery.sizeOf(context).height * 0.03,
                         ),
-                         Text(
+                        Text(
                           'Password',
                           style: TextStyle(
                             fontSize: 18.sp,
                           ),
                         ),
-                         SizedBox(
-                          height: MediaQuery.sizeOf(context).height*0.02,
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.02,
                         ),
                         buildPasswordTextFormField(), //password
-                         SizedBox(
-                          height: MediaQuery.sizeOf(context).height*0.1,
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.1,
                         ),
 
                         buildFormButton(
@@ -151,11 +169,19 @@ class _LoginViewState extends State<LoginView> {
                           },
                         ),
 
-                       SizedBox(height: MediaQuery.sizeOf(context).height*0.2,),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.2,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                             Text('New User?',style: TextStyle(fontSize: 14.sp,color: color5,),),
+                            Text(
+                              'New User?',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: color5,
+                              ),
+                            ),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -165,9 +191,13 @@ class _LoginViewState extends State<LoginView> {
                                   ),
                                 );
                               },
-                              child:  Text(
+                              child: Text(
                                 'Create Account',
-                                style: TextStyle(fontSize: 15.sp,fontWeight: FontWeight.bold,color: Colors.black,),
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ],
@@ -187,55 +217,58 @@ class _LoginViewState extends State<LoginView> {
 
   TextFormField buildPasswordTextFormField() {
     return TextFormField(
-                          controller: passwordController,
-                          obscureText: obscureText,
-                          obscuringCharacter: '*',
-                          validator: (value) {
-                            if (passwordController.text.isEmpty) {
-                              return 'Please Enter password';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon:  const Icon(Icons.password),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  obscureText = !obscureText;
-                                });
-                              },
-                              child: obscureText
-                                  ?  const Icon(
-                                      CupertinoIcons.eye,
-                                      color: Colors.black,
-                                    )
-                                  :  const Icon(
-                                      CupertinoIcons.eye_slash,
-                                      color: Colors.black,
-                                    ),
-                            ),
-                            enabled: true,
-                            label:  Text(
-                              '●●●●●●',
-                              style: TextStyle(fontSize: 13.sp,color: color5,),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:  const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(
-                                18,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
-                            ),
-                          ),
-                        );
+      controller: passwordController,
+      obscureText: obscureText,
+      obscuringCharacter: '*',
+      validator: (value) {
+        if (passwordController.text.isEmpty) {
+          return 'Please Enter password';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.password),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              obscureText = !obscureText;
+            });
+          },
+          child: obscureText
+              ? const Icon(
+                  CupertinoIcons.eye,
+                  color: Colors.black,
+                )
+              : const Icon(
+                  CupertinoIcons.eye_slash,
+                  color: Colors.black,
+                ),
+        ),
+        enabled: true,
+        label: Text(
+          '●●●●●●',
+          style: TextStyle(
+            fontSize: 13.sp,
+            color: color5,
+          ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(
+            18,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+      ),
+    );
   }
 }

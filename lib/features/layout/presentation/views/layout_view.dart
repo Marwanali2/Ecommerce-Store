@@ -1,3 +1,6 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:ecommerce/core/utils/constants.dart';
+import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
 
 import 'package:flutter/material.dart';
@@ -28,6 +31,9 @@ class _LayoutViewState extends State<LayoutView> {
   void initState() {
     super.initState();
     BlocProvider(
+      create: (context) => AuthCubit(),
+    );
+    BlocProvider(
       create: (context) => LayoutCubit(),
     );
     BlocProvider(
@@ -54,10 +60,13 @@ class _LayoutViewState extends State<LayoutView> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: color3, //color3,
-        body: SingleChildScrollView(
-          // shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          child: cubit.screens[cubit.bottomNavCurrentIndex],
+        body: FadeInUp(
+          animate: true,
+          child: SingleChildScrollView(
+            // shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            child: cubit.screens[cubit.bottomNavCurrentIndex],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: cubit.bottomNavCurrentIndex,

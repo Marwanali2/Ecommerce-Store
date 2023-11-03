@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/features/home/presentation/managers/banner_cubit/banner_cubit.dart';
@@ -91,11 +92,13 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: SearchTextField(
-                textController: textController,
-                productsCubit: productsCubit,
-                favoritesCubit: favoritesCubit,
-                cartsCubit: cartsCubit,
+              child: FadeInDown(
+                child: SearchTextField(
+                  textController: textController,
+                  productsCubit: productsCubit,
+                  favoritesCubit: favoritesCubit,
+                  cartsCubit: cartsCubit,
+                ),
               ) //buildSearchTextFormField(textController, productsCubit, context, favoritesCubit, cartsCubit),
               ),
           SizedBox(
@@ -128,8 +131,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                                 BorderRadius.all(Radius.circular(10))),
                       ),
                       backgroundColor: Intl.getCurrentLocale() == 'en'
-                          ? MaterialStatePropertyAll(color9)
-                          : MaterialStatePropertyAll(Colors.blueGrey)),
+                          ? const MaterialStatePropertyAll(color9)
+                          : const MaterialStatePropertyAll(Colors.blueGrey)),
                   child: const Text(
                     'EN',
                     style: TextStyle(
@@ -153,8 +156,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       backgroundColor: Intl.getCurrentLocale() == 'ar'
-                          ? MaterialStatePropertyAll(color9)
-                          : MaterialStatePropertyAll(Colors.blueGrey)),
+                          ? const MaterialStatePropertyAll(color9)
+                          : const MaterialStatePropertyAll(Colors.blueGrey)),
                   child: const Text(
                     'AR',
                     style: TextStyle(
@@ -171,9 +174,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           ),
           Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: CategoriesTaps(
-                  categoriesCubit:
-                      categoriesCubit) //buildCategoriesNamesListView(categoriesCubit),
+              child: FadeInLeft(
+                child: CategoriesTaps(categoriesCubit: categoriesCubit),
+              ) //buildCategoriesNamesListView(categoriesCubit),
               ),
           SizedBox(
             height: 16.h,
@@ -359,41 +362,44 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 );
               } else {
                 // return const Center(child: CircularProgressIndicator());
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.5,
-                    child: GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: 6,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 20,
-                        childAspectRatio: 0.6,
-                      ),
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          width: 200.w,
-                          height: 100.h,
-                          child: Shimmer.fromColors(
-                            baseColor: color9,
-                            highlightColor: color9.withOpacity(
-                              0.5,
-                            ),
-                            period: const Duration(milliseconds: 500),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  18,
+                return FadeInUp(
+                  animate: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: SizedBox(
+                      height: MediaQuery.sizeOf(context).height * 0.5,
+                      child: GridView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: 6,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 20,
+                          childAspectRatio: 0.6,
+                        ),
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: 200.w,
+                            height: 100.h,
+                            child: Shimmer.fromColors(
+                              baseColor: color9,
+                              highlightColor: color9.withOpacity(
+                                0.5,
+                              ),
+                              period: const Duration(milliseconds: 500),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    18,
+                                  ),
+                                  color: Colors.grey,
                                 ),
-                                color: Colors.grey,
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );

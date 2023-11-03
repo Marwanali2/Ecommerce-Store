@@ -70,6 +70,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_screenutil: ^5.9.0
+  animate_do: ^3.1.2
   flutter_localizations:
     sdk: flutter
   circular_menu: ^2.0.1

@@ -85,8 +85,7 @@ class AuthCubit extends Cubit<AuthState> {
             key: 'token',
             value: responseBody['data']['token'],
           ).then((value) {
-            userToken==UserDataCubit().userModel?.token;
-
+            userToken == UserDataCubit().userModel?.token;
           });
           emit(LoginSuccessState());
         } else {
@@ -103,8 +102,4 @@ class AuthCubit extends Cubit<AuthState> {
       );
     }
   }
-
-
-
-
 }

@@ -12,9 +12,9 @@ import '../../../../core/utils/colors.dart';
 import '../managers/auth_cubit.dart';
 
 class RegisterView extends StatefulWidget {
-   RegisterView({Key? key}) : super(key: key);
+  RegisterView({Key? key}) : super(key: key);
   static final passwordController = TextEditingController();
-  static final String thePassword=passwordController.text;
+  static final String thePassword = passwordController.text;
   @override
   State<RegisterView> createState() => _RegisterViewState();
 }
@@ -37,18 +37,17 @@ class _RegisterViewState extends State<RegisterView> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>  const LayoutView(),
+                builder: (context) => LoginView(),
               ),
             );
-          }
-          else if (state is RegisterFailureState) {
+          } else if (state is RegisterFailureState) {
             showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
                   content: Text(
                     '${state.errorMessage}',
-                    style:  const TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                     ),
                   ),
@@ -62,7 +61,12 @@ class _RegisterViewState extends State<RegisterView> {
           return Scaffold(
               backgroundColor: color3,
               body: Padding(
-               padding:  EdgeInsets.only(right: MediaQuery.sizeOf(context).width*0.03,left: MediaQuery.sizeOf(context).width*0.03,top: MediaQuery.sizeOf(context).height*0.03,bottom: MediaQuery.sizeOf(context).height*0.01,),
+                padding: EdgeInsets.only(
+                  right: MediaQuery.sizeOf(context).width * 0.03,
+                  left: MediaQuery.sizeOf(context).width * 0.03,
+                  top: MediaQuery.sizeOf(context).height * 0.03,
+                  bottom: MediaQuery.sizeOf(context).height * 0.01,
+                ),
                 child: SizedBox(
                   height: MediaQuery.sizeOf(context).height,
                   child: SingleChildScrollView(
@@ -72,7 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child:  Text(
+                            child: Text(
                               'Register Account',
                               style: TextStyle(
                                 fontSize: 33.sp,
@@ -80,10 +84,10 @@ class _RegisterViewState extends State<RegisterView> {
                               ),
                             ),
                           ),
-                           SizedBox(
+                          SizedBox(
                             height: 8.h,
                           ),
-                           Center(
+                          Center(
                             child: Text(
                               'Fill your details to Sign Up',
                               style: TextStyle(
@@ -93,16 +97,16 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.03,
+                            height: MediaQuery.sizeOf(context).height * 0.03,
                           ),
-                           Text(
+                          Text(
                             'Your Name',
                             style: TextStyle(
                               fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.02,
+                            height: MediaQuery.sizeOf(context).height * 0.02,
                           ),
                           buildTextFormField(
                               label: 'User Name',
@@ -112,16 +116,16 @@ class _RegisterViewState extends State<RegisterView> {
                           //user name
 
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.03,
+                            height: MediaQuery.sizeOf(context).height * 0.03,
                           ),
-                           Text(
+                          Text(
                             'Email Address',
                             style: TextStyle(
                               fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.02,
+                            height: MediaQuery.sizeOf(context).height * 0.02,
                           ),
                           buildTextFormField(
                             label: 'Email',
@@ -130,31 +134,31 @@ class _RegisterViewState extends State<RegisterView> {
                             keyboardType: TextInputType.emailAddress,
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.03,
+                            height: MediaQuery.sizeOf(context).height * 0.03,
                           ),
-                           Text(
+                          Text(
                             'Password',
                             style: TextStyle(
                               fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.02,
+                            height: MediaQuery.sizeOf(context).height * 0.02,
                           ),
                           buildPasswordTextFormField(),
                           //password
 
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.03,
+                            height: MediaQuery.sizeOf(context).height * 0.03,
                           ),
-                           Text(
+                          Text(
                             'Phone',
                             style: TextStyle(
                               fontSize: 18.sp,
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.02,
+                            height: MediaQuery.sizeOf(context).height * 0.02,
                           ),
                           buildTextFormField(
                             label: 'Phone',
@@ -164,7 +168,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
 
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height*0.03,
+                            height: MediaQuery.sizeOf(context).height * 0.03,
                           ),
 
                           buildFormButton(
@@ -174,10 +178,12 @@ class _RegisterViewState extends State<RegisterView> {
                                 : 'Register',
                             onPressed: () {
                               if (formKey.currentState!.validate() == true) {
-                                BlocProvider.of<AuthCubit>(context).registerUser(
+                                BlocProvider.of<AuthCubit>(context)
+                                    .registerUser(
                                   name: userNameController.text,
                                   email: emailController.text,
-                                  password: RegisterView.passwordController.text,
+                                  password:
+                                      RegisterView.passwordController.text,
                                   phone: phoneController.text,
                                 );
                               }
@@ -185,24 +191,33 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           // register button
 
-                          SizedBox(height: MediaQuery.sizeOf(context).height*0.03,),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.03,
+                          ),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                               Text('Already have an account?',style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold,color: color5)),
+                              Text('Already have an account?',
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: color5)),
                               TextButton(
                                 onPressed: () {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>  LoginView(),
+                                      builder: (context) => LoginView(),
                                     ),
                                   );
                                 },
-                                child:  Text(
+                                child: Text(
                                   'Login',
-                                  style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 16.sp),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.sp),
                                 ),
                               ),
                             ],
@@ -221,60 +236,59 @@ class _RegisterViewState extends State<RegisterView> {
 
   TextFormField buildPasswordTextFormField() {
     return TextFormField(
-                        controller: RegisterView.passwordController,
-                        obscureText: obscureText,
-                        obscuringCharacter: '*',
-                        cursorColor: color9,
-                        validator: (value) {
-                          if (RegisterView.passwordController.text.isEmpty) {
-                            return 'Please Enter password';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon:  const Icon(Icons.password),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                obscureText = !obscureText;
-                              });
-                            },
-                            child: obscureText
-                                ?  const Icon(
-                                    CupertinoIcons.eye,
-                                    color: Colors.black,
-                                  )
-                                :  const Icon(
-                                    CupertinoIcons.eye_slash,
-                                    color: Colors.black,
-                                  ),
-                          ),
-                          enabled: true,
-                          label:  Text(
-                            '●●●●●●',
-                            style: TextStyle(fontSize: 13.sp,color: color5,),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:  const BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(
-                              18,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                          ),
-                        ),
-                      );
+      controller: RegisterView.passwordController,
+      obscureText: obscureText,
+      obscuringCharacter: '*',
+      cursorColor: color9,
+      validator: (value) {
+        if (RegisterView.passwordController.text.isEmpty) {
+          return 'Please Enter password';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.password),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              obscureText = !obscureText;
+            });
+          },
+          child: obscureText
+              ? const Icon(
+                  CupertinoIcons.eye,
+                  color: Colors.black,
+                )
+              : const Icon(
+                  CupertinoIcons.eye_slash,
+                  color: Colors.black,
+                ),
+        ),
+        enabled: true,
+        label: Text(
+          '●●●●●●',
+          style: TextStyle(
+            fontSize: 13.sp,
+            color: color5,
+          ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(
+            18,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+        ),
+      ),
+    );
   }
-
-
-
-
 }

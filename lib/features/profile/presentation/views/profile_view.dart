@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:animate_do/animate_do.dart';
 import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
@@ -65,17 +66,23 @@ class _ProfileViewState extends State<ProfileView> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    buildProfilePhoto(context),
+                    FadeInUp(
+                      animate: true,
+                      child: buildProfilePhoto(context),
+                    ),
                     SizedBox(
                       height: 10.h,
                     ),
-                    ProfileEditRow(
-                        type: S.of(context).profileEditName,
-                        onPressed: () {
-                          setState(() {
-                            isNameEditActive = true;
-                          });
-                        }),
+                    FadeInRight(
+                      animate: true,
+                      child: ProfileEditRow(
+                          type: S.of(context).profileEditName,
+                          onPressed: () {
+                            setState(() {
+                              isNameEditActive = true;
+                            });
+                          }),
+                    ),
                     SizedBox(
                       height: 12.h,
                     ),
@@ -86,18 +93,24 @@ class _ProfileViewState extends State<ProfileView> {
                             controller: editProfileNameController,
                             keyboardType: TextInputType.name,
                           )
-                        : ProfileTypesDisplayContainer(
-                            typeValue: userDataCubit.userModel?.name ?? ''),
+                        : FadeInLeft(
+                            animate: true,
+                            child: ProfileTypesDisplayContainer(
+                                typeValue: userDataCubit.userModel?.name ?? ''),
+                          ),
                     SizedBox(
                       height: 12.h,
                     ),
-                    ProfileEditRow(
-                        type: S.of(context).profileEditPhone,
-                        onPressed: () {
-                          setState(() {
-                            isPhoneEditActive = true;
-                          });
-                        }),
+                    FadeInRight(
+                      animate: true,
+                      child: ProfileEditRow(
+                          type: S.of(context).profileEditPhone,
+                          onPressed: () {
+                            setState(() {
+                              isPhoneEditActive = true;
+                            });
+                          }),
+                    ),
                     SizedBox(
                       height: 12.h,
                     ),
@@ -108,18 +121,25 @@ class _ProfileViewState extends State<ProfileView> {
                             controller: editProfilePhoneController,
                             keyboardType: TextInputType.phone,
                           )
-                        : ProfileTypesDisplayContainer(
-                            typeValue: userDataCubit.userModel?.phone ?? ''),
+                        : FadeInLeft(
+                            animate: true,
+                            child: ProfileTypesDisplayContainer(
+                                typeValue:
+                                    userDataCubit.userModel?.phone ?? ''),
+                          ),
                     SizedBox(
                       height: 12.h,
                     ),
-                    ProfileEditRow(
-                        type: S.of(context).profileEditEmail,
-                        onPressed: () {
-                          setState(() {
-                            isEmailEditActive = true;
-                          });
-                        }),
+                    FadeInLeft(
+                      animate: true,
+                      child: ProfileEditRow(
+                          type: S.of(context).profileEditEmail,
+                          onPressed: () {
+                            setState(() {
+                              isEmailEditActive = true;
+                            });
+                          }),
+                    ),
                     SizedBox(
                       height: 12.h,
                     ),
@@ -130,31 +150,38 @@ class _ProfileViewState extends State<ProfileView> {
                             controller: editProfileEmailController,
                             keyboardType: TextInputType.emailAddress,
                           )
-                        : ProfileTypesDisplayContainer(
-                            typeValue: userDataCubit.userModel?.email ?? ''),
+                        : FadeInLeft(
+                            animate: true,
+                            child: ProfileTypesDisplayContainer(
+                                typeValue:
+                                    userDataCubit.userModel?.email ?? ''),
+                          ),
                     SizedBox(
                       height: 12.h,
                     ),
-                    ProfileEditRow(
-                        type: S.of(context).profileEditLocation,
-                        onPressed: () async {
-                          _getCurrentLocation().then((value) {
-                            lat = value.latitude; //'${value.latitude}';
-                            long = value.longitude; //'${value.longitude}';
-                            setState(() {
-                              locationMessage =
-                                  'latitude: ${lat.toString()} , longitude: ${long.toString()}';
+                    FadeInLeft(
+                      animate: true,
+                      child: ProfileEditRow(
+                          type: S.of(context).profileEditLocation,
+                          onPressed: () async {
+                            _getCurrentLocation().then((value) {
+                              lat = value.latitude; //'${value.latitude}';
+                              long = value.longitude; //'${value.longitude}';
+                              setState(() {
+                                locationMessage =
+                                    'latitude: ${lat.toString()} , longitude: ${long.toString()}';
+                              });
+                              _liveLocation();
                             });
-                            _liveLocation();
-                          });
-                          String mapUrl =
-                              "geo:${lat.toString()},${long.toString()}";
-                          if (await canLaunchUrlString(mapUrl)) {
-                            await launchUrlString(mapUrl);
-                          } else {
-                            throw "Couldn't launch Map";
-                          }
-                        }),
+                            String mapUrl =
+                                "geo:${lat.toString()},${long.toString()}";
+                            if (await canLaunchUrlString(mapUrl)) {
+                              await launchUrlString(mapUrl);
+                            } else {
+                              throw "Couldn't launch Map";
+                            }
+                          }),
+                    ),
                     SizedBox(
                       height: 12.h,
                     ),
