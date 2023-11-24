@@ -4,6 +4,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/product_details_view.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/functions.dart';
@@ -113,6 +114,7 @@ class _CategoryTapProductsListViewState
                                   : color8,
                             ),
                             onPressed: () async {
+                              setState(() {});
                               await cubit.addOrRemoveFavorites(
                                   productId: widget.categoriesCubit
                                       .categoryProductsList[index].id
@@ -253,7 +255,9 @@ class _CategoryTapProductsListViewState
             ),
           ),
           Align(
-            alignment: Alignment.bottomRight,
+            alignment: Intl.getCurrentLocale() == 'en'
+                ? Alignment.bottomRight
+                : Alignment.bottomLeft,
             child: GestureDetector(
               onTap: () async {
                 await widget.cartsCubit.addOrRemoveCarts(

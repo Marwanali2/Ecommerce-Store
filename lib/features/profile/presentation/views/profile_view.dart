@@ -7,6 +7,7 @@ import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_fie
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_appbar_section.dart';
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_edit_row.dart';
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_type_display_container.dart';
+import 'package:ecommerce/features/splach/presentation/on_boarding.dart';
 import 'package:ecommerce/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -244,13 +245,33 @@ class _ProfileViewState extends State<ProfileView> {
                                       ? "Loading..."
                                       : S.of(context).profileLogout,
                                   () async {
-                                    Navigator.of(context).push(
+                                    /*Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => LoginView(),
                                       ),
+                                    );*/
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LoginView(),
+                                      ),
                                     );
+
+                                    /* Navigator.of(context)
+                                        .push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LoginView(),
+                                      ),
+                                    )
+                                        .then((value) async {
+                                      await CachedNetwork.deleteCacheItem(
+                                          key: 'token');
+                                    });*/
+                                    //   await userDataCubit.logOut();
+                                    //CachedNetwork.deleteCacheItem(key: 'token');
+                                    /* GoRouter.of(context)
+                                        .push(AppRouter.kLoginView);
                                     await userDataCubit.logOut();
-                                    CachedNetwork.deleteCacheItem(key: 'token');
+                                    CachedNetwork.deleteCacheItem(key: 'token');*/
 
                                     //    await userDataCubit.logOut();
                                     /*  setState(() {
@@ -276,7 +297,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     //   MaterialPageRoute(builder: (context) => const EcommerceApp()),
                                     //       (Route<dynamic> route) => false,
                                     // );
-                                    //     print('******************* $userToken');
+                                    print(
+                                        '******************* after log out $userToken');
                                   },
                                 );
                               },

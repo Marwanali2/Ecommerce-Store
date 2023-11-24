@@ -1,34 +1,28 @@
+import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/core/utils/constants.dart';
-import 'package:ecommerce/features/auth/presentation/views/change_password.dart';
+import 'package:ecommerce/core/widgets/show_snack_bar.dart';
 import 'package:ecommerce/features/auth/presentation/views/register_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/formButton.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
-import 'package:ecommerce/features/home/presentation/views/home_view.dart';
-import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/splach/presentation/splach_view.dart';
-import 'package:ecommerce/main.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/utils/colors.dart';
 import '../../../layout/presentation/views/layout_view.dart';
 import '../managers/auth_cubit.dart';
-import '../../../auth/presentation/views/register_view.dart';
-import '../../../card/presentation/managers/carts_cubit.dart';
-import '../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
-import '../../../home/presentation/managers/banner_cubit/banner_cubit.dart';
-import '../../../home/presentation/managers/categories_cubit/categories_cubit.dart';
-import '../../../home/presentation/managers/products_cubit/products_cubit.dart';
-import '../../../layout/presentation/managers/layout_cubit.dart';
-import '../../../layout/presentation/views/layout_view.dart';
+
 import '../../../profile/presentation/managers/user_data_cubit.dart';
-import '../../../profile/presentation/views/profile_view.dart';
 
 class LoginView extends StatefulWidget {
-  LoginView({Key? key}) : super(key: key);
+  const LoginView({Key? key}) : super(key: key);
   static UserDataCubit userDataCubit = UserDataCubit();
+  static String emailTest = '';
+  static String passwordTest = '';
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -36,7 +30,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
   bool obscureText = true;
   GlobalKey<FormState> formKey = GlobalKey();
 
@@ -45,24 +38,16 @@ class _LoginViewState extends State<LoginView> {
     return SafeArea(
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
+          userToken == LoginView.userDataCubit.userModel?.token;
           if (state is LoginSuccessState) {
-            //userToken==userDataCubit.userModel?.token;
+            userToken == LoginView.userDataCubit.userModel?.token;
             /* Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SplashView(),
                 )); */
-            Future.delayed(
-                const Duration(
-                  milliseconds: 500,
-                ), () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LayoutView(),
-                ),
-              );
-            });
+
+            GoRouter.of(context).push(AppRouter.kmain);
           } else if (state is LoginFailureState) {
             showDialog(
               context: context,
@@ -160,15 +145,17 @@ class _LoginViewState extends State<LoginView> {
                               ? 'Loading...'
                               : 'Sign In',
                           onPressed: () {
+                            LoginView.emailTest = emailController.text;
+                            LoginView.passwordTest = passwordController.text;
                             if (formKey.currentState!.validate() == true) {
-                              BlocProvider.of<AuthCubit>(context).loginUser(
+                              /*  BlocProvider.of<AuthCubit>(context).loginUser(
                                 email: emailController.text,
                                 password: passwordController.text,
-                              );
+                              );*/
+                              GoRouter.of(context).push(AppRouter.kmain);
                             }
                           },
                         ),
-
                         SizedBox(
                           height: MediaQuery.sizeOf(context).height * 0.2,
                         ),

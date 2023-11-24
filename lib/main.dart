@@ -7,34 +7,29 @@
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
-import 'package:ecommerce/features/card/presentation/views/widgets/checkout_view.dart';
+
 import 'package:ecommerce/features/home/data/models/banners_model.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/products_cubit/products_cubit.dart';
 import 'package:ecommerce/features/profile/data/user_model/user_model.dart';
 import 'package:ecommerce/features/stripe_payment/stripe_keys.dart';
-import 'package:ecommerce/hive_example.dart';
+
 import 'package:ecommerce/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 import 'core/utils/app_router.dart';
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
-import 'features/home/data/models/entities/banner_entity/banner_entity.dart';
-import 'features/home/data/models/entities/product_entity/product_entity.dart';
 import 'features/home/data/models/products_model.dart';
 import 'features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'features/layout/presentation/managers/layout_cubit.dart';
-import 'features/layout/presentation/views/layout_view.dart';
-import 'features/profile/data/entites/user_entity/user_entity.dart';
 import 'features/profile/presentation/managers/user_data_cubit.dart';
 import 'features/shared/network/local_network.dart';
-import 'features/splach/presentation/splach_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
 
@@ -67,6 +62,7 @@ void main() async {
 class EcommerceApp extends StatelessWidget {
   const EcommerceApp({Key? key}) : super(key: key);
   static String appLanguage = 'en';
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -81,8 +77,11 @@ class EcommerceApp extends StatelessWidget {
           create: (context) => BannerCubit()..getBanners(),
         ),
         BlocProvider(
-            create: (context) =>
-                CategoriesCubit()..getCategoryProducts(categoryId: 44)),
+          create: (context) => CategoriesCubit()
+            ..getCategoryProducts(
+              categoryId: 44,
+            ),
+        ),
         BlocProvider(
           create: (context) => ProductsCubit()..getProducts(),
         ),

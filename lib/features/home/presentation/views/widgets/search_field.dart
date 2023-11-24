@@ -8,7 +8,6 @@ import '../../../../../generated/l10n.dart';
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import '../../managers/products_cubit/products_cubit.dart';
-import 'package:intl/intl.dart';
 
 class SearchTextField extends StatefulWidget {
   const SearchTextField(
