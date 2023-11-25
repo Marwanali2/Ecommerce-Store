@@ -9,6 +9,7 @@ import 'package:ecommerce/features/profile/presentation/views/widgets/profile_ed
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_type_display_container.dart';
 import 'package:ecommerce/features/splach/presentation/on_boarding.dart';
 import 'package:ecommerce/main.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -245,60 +246,13 @@ class _ProfileViewState extends State<ProfileView> {
                                       ? "Loading..."
                                       : S.of(context).profileLogout,
                                   () async {
-                                    /*Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginView(),
-                                      ),
-                                    );*/
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const LoginView(),
-                                      ),
-                                    );
-
-                                    /* Navigator.of(context)
-                                        .push(
-                                      MaterialPageRoute(
-                                        builder: (context) => const LoginView(),
-                                      ),
-                                    )
-                                        .then((value) async {
-                                      await CachedNetwork.deleteCacheItem(
-                                          key: 'token');
-                                    });*/
-                                    //   await userDataCubit.logOut();
-                                    //CachedNetwork.deleteCacheItem(key: 'token');
-                                    /* GoRouter.of(context)
-                                        .push(AppRouter.kLoginView);
+                                    GoRouter.of(context)
+                                        .pushReplacement(AppRouter.kLoginView);
                                     await userDataCubit.logOut();
-                                    CachedNetwork.deleteCacheItem(key: 'token');*/
-
-                                    //    await userDataCubit.logOut();
-                                    /*  setState(() {
-                                      userToken ==
-                                          UserDataCubit().userModel?.token;
-                                    });
-                                    CachedNetwork.deleteCacheItem(key: 'token')
-                                        .then((value) {
-                                      Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginView()));
-                                    });*/
-                                    // Navigator.of(context).pushReplacement(
-                                    //   MaterialPageRoute(builder: (context) => const LoginView()),
-                                    //
-                                    // );
-                                    // setState(() {
-                                    //   userToken='';
-                                    // });
-                                    //   print('Deleted token is $userToken');
-                                    // Navigator.of(context).pushAndRemoveUntil(
-                                    //   MaterialPageRoute(builder: (context) => const EcommerceApp()),
-                                    //       (Route<dynamic> route) => false,
-                                    // );
-                                    print(
-                                        '******************* after log out $userToken');
+                                    if (kDebugMode) {
+                                      print(
+                                          '******************* after log out $userToken');
+                                    }
                                   },
                                 );
                               },

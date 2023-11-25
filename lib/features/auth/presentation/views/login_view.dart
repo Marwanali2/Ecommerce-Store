@@ -46,8 +46,7 @@ class _LoginViewState extends State<LoginView> {
                 MaterialPageRoute(
                   builder: (context) => const SplashView(),
                 )); */
-
-            GoRouter.of(context).push(AppRouter.kmain);
+            GoRouter.of(context).push(AppRouter.kLayoutView);
           } else if (state is LoginFailureState) {
             showDialog(
               context: context,
@@ -148,11 +147,11 @@ class _LoginViewState extends State<LoginView> {
                             LoginView.emailTest = emailController.text;
                             LoginView.passwordTest = passwordController.text;
                             if (formKey.currentState!.validate() == true) {
-                              /*  BlocProvider.of<AuthCubit>(context).loginUser(
+                              BlocProvider.of<AuthCubit>(context).loginUser(
                                 email: emailController.text,
                                 password: passwordController.text,
-                              );*/
-                              GoRouter.of(context).push(AppRouter.kmain);
+                              );
+                              //GoRouter.of(context).push(AppRouter.kmain);
                             }
                           },
                         ),

@@ -1,9 +1,3 @@
-/*
-* ✔ handle clear button in search bar
-* show category products length in for each category categories view body
-* handle custom error widget in favorites view body
-* handle favorite button wow effect
-* */
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
 import 'package:ecommerce/features/card/presentation/managers/carts_cubit.dart';
@@ -21,8 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
-
 import 'core/utils/app_router.dart';
 import 'features/favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
 import 'features/home/data/models/products_model.dart';
@@ -34,8 +26,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); //ensureInitialized() function is used to ensure that the Flutter framework is properly initialized before executing any code that depends on it
+  WidgetsFlutterBinding.ensureInitialized();
 
   await CachedNetwork.cacheInitialization();
   Bloc.observer = SimpleBlocObserver();
@@ -94,7 +85,6 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UserDataCubit()..getUserData(),
         ),
-        //BlocProvider(create: (context) => SearchCubit()..searchProducts(),),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
