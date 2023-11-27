@@ -31,7 +31,7 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
               const Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  //  Navigator.push(context, MaterialPageRoute(builder: (conet) => LayoutView(),));
+                  //  Navigator.push(context, MaterialPageRoute(builder: (cot) => LayoutView(),));
                   S.load(const Locale('en'));
                   setState(() {});
                 },
