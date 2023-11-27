@@ -1,21 +1,15 @@
 import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/core/utils/constants.dart';
-import 'package:ecommerce/core/widgets/show_snack_bar.dart';
 import 'package:ecommerce/features/auth/presentation/views/register_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/formButton.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
-import 'package:ecommerce/features/splach/presentation/splach_view.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../core/utils/colors.dart';
-import '../../../layout/presentation/views/layout_view.dart';
 import '../managers/auth_cubit.dart';
-
 import '../../../profile/presentation/managers/user_data_cubit.dart';
 
 class LoginView extends StatefulWidget {
@@ -38,30 +32,11 @@ class _LoginViewState extends State<LoginView> {
     return SafeArea(
       child: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          userToken == LoginView.userDataCubit.userModel?.token;
+          // userToken == LoginView.userDataCubit.userModel?.token; // 11-25
           if (state is LoginSuccessState) {
-            userToken == LoginView.userDataCubit.userModel?.token;
-            /* Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SplashView(),
-                )); */
-            GoRouter.of(context).push(AppRouter.kLayoutView);
+            GoRouter.of(context).pushReplacement(AppRouter.kSplashView);
           } else if (state is LoginFailureState) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(
-                    '${state.errorMessage}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  backgroundColor: Colors.red,
-                );
-              },
-            );
+            loginFailureDialog(context, state);
           }
         },
         builder: (context, state) {
@@ -151,7 +126,7 @@ class _LoginViewState extends State<LoginView> {
                                 email: emailController.text,
                                 password: passwordController.text,
                               );
-                              //GoRouter.of(context).push(AppRouter.kmain);
+                              //  GoRouter.of(context).push(AppRouter.kSplashView);
                             }
                           },
                         ),
@@ -173,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RegisterView(),
+                                    builder: (context) => const RegisterView(),
                                   ),
                                 );
                               },
@@ -198,6 +173,24 @@ class _LoginViewState extends State<LoginView> {
           );
         },
       ),
+    );
+  }
+
+  Future<dynamic> loginFailureDialog(
+      BuildContext context, LoginFailureState state) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(
+            '${state.errorMessage}',
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        );
+      },
     );
   }
 
@@ -232,7 +225,7 @@ class _LoginViewState extends State<LoginView> {
         ),
         enabled: true,
         label: Text(
-          '●●●●●●',
+          '******',
           style: TextStyle(
             fontSize: 13.sp,
             color: color5,

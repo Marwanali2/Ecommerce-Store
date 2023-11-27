@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/features/home/data/models/products_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-
 import '../../../../core/utils/constants.dart';
 import '../../../../core/utils/functions.dart';
 import '../../data/models/cart_model.dart';

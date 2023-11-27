@@ -10,7 +10,7 @@ import '../../../../core/utils/colors.dart';
 import '../managers/auth_cubit.dart';
 
 class RegisterView extends StatefulWidget {
-  RegisterView({Key? key}) : super(key: key);
+  const RegisterView({Key? key}) : super(key: key);
   static final passwordController = TextEditingController();
   static final String thePassword = passwordController.text;
   @override
@@ -35,24 +35,11 @@ class _RegisterViewState extends State<RegisterView> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginView(),
+                builder: (context) => const LoginView(),
               ),
             );
           } else if (state is RegisterFailureState) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(
-                    '${state.errorMessage}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  backgroundColor: Colors.red,
-                );
-              },
-            );
+            registerFailureDialog(context, state);
           }
         },
         builder: (context, state) {
@@ -206,7 +193,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LoginView(),
+                                      builder: (context) => const LoginView(),
                                     ),
                                   );
                                 },
@@ -229,6 +216,24 @@ class _RegisterViewState extends State<RegisterView> {
               ));
         },
       ),
+    );
+  }
+
+  Future<dynamic> registerFailureDialog(
+      BuildContext context, RegisterFailureState state) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(
+            '${state.errorMessage}',
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        );
+      },
     );
   }
 

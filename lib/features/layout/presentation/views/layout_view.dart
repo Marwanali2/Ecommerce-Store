@@ -1,11 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/features/auth/presentation/managers/auth_cubit.dart';
-import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/layout/presentation/managers/layout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:stylish_bottom_bar/model/bar_items.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
@@ -113,60 +110,4 @@ class _LayoutViewState extends State<LayoutView> {
       },
     );
   }
-/* 
-  ElevatedButton buildDrawerElement({required void Function() onPressed}) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-          color9,
-        ),
-        elevation: MaterialStateProperty.all(0),
-      ),
-      child: const Row(
-        children: [
-          Icon(Icons.person_outline, color: color2, size: 24),
-          SizedBox(
-            width: 22,
-          ),
-          Text(
-            'Profile',
-            style: TextStyle(color: color2, fontSize: 16),
-          ),
-        ],
-      ),
-    );
-  }
-*/
 }
-
-/*BottomNavigationBar(
-          currentIndex: cubit.bottomNavCurrentIndex,
-          onTap: (value) {
-            setState(() {
-              cubit.onBottomNavIndexChange(index: value);
-            });
-          },
-          selectedItemColor: Colors.indigo,
-          unselectedItemColor: Colors.grey,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.home_outlined,
-              ),
-              label: S.of(context).bottomNavHome,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.favorite_outline,
-              ),
-              label: S.of(context).bottomNavFav,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-              ),
-              label: S.of(context).bottomNavCard,
-            ),
-          ],
-        ), */

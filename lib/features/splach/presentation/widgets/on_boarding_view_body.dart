@@ -15,7 +15,7 @@ class OnBoardingViewBody extends StatelessWidget {
       pageBackgroundColor: color3,
       headerBackgroundColor: color3,
       controllerColor: color9,
-      finishButtonText: 'Register',
+      finishButtonText: 'Login',
       onFinish: () {
         GoRouter.of(context).pushReplacement(AppRouter.kLoginView);
       },
@@ -77,21 +77,21 @@ class OnBoardingViewBody extends StatelessWidget {
                 height: 420.h,
               ),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   children: [
                     TextSpan(
                       text: 'Welcome to ',
                       style: TextStyle(
                         fontFamily: 'Ubuntu',
-                        fontSize: 25,
+                        fontSize: 23.sp,
                         color: Colors.black,
                       ),
                     ),
                     TextSpan(
-                      text: 'Maro Store 💙',
+                      text: 'MaroStore 💙',
                       style: TextStyle(
                         fontFamily: 'DancingScript',
-                        fontSize: 33,
+                        fontSize: 30.sp,
                         color: color9,
                       ),
                     ),
@@ -109,7 +109,7 @@ class OnBoardingViewBody extends StatelessWidget {
                 height: 420.h,
               ),
               Text(
-                'Search Products you want !',
+                'Search Products \t\t\t\t\t\t\t\t you want!',
                 style: TextStyle(
                   fontSize: 23.sp,
                 ),
@@ -125,7 +125,7 @@ class OnBoardingViewBody extends StatelessWidget {
                 height: 420.h,
               ),
               Text(
-                'Pay Online from home ! 💸',
+                'Pay Online from\t\t\t\t\t home!💸',
                 style: TextStyle(
                   fontSize: 23.sp,
                 ),
@@ -141,7 +141,7 @@ class OnBoardingViewBody extends StatelessWidget {
                 height: 420.h,
               ),
               Text(
-                'Delivery to your location !',
+                'Delivery to your location!',
                 style: TextStyle(
                   fontSize: 23.sp,
                 ),

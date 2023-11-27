@@ -124,9 +124,7 @@ class _CategoryTapProductsListViewState
                                       .contains(widget.categoriesCubit
                                           .categoryProductsList[index].id
                                           .toString())
-                                  ?
-                                  // ignore: use_build_context_synchronously
-                                  showSnackBar(
+                                  ? showSnackBar(
                                       context: context,
                                       label: S.of(context).snackAddFav,
                                       backgroundColor: color9)

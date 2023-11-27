@@ -35,7 +35,7 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kSignUpView,
-        builder: (context, state) => RegisterView(),
+        builder: (context, state) => const RegisterView(),
       ),
       GoRoute(
         path: kSplashView,
@@ -46,7 +46,7 @@ abstract class AppRouter {
         builder: (context, state) => BlocConsumer<LayoutCubit, LayoutState>(
           listener: (context, state) {},
           builder: (context, state) {
-            return LayoutView();
+            return const LayoutView();
           },
         ),
       ),

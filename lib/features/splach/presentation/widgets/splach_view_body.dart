@@ -25,10 +25,10 @@ class _SplashViewBodyState extends State<SplashViewBody> {
         seconds: 10,
       ),
       () {
-        /*  (userToken.isEmpty||userToken=="")?
-     GoRouter.of(context).pushReplacement(AppRouter.kLoginView):
-      GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);*/
-        GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
+        (userToken.isEmpty || userToken == "")
+            ? GoRouter.of(context).pushReplacement(AppRouter.kLoginView)
+            : GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
+        //GoRouter.of(context).pushReplacement(AppRouter.kLayoutView);
         //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeView(),));
       },
     );

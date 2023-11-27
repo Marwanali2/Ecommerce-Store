@@ -1,6 +1,4 @@
 import 'package:ecommerce/core/utils/constants.dart';
-
-import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/profile/presentation/managers/user_data_cubit.dart';
 import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:equatable/equatable.dart';
