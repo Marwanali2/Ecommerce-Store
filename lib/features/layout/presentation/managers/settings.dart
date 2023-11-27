@@ -1,12 +1,8 @@
-import 'package:ecommerce/features/layout/presentation/managers/widgets/my_contatiner.dart';
-import 'package:ecommerce/features/shared/network/local_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsViewBody extends StatefulWidget {
   const SettingsViewBody({Key? key}) : super(key: key);
@@ -35,7 +31,7 @@ class _SettingsViewBodyState extends State<SettingsViewBody> {
               const Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  //  Navigator.push(context, MaterialPageRoute(builder: (context) => LayoutView(),));
+                  //  Navigator.push(context, MaterialPageRoute(builder: (cot) => LayoutView(),));
                   S.load(const Locale('en'));
                   setState(() {});
                 },

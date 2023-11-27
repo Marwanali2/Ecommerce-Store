@@ -1,30 +1,26 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce/core/utils/app_router.dart';
 import 'package:ecommerce/features/home/presentation/managers/banner_cubit/banner_cubit.dart';
 import 'package:ecommerce/features/home/presentation/managers/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce/features/home/presentation/views/widgets/search_field.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hive/hive.dart';
-import 'dart:developer';
+
 import 'package:shimmer/shimmer.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/utils/constants.dart';
 import '../../../../../core/utils/functions.dart';
 import '../../../../../core/widgets/custom_error_widget.dart';
 import '../../../../../core/widgets/enjoy_bar.dart';
-import '../../../../../core/widgets/show_snack_bar.dart';
+
 import '../../../../../generated/l10n.dart';
-import '../../../../../main.dart';
+
 import '../../../../card/presentation/managers/carts_cubit.dart';
 import '../../../../favorites/presentation/managers/favorites_cubit/favorites_cubit.dart';
-import '../../../../layout/presentation/managers/layout_cubit.dart';
-import '../../../../layout/presentation/views/layout_view.dart';
-import '../../../../splach/presentation/splach_view.dart';
 import '../../../data/models/products_model.dart';
 import '../../managers/products_cubit/products_cubit.dart';
 import 'banner_section.dart';
@@ -76,7 +72,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     var cartsCubit = BlocProvider.of<CartsCubit>(context);
     final pageController = PageController();
     TextEditingController textController = TextEditingController();
-    var cubit = BlocProvider.of<LayoutCubit>(context);
     return SizedBox(
       height: MediaQuery.sizeOf(context).height * 0.88,
       child: ListView(
@@ -209,7 +204,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                       childAspectRatio: 0.6,
                     ),
                     itemBuilder: (context, index) {
-                      var cubit = favoritesCubit;
                       return Stack(
                         children: [
                           Container(

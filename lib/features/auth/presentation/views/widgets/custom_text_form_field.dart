@@ -1,13 +1,13 @@
 import 'package:ecommerce/core/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatelessWidget {
   CustomTextField({
-
+    super.key,
     required this.label,
-   required this.hintText,
-     this.onChanged,
+    required this.hintText,
+    this.onChanged,
     required this.onFieldSubmitted,
     required this.enabledBorderColor,
     required this.focusedBorderColor,
@@ -28,8 +28,8 @@ class CustomTextField extends StatelessWidget {
   Color? inputTextColor;
   Color? labelTextColor;
   Color? hintTextColor;
-  TextInputType?keyboardType;
-  TextEditingController textEditingController=TextEditingController();
+  TextInputType? keyboardType;
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -42,33 +42,32 @@ class CustomTextField extends StatelessWidget {
         }
         return 'must not be empty';
       },
-
-      style:  TextStyle(color: inputTextColor),
+      style: TextStyle(color: inputTextColor),
       decoration: InputDecoration(
         enabled: true,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: enabledBorderColor!),
-            borderRadius: BorderRadius.circular(20)
-        ),
+            borderSide: BorderSide(color: enabledBorderColor!),
+            borderRadius: BorderRadius.circular(20)),
         //
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedBorderColor!),
-            borderRadius: BorderRadius.circular(10)
-        ),
-        border:  OutlineInputBorder(
-          borderSide: BorderSide(color: borderColor!),
-            borderRadius: BorderRadius.circular(20)
-        ),
+            borderSide: BorderSide(color: focusedBorderColor!),
+            borderRadius: BorderRadius.circular(10)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: borderColor!),
+            borderRadius: BorderRadius.circular(20)),
 
         label: Text(
           "$label",
-          style:  TextStyle(color: labelTextColor,),
+          style: TextStyle(
+            color: labelTextColor,
+          ),
         ),
         hintText: "$hintText",
-        hintStyle:  TextStyle(color: hintTextColor,),
+        hintStyle: TextStyle(
+          color: hintTextColor,
+        ),
       ),
-      //onChanged: onChanged,
-      onFieldSubmitted:onFieldSubmitted ,
+      onFieldSubmitted: onFieldSubmitted,
     );
   }
 }

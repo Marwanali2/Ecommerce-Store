@@ -1,6 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../features/shared/network/local_network.dart';
+import 'package:ecommerce/features/shared/network/local_network.dart';
 
 String userToken = CachedNetwork.getCacheData(key: 'token');
 const kCategoriesProducts = 'categories_products';

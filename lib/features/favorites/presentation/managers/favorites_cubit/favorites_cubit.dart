@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/core/utils/functions.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 import '../../../../home/data/models/products_model.dart';
 
@@ -62,7 +61,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
           await _dio.post('https://student.valuxapps.com/api/favorites',
               options: Options(
                 headers: {
-                  'lang':'en',
+                  'lang': 'en',
                   'Authorization': userToken,
                 },
               ),

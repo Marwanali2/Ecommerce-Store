@@ -2,21 +2,24 @@ import 'dart:async';
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:ecommerce/core/utils/app_router.dart';
+import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/auth/presentation/views/login_view.dart';
 import 'package:ecommerce/features/auth/presentation/views/widgets/text_form_field.dart';
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_appbar_section.dart';
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_edit_row.dart';
 import 'package:ecommerce/features/profile/presentation/views/widgets/profile_type_display_container.dart';
-import 'package:ecommerce/main.dart';
+import 'package:ecommerce/features/splach/presentation/on_boarding.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../../../core/utils/colors.dart';
-import '../../../../core/utils/constants.dart';
+
 import '../../../../core/widgets/show_snack_bar.dart';
 import '../../../../generated/l10n.dart';
 import '../../../auth/presentation/views/register_view.dart';
@@ -52,7 +55,19 @@ class _ProfileViewState extends State<ProfileView> {
         resizeToAvoidBottomInset: true,
         backgroundColor: color2,
         body: BlocConsumer<UserDataCubit, UserDataState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is LogOutSuccessState) {
+              showSnackBar(
+                  context: context,
+                  label: "Successfull Logout",
+                  backgroundColor: Colors.green);
+            } else if (state is LogOutFailureState) {
+              showSnackBar(
+                  context: context,
+                  label: "Failed to Logout, try again",
+                  backgroundColor: Colors.red);
+            }
+          },
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.symmetric(
@@ -245,14 +260,11 @@ class _ProfileViewState extends State<ProfileView> {
                                       : S.of(context).profileLogout,
                                   () async {
                                     Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginView(),
-                                      ),
-                                    );
-                                    await userDataCubit.logOut();
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OnBoardingView()));
+                                    //await userDataCubit.logOut();
                                     CachedNetwork.deleteCacheItem(key: 'token');
-
-                                    //    await userDataCubit.logOut();
                                     /*  setState(() {
                                       userToken ==
                                           UserDataCubit().userModel?.token;
@@ -375,8 +387,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                    width: 70.w,
-                                    height: 70.h,
+                                    width: 70,
+                                    height: 70,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(
                                         50,
@@ -397,8 +409,8 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                   ),
                                   Container(
-                                    width: 70.w,
-                                    height: 70.h,
+                                    width: 70,
+                                    height: 70,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(
                                         50,

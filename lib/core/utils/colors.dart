@@ -5,7 +5,6 @@ const secondColor = Color(0xff2B0504);
 const thirdColor = Color(0xffEAE6E5);
 const fourthColor = Color(0xff8B9556);
 const fifthColor = Color(0xff756D54);
-
 const color1 = Color(0xff0D6EFD);
 const color2 = Color(0xffffffff);
 const color3 = Color(0xf9f7f7f9);

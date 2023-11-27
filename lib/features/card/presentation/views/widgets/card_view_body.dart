@@ -42,58 +42,7 @@ class _CardViewBodyState extends State<CardViewBody> {
         if (state is CartsSuccess || state is AddOrRemoveCartSuccess) {
           return Column(
             children: [
-              Center(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Carts',
-                        style: TextStyle(
-                          color: color4,
-                          fontFamily: 'DancingScript',
-                          fontSize: 33.sp,
-                        ),
-                      ),
-                      const Spacer(),
-                      Center(
-                        child: Container(
-                          width: 80.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ),
-                            color: color9,
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${cartsCubit.cartsList.length} Items',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'DancingScript',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      const CircleAvatar(
-                        backgroundColor: color9,
-                        child: Icon(
-                          Icons.shopping_cart,
-                          color: color2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              CardAppBar(cartsCubit: cartsCubit),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SizedBox(
@@ -709,6 +658,70 @@ class _CardViewBodyState extends State<CardViewBody> {
           );
         }
       },
+    );
+  }
+}
+
+class CardAppBar extends StatelessWidget {
+  const CardAppBar({
+    super.key,
+    required this.cartsCubit,
+  });
+
+  final CartsCubit cartsCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Row(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Cards',
+              style: TextStyle(
+                color: color4,
+                fontFamily: 'DancingScript',
+                fontSize: 33.sp,
+              ),
+            ),
+            const Spacer(),
+            Center(
+              child: Container(
+                width: 80.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    5,
+                  ),
+                  color: color9,
+                ),
+                child: Center(
+                  child: Text(
+                    '${cartsCubit.cartsList.length} Items',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'DancingScript',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 5.w,
+            ),
+            const CircleAvatar(
+              backgroundColor: color9,
+              child: Icon(
+                Icons.shopping_cart,
+                color: color2,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

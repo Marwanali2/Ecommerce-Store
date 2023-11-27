@@ -30,7 +30,7 @@ class CheckoutViewAppBar extends StatelessWidget {
               ),
             ),
             const Spacer(),
-             Text(
+            Text(
               'My Cart',
               style: TextStyle(
                 color: color4,

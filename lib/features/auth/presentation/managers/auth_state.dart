@@ -6,15 +6,13 @@ abstract class AuthState extends Equatable {
   const AuthState();
 }
 
-class AuthInitial extends AuthState {
-
-}
-
+class AuthInitial extends AuthState {}
 
 class RegisterLoadingState extends AuthState {}
 
 class RegisterSuccessState extends AuthState {}
 
+// ignore: must_be_immutable
 class RegisterFailureState extends AuthState {
   String? errorMessage;
 
@@ -25,10 +23,9 @@ class LoginLoadingState extends AuthState {}
 
 class LoginSuccessState extends AuthState {}
 
+// ignore: must_be_immutable
 class LoginFailureState extends AuthState {
   String? errorMessage;
 
   LoginFailureState({required this.errorMessage});
 }
-
-

@@ -3,7 +3,6 @@ import 'package:ecommerce/core/utils/constants.dart';
 import 'package:ecommerce/features/home/data/models/categories_model.dart';
 import 'package:ecommerce/features/home/data/models/products_model.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
@@ -25,7 +24,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         'https://student.valuxapps.com/api/categories',
         options: Options(
           headers: {
-            'lang': isArabic()?'ar':'en',
+            'lang': isArabic() ? 'ar' : 'en',
           },
         ),
       );
@@ -69,7 +68,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       box.add(item.toJson());
       if (kDebugMode) {
         print('****');
-      //  print(item.name);
+        //  print(item.name);
       }
     }
     if (kDebugMode) {
@@ -86,7 +85,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
         'https://student.valuxapps.com/api/categories/$categoryId',
         options: Options(
           headers: {
-            'lang': isArabic()?'ar':'en',
+            'lang': isArabic() ? 'ar' : 'en',
             'Authorization': userToken,
           },
         ),
